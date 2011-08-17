@@ -1,0 +1,11 @@
+table {
+	border: none;
+}
+
+tr.alt td {
+	background: #e9f5ff;
+}
+
+tr.over td {
+	background: #bcd4ec;
+}

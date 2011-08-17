@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+	<definition name="template.common" template="/WEB-INF/views/common/template.jsp">
+		<put-attribute name="common.head" value="/WEB-INF/views/common/head.jsp" />
+		<put-attribute name="common.scripts" value="/WEB-INF/views/common/scripts.jsp" />
+		<put-attribute name="common.errors" value="/WEB-INF/views/common/errors.jsp" />
+	</definition>
+
+	<definition name="public/login" extends="template.common">
+		<put-attribute name="common.body" value="/WEB-INF/views/public/login.jsp" />
+	</definition>
+
+	<definition name="403" extends="template.common">
+		<put-attribute name="common.body" value="/WEB-INF/views/public/403.jsp" />
+	</definition>
+
+	<definition name="404" extends="template.common">
+		<put-attribute name="common.body" value="/WEB-INF/views/public/404.jsp" />
+	</definition>
+
+	<definition name="500" extends="template.common">
+		<put-attribute name="common.body" value="/WEB-INF/views/public/500.jsp" />
+	</definition>
+
+	<definition name="template.private" extends="template.common">
+		<put-attribute name="common.body">
+			<definition template="/WEB-INF/views/private/template.jsp">
+				<put-attribute name="private.menu" value="/WEB-INF/views/private/menu.jsp" />
+				<put-attribute name="private.user" value="/WEB-INF/views/private/user.jsp" />
+			</definition>
+		</put-attribute>
+	</definition>
+
+	<definition name="private/bank/accounts" extends="template.private">
+		<put-attribute name="private.body" value="/WEB-INF/views/private/bank/accounts.jsp" cascade="true" />
+	</definition>
+
+	<definition name="template.account" extends="template.private">
+		<put-attribute name="private.body" cascade="true">
+			<definition template="/WEB-INF/views/private/bank/account/template.jsp">
+				<put-attribute name="account.menu" value="/WEB-INF/views/private/bank/account/menu.jsp" />
+				<put-attribute name="account.details" value="/WEB-INF/views/private/bank/account/details.jsp" />
+			</definition>
+		</put-attribute>
+	</definition>
+
+	<definition name="private/bank/account/operations" extends="template.account">
+		<put-attribute name="account.tabs" value="/WEB-INF/views/private/bank/account/operations/tabs.jsp" cascade="true" />
+		<put-attribute name="account.body" value="/WEB-INF/views/private/bank/account/operations/operations.jsp" cascade="true" />
+		<put-attribute name="common.scripts-specific" value="/WEB-INF/views/private/bank/account/operations/scripts.jsp" />
+	</definition>
+
+	<definition name="private/bank/account/cards/operations" extends="template.account">
+		<put-attribute name="account.tabs" value="/WEB-INF/views/private/bank/account/cards/operations/tabs.jsp" cascade="true" />
+		<put-attribute name="account.body" value="/WEB-INF/views/private/bank/account/cards/operations/operations.jsp" cascade="true" />
+		<put-attribute name="common.scripts-specific" value="/WEB-INF/views/private/bank/account/cards/operations/scripts.jsp" />
+	</definition>
+
+	<definition name="private/bank/account/transfers/operations" extends="template.account">
+		<put-attribute name="account.tabs" value="/WEB-INF/views/private/bank/account/transfers/tabs.jsp" cascade="true" />
+		<put-attribute name="account.body" value="/WEB-INF/views/private/bank/account/transfers/operations/operations.jsp" cascade="true" />
+		<put-attribute name="common.scripts-specific" value="/WEB-INF/views/private/bank/account/transfers/operations/scripts.jsp" />
+	</definition>
+
+	<definition name="private/bank/account/transfers/perform" extends="template.account">
+		<put-attribute name="account.tabs" value="/WEB-INF/views/private/bank/account/transfers/tabs.jsp" cascade="true" />
+		<put-attribute name="account.body" value="/WEB-INF/views/private/bank/account/transfers/perform/form.jsp" cascade="true" />
+		<put-attribute name="common.scripts-specific" value="/WEB-INF/views/private/bank/account/transfers/perform/scripts.jsp" />
+	</definition>
+</tiles-definitions>

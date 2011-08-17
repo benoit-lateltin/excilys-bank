@@ -1,0 +1,25 @@
+table.accounts {
+	width: 100%;
+}
+
+table.accounts td.ico {
+	width: 32px;
+}
+
+table.accounts td.accountName {
+
+}
+
+table.accounts td.cardName {
+
+}
+
+table.accounts td.amount {
+	width: 100px;
+	text-align: right;
+}
+
+table.accounts td.number {
+	width: 200px;
+	text-align: right;
+}

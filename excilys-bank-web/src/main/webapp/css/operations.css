@@ -1,0 +1,37 @@
+#operationsContainer {
+	height: 450px;
+}
+
+.operations {
+	width: 100%;
+	background: white;
+	border-radius: 4px;
+	border: 1px solid #CCC;
+	background: white;
+}
+
+.operations .dateHeader {
+	width: 70px;
+}
+
+.operations .date {
+	width: 70px;
+}
+
+.operations .amountHeader {
+	width: 70px
+}
+
+.operations .amount {
+	text-align: right;
+	width: 70px
+}
+
+.operations .minus {
+	width: 70px
+}
+
+#cardList {
+	margin: auto;
+	width: 150px;
+}

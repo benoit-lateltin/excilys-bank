@@ -1,0 +1,29 @@
+.right {
+	float: right;
+}
+
+.left {
+	float: left;
+}
+
+.center {
+	text-align: center;
+}
+
+.cb {
+	clear: both;
+}
+
+.container {
+	padding: 5px;
+}
+
+.block {
+	background-color: #DFDFDF;
+	border: 1px solid #CCC;
+	border-radius: 4px;
+}
+
+.body {
+	padding: 5px;
+}

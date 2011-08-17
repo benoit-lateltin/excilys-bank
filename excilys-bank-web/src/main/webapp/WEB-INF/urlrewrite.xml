@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.2//EN"
+				"http://urlrewritefilter.googlecode.com/svn/tags/3.2.0/src/java/org/tuckey/web/filters/urlrewrite/dtds/urlrewrite3.2.dtd">
+<urlrewrite>
+
+	<rule>
+		<from>(.*)ico</from>
+		<set type="expires">1 year</set>
+	</rule>
+	<rule>
+		<from>(.*)js</from>
+		<set type="expires">1 year</set>
+	</rule>
+	<rule>
+		<from>(.*)css</from>
+		<set type="expires">1 year</set>
+	</rule>
+	<rule>
+		<from>(.*)png</from>
+		<set type="expires">1 year</set>
+	</rule>
+	<rule>
+		<from>(.*)jpg</from>
+		<set type="expires">1 year</set>
+	</rule>
+
+	<rule>
+		<from>(.*)html</from>
+		<set type="response-header" name="Pragma">no-cache</set>
+		<set type="response-header" name="Cache-Control">no-cache</set>
+	</rule>
+	<rule>
+		<from>(.*)json</from>
+		<set type="response-header" name="Pragma">no-cache</set>
+		<set type="response-header" name="Cache-Control">no-cache</set>
+	</rule>
+</urlrewrite>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<import resource="classpath:context/applicationContext-spring-log.xml" />
+
+	<context:component-scan base-package="com.excilys.ebi.bank.web" />
+	<context:annotation-config />
+
+	<!-- mvc -->
+	<mvc:annotation-driven />
+
+	<mvc:interceptors>
+		<bean class="com.excilys.ebi.bank.web.interceptor.page.PageHandlerInterceptor" />
+		<bean class="com.excilys.ebi.bank.web.interceptor.calendar.CalendarHandlerInterceptor" />
+		<bean class="com.excilys.ebi.bank.web.interceptor.account.AccountHandlerInterceptor" />
+	</mvc:interceptors>
+
+	<mvc:view-controller path="404.html" view-name="404" />
+	<mvc:view-controller path="500.html" view-name="500" />
+
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultStatusCode" value="500" />
+		<property name="defaultErrorView" value="500" />
+		<property name="exceptionMappings">
+			<props>
+				<prop key="AccessDeniedException">403</prop>
+			</props>
+		</property>
+		<property name="statusCodes">
+			<props>
+				<prop key="403">403</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" /> -->
+
+	<!-- jawr -->
+	<util:constant id="JS" static-field="net.jawr.web.JawrConstant.JS_TYPE" />
+	<util:constant id="CSS" static-field="net.jawr.web.JawrConstant.CSS_TYPE" />
+	<util:constant id="IMG" static-field="net.jawr.web.JawrConstant.IMG_TYPE" />
+
+	<bean abstract="true" id="jawrBase" class="net.jawr.web.servlet.JawrSpringController" p:configLocation="/jawr.properties" />
+	<bean id="jawrImgController" parent="jawrBase" p:type-ref="IMG" />
+	<bean id="jawrJsController" parent="jawrBase" p:type-ref="JS" />
+	<bean id="jawrCSSController" parent="jawrBase" p:type-ref="CSS" />
+
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<map>
+				<entry key="/**/*.js" value-ref="jawrJsController" />
+				<entry key="/**/*.css" value-ref="jawrCSSController" />
+				<entry key="/**/*.jpg" value-ref="jawrImgController" />
+				<entry key="/**/*.png" value-ref="jawrImgController" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- tiles -->
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer" p:definitions="/WEB-INF/views/tiles-defs.xml" />
+	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:viewClass="org.springframework.web.servlet.view.tiles2.TilesView" />
+</beans>

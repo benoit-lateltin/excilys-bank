@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{dd/MM/yyyy HH:mm:ss.SSS} | %level %logger{36}.%M - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.hibernate.SQL">
+		<level value="TRACE" />
+	</logger>
+
+	<logger name="org.hibernate.type.descriptor.sql.BasicBinder">
+		<level value="TRACE" />
+	</logger>
+
+	<logger name="org.springframework.web.servlet">
+		<level value="TRACE" />
+	</logger>
+
+	<logger name="org.hibernate.tool.hbm2ddl.SchemaUpdate">
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="org.hibernate.validator">
+		<level value="TRACE" />
+	</logger>
+
+
+	<logger name="com.excilys.ebi.bank">
+		<level value="DEBUG" />
+	</logger>
+
+	<root>
+		<level value="WARN" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</configuration>

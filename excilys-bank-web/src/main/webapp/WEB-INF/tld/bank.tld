@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<description>JSTL 1.1 functions library</description>
+	<display-name>JSTL functions</display-name>
+	<tlib-version>1.1</tlib-version>
+	<short-name>bk</short-name>
+	<uri>http://www.excilys.com/jsp/jstl/bank</uri>
+
+	<tag>
+		<name>ite</name>
+		<tag-class>com.excilys.ebi.bank.web.tld.IterateTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>count</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<function>
+		<description>
+			Write the context path
+		</description>
+		<name>ctx</name>
+		<function-class>com.excilys.ebi.bank.web.tld.Functions</function-class>
+		<function-signature>java.lang.String ctx()</function-signature>
+		<example>
+			&lt;a url="${bk:ctx()}">
+		</example>
+	</function>
+
+	<function>
+		<description>
+			Write an url
+		</description>
+		<name>url</name>
+		<function-class>com.excilys.ebi.bank.web.tld.Functions</function-class>
+		<function-signature>java.lang.String url(java.lang.String)</function-signature>
+		<example>
+			&lt;a url="${bk:url(relativeUrl)}">
+		</example>
+	</function>
+
+	<function>
+		<description>
+			Decorate an amount
+		</description>
+		<name>amount</name>
+		<function-class>com.excilys.ebi.bank.web.tld.Functions</function-class>
+		<function-signature>java.lang.String amount(java.math.BigDecimal)</function-signature>
+		<example>
+			${bk:amount(anAmount)}
+		</example>
+	</function>
+
+	<function>
+		<description>
+			If-Then-Else
+		</description>
+		<name>if</name>
+		<function-class>com.excilys.ebi.bank.web.tld.Functions</function-class>
+		<function-signature>java.lang.String ifThenElse(boolean, java.lang.String, java.lang.String)</function-signature>
+		<example>
+			${bk:if(boolean, 'then', 'else')}
+		</example>
+	</function>
+</taglib>

@@ -1,0 +1,99 @@
+.icon {
+	margin: 0;
+	padding: 0;
+}
+
+a.icon,span.icon {
+	display: inline-block;
+}
+
+.logo {
+	background-image: url('../img/logo_excilys.png'); /** sprite-ref: sprite; */
+	background-repeat: no-repeat;
+}
+
+.users {
+	background-image: url('../img/users.png'); /** sprite-ref: sprite; */
+	background-repeat: no-repeat;
+}
+
+.bank {
+	height: 32px;
+	width: 32px;
+	background-image: url('../img/money_safe_32.png'); /** sprite-ref: sprite; */
+	background-repeat: no-repeat;
+}
+
+.checking {
+	height: 32px;
+	width: 32px;
+	background-image: url('../img/money-bag-32.png'); /** sprite-ref: sprite; */
+	background-repeat: no-repeat;
+}
+
+.saving {
+	height: 32px;
+	width: 32px;
+	background-image: url('../img/piggy_bank_32.png'); /** sprite-ref: sprite; */
+	background-repeat: no-repeat;
+}
+
+.card {
+	height: 32px;
+	width: 32px;
+	background-image: url('../img/Credit-card-32.png'); /** sprite-ref: sprite; */
+	background-repeat: no-repeat;
+}
+
+.operation {
+	height: 32px;
+	width: 32px;
+	background-image: url('../img/money_calculator_32.png'); /** sprite-ref: sprite; */
+	background-repeat: no-repeat;
+}
+
+.transfer {
+	height: 32px;
+	width: 32px;
+	background-image: url('../img/money_transportation_32.png'); /** sprite-ref: sprite; */
+	background-repeat: no-repeat;
+}
+
+.back {
+	height: 19px;
+	width: 19px;
+}
+
+.back.enabled {
+	background-image: url('../img/back_enabled.jpg'); /** sprite-ref: sprite; */
+	background-repeat: no-repeat;
+}
+
+.back.disabled {
+	background-image: url('../img/back_disabled.jpg'); /** sprite-ref: sprite; */
+	background-repeat: no-repeat;
+}
+
+.forward {
+	height: 19px;
+	width: 19px;
+}
+
+.forward.enabled {
+	background-image: url('../img/forward_enabled.jpg'); /** sprite-ref: sprite; */
+	background-repeat: no-repeat;
+}
+
+.forward.disabled {
+	background-image: url('../img/forward_disabled.jpg'); /** sprite-ref: sprite; */
+	background-repeat: no-repeat;
+}
+
+.iconLabel {
+	margin-top: 8px;
+	margin-left: 10px;
+}
+
+a.iconLabel,span.iconLabel {
+	display: inline-block;
+}
