@@ -7,3 +7,8 @@
 </c:forEach>
 </script>
 </c:if>
+<c:if test="${message != null}">
+<script>
+	message('${message}');
+</script>
+</c:if>

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.excilys.ebi.bank.model.entity.Account;
 import com.excilys.ebi.bank.service.BankService;
 import com.excilys.ebi.bank.service.UnsufficientBalanceException;
+import com.excilys.ebi.bank.web.flash.FlashScope;
 import com.excilys.ebi.bank.web.interceptor.account.AccountController;
 import com.excilys.ebi.bank.web.interceptor.page.Page;
 import com.excilys.ebi.bank.web.interceptor.page.PageController;
@@ -48,7 +49,7 @@ public class TransferPerformController implements AccountController, PageControl
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-		// accept , as a decimal separator
+		// accept "," as a decimal separator
 		binder.registerCustomEditor(BigDecimal.class, new CustomNumberEditor(BigDecimal.class, true) {
 			@Override
 			public void setAsText(String text) throws IllegalArgumentException {
@@ -80,9 +81,13 @@ public class TransferPerformController implements AccountController, PageControl
 	@RequestMapping(method = RequestMethod.POST)
 	public String performTransfer(@PathVariable String accountNumber, @ModelAttribute @Valid TransferCommand command, BindingResult result, ModelMap model) {
 
-		if (!result.hasErrors())
+		if (!result.hasErrors()) {
 			try {
 				bankService.performTransfer(command.getDebitedAccountNumber(), command.getCreditedAccountNumber(), command.getAmount());
+
+				// save result in flashscope
+				FlashScope.bind("message").to("hello");
+
 				return "redirect:/private/bank/accounts.html";
 
 			} catch (UnsufficientBalanceException e) {
@@ -90,6 +95,9 @@ public class TransferPerformController implements AccountController, PageControl
 				result.rejectValue("amount", "error.transfer.amount.unsufficientBalance");
 			}
 
+		}
+
+		// redirect
 		return displayForm(accountNumber, command, model);
 	}
 }
