@@ -1,12 +1,8 @@
 package com.excilys.ebi.bank.web.messages;
 
-import java.util.List;
-
-public interface Messages {
+public interface FlashMessages {
 
 	boolean isEmpty();
-
-	List<Message> getMessages();
 
 	void add(String key, Object... args);
 

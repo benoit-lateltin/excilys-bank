@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.excilys.ebi.bank.web.messages.Messages;
+import com.excilys.ebi.bank.web.messages.FlashMessages;
 import com.excilys.ebi.bank.web.security.LoginSuccessHandler;
 
 @Controller
@@ -21,7 +21,7 @@ public class LoginController {
 	private LoginSuccessHandler loginSuccessHandler;
 
 	@Autowired
-	private Messages messages;
+	private FlashMessages messages;
 
 	@RequestMapping("/public/login.html")
 	public String login(ModelMap model, HttpSession session) {
@@ -30,11 +30,6 @@ public class LoginController {
 		// protected by Spring Security
 		if (session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY) != null) {
 			return "redirect:" + loginSuccessHandler.getHomeUrl();
-		}
-
-		if (!messages.isEmpty()) {
-			model.put("messages", messages.getMessages());
-			messages.clear();
 		}
 
 		return "public/login";

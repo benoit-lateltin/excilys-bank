@@ -12,7 +12,7 @@
 		</div>
 		<div id="icon logo"></div>
 		<tiles:insertAttribute name="common.scripts"/>
-		<tiles:insertAttribute name="common.errors" />
+		<tiles:insertAttribute name="common.messages" />
 		<tiles:insertAttribute name="common.scripts-specific" ignore="true" />
 	</body>
 </html>

@@ -1,14 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<c:if test="${messages != null}">
+<c:if test="${not empty messages}">
 <script>
 <c:forEach items="${messages}" var="message">
-	message('<spring:message code="${message.key}"/>');
+	message('<spring:message code="${message.key}" arguments="${message.args}" />');
 </c:forEach>
-</script>
-</c:if>
-<c:if test="${message != null}">
-<script>
-	message('${message}');
 </script>
 </c:if>

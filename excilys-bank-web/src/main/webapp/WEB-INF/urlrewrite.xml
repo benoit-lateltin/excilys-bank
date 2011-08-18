@@ -10,10 +10,12 @@
 	<rule>
 		<from>(.*)js</from>
 		<set type="expires">1 year</set>
+		<set type="response-header" name="Vary">Accept-Encoding</set>
 	</rule>
 	<rule>
 		<from>(.*)css</from>
 		<set type="expires">1 year</set>
+		<set type="response-header" name="Vary">Accept-Encoding</set>
 	</rule>
 	<rule>
 		<from>(.*)png</from>

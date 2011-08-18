@@ -6,7 +6,7 @@
 	<definition name="template.common" template="/WEB-INF/views/common/template.jsp">
 		<put-attribute name="common.head" value="/WEB-INF/views/common/head.jsp" />
 		<put-attribute name="common.scripts" value="/WEB-INF/views/common/scripts.jsp" />
-		<put-attribute name="common.errors" value="/WEB-INF/views/common/errors.jsp" />
+		<put-attribute name="common.messages" value="/WEB-INF/views/common/messages.jsp" />
 	</definition>
 
 	<definition name="public/login" extends="template.common">

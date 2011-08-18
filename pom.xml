@@ -45,11 +45,12 @@
 	</pluginRepositories>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.6</java.version>
 		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
 
 		<!-- hibernate -->
-		<hibernate.version>3.6.6.Final</hibernate.version>
+		<hibernate.version>3.6.7.Final</hibernate.version>
 		<cglib.version>2.2.2</cglib.version>
 		<javassist.version>3.15.0-GA</javassist.version>
 		<antlr.version>2.7.7</antlr.version>
@@ -94,13 +95,15 @@
 		<jsp-api.version>2.1</jsp-api.version>
 		<tiles.version>2.2.2</tiles.version>
 		<yuicompressor.version>2.4.6</yuicompressor.version>
-		<jawr.version>3.3.4-SNAPSHOT</jawr.version>
+		<!-- FIXME http://java.net/jira/browse/JAWR-204 -->
+		<jawr.version>3.3.3</jawr.version>
 		<jstl.version>1.2</jstl.version>
 		<jackson.version>1.8.5</jackson.version>
 		<smartsprites.version>0.2.8</smartsprites.version>
 		<urlrewritefilter.version>3.2.0</urlrewritefilter.version>
+		<!-- FIXME https://jira.terracotta.org/jira/browse/EHCWEB-1 -->
 		<ehcache-web.version>2.0.3</ehcache-web.version>
-<!-- 		<flash-scope.version>1.0.2-SNAPSHOT</flash-scope.version> -->
+		<flash-scope.version>1.0.2</flash-scope.version>
 
 		<!-- misc -->
 		<joda-time.version>2.0</joda-time.version>
@@ -229,7 +232,7 @@
 				<artifactId>ehcache-spring-annotations</artifactId>
 				<version>${ehcache-spring-annotations.version}</version>
 				<exclusions>
-					<!-- don't use MessageDigest -->
+					<!-- FIXME will be optional in next release -->
 					<exclusion>
 						<groupId>commons-codec</groupId>
 						<artifactId>commons-codec</artifactId>
@@ -523,11 +526,11 @@
 				<artifactId>ehcache-web</artifactId>
 				<version>${ehcache-web.version}</version>
 			</dependency>
-<!-- 			<dependency> -->
-<!-- 				<groupId>com.excilys.ebi.utils</groupId> -->
-<!-- 				<artifactId>flash-scope</artifactId> -->
-<!-- 				<version>${flash-scope.version}</version> -->
-<!-- 			</dependency> -->
+			<dependency>
+				<groupId>com.excilys.ebi.utils</groupId>
+				<artifactId>flash-scope</artifactId>
+				<version>${flash-scope.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

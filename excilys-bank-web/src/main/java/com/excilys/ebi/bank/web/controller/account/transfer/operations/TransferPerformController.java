@@ -24,10 +24,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.excilys.ebi.bank.model.entity.Account;
 import com.excilys.ebi.bank.service.BankService;
 import com.excilys.ebi.bank.service.UnsufficientBalanceException;
-import com.excilys.ebi.bank.web.flash.FlashScope;
 import com.excilys.ebi.bank.web.interceptor.account.AccountController;
 import com.excilys.ebi.bank.web.interceptor.page.Page;
 import com.excilys.ebi.bank.web.interceptor.page.PageController;
+import com.excilys.ebi.bank.web.messages.FlashMessages;
 import com.excilys.ebi.bank.web.security.SecurityUtils;
 import com.excilys.ebi.utils.spring.log.slf4j.InjectLogger;
 import com.google.common.base.Predicate;
@@ -41,6 +41,9 @@ public class TransferPerformController implements AccountController, PageControl
 
 	@Autowired
 	private BankService bankService;
+
+	@Autowired
+	private FlashMessages messages;
 
 	@Override
 	public Page getPage() {
@@ -85,8 +88,7 @@ public class TransferPerformController implements AccountController, PageControl
 			try {
 				bankService.performTransfer(command.getDebitedAccountNumber(), command.getCreditedAccountNumber(), command.getAmount());
 
-				// save result in flashscope
-				FlashScope.bind("message").to("hello");
+				messages.add("message.transfer.done");
 
 				return "redirect:/private/bank/accounts.html";
 
@@ -97,7 +99,6 @@ public class TransferPerformController implements AccountController, PageControl
 
 		}
 
-		// redirect
 		return displayForm(accountNumber, command, model);
 	}
 }

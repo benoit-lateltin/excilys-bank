@@ -30,6 +30,10 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-acl</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.excilys.ebi.utils</groupId>
+			<artifactId>flash-scope</artifactId>
+		</dependency>
 
 		<!-- runtime -->
 		<dependency>
@@ -115,7 +119,7 @@
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-web</artifactId>
 			<!-- FIXME -->
-<!-- 			<scope>runtime</scope> -->
+			<!-- <scope>runtime</scope> -->
 		</dependency>
 
 		<!-- provided -->

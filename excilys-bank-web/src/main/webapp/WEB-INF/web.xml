@@ -36,7 +36,7 @@
 
 	<filter>
 		<filter-name>flashFilter</filter-name>
-		<filter-class>com.excilys.ebi.bank.web.flash.FlashScopeFilter</filter-class>
+		<filter-class>com.excilys.ebi.utils.web.flash.spring.SpringFlashFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>flashFilter</filter-name>

@@ -5,28 +5,30 @@ import static com.google.common.collect.Lists.newArrayList;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-import com.google.common.collect.ImmutableList;
+import com.excilys.ebi.utils.web.flash.FlashScope;
 
-@Component("messages")
-@Scope(value = "session", proxyMode = ScopedProxyMode.INTERFACES)
-public class MessagesHandler implements Messages, Serializable {
+@Component
+@Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
+public class FlashMessagesHandler implements FlashMessages, Serializable {
 
 	private static final long serialVersionUID = -5602333916735909279L;
 
 	private final List<Message> messages = newArrayList();
 
-	@Override
-	public boolean isEmpty() {
-		return messages.isEmpty();
+	@PostConstruct
+	public void init() {
+		FlashScope.bind("messages").to(messages);
 	}
 
 	@Override
-	public List<Message> getMessages() {
-		return ImmutableList.copyOf(messages);
+	public boolean isEmpty() {
+		return messages.isEmpty();
 	}
 
 	@Override
