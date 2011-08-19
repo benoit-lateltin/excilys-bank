@@ -1,23 +1,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="bk" uri="http://www.excilys.com/jsp/jstl/bank"%>
 <div class="sw">
 	<div class="sw_icon icon users"></div>
-	<div class="sw_header"><spring:message code="login.welcome" /></div>
+	<div class="sw_header"><spring:message code="login.title" /></div>
 	<div class="sw_content">
-		<form method="post" id="loginForm" action="<c:url value='/j_spring_security_check'/>">
+		<form method="post" id="loginForm" action="${bk:ctx()}/login">
 			<fieldset>
-				<legend>Please log in</legend>
+				<legend><spring:message code="login.legend" /></legend>
 				<ol>
 					<li>
-						<label for="j_username">Identifiant</label>
-						<input type="text" id="j_username" name="j_username" class="text"/>
+						<label for="username"><spring:message code="login.username" /></label>
+						<input type="text" id="username" name="username" class="text"/>
 					</li>
 					<li>
-						<label for="j_password">Mot de passe</label>
-						<input type="password" id="j_password" name="j_password" class="text"/>
+						<label for="password"><spring:message code="login.password" /></label>
+						<input type="password" id="password" name="password" class="text"/>
 					</li>
 					<li class="center">
-						<input type="submit" value="Connexion" class="submit"/>
+						<input type="submit" value="<spring:message code="login.submit" />" class="submit"/>
 					</li>
 				</ol>
 			</fieldset>

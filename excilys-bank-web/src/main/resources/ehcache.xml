@@ -8,4 +8,6 @@
 
 	<cache name="acl" eternal="false" overflowToDisk="false" maxElementsInMemory="1000" timeToIdleSeconds="36000" timeToLiveSeconds="36000" memoryStoreEvictionPolicy="LRU" />
 
+	<cache name="annotationScanner" eternal="false" overflowToDisk="false" maxElementsInMemory="100" timeToIdleSeconds="36000" timeToLiveSeconds="36000" memoryStoreEvictionPolicy="LRU" />
+
 </ehcache>

@@ -8,21 +8,24 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.excilys.ebi.bank.model.entity.Account;
 import com.excilys.ebi.bank.service.BankService;
+import com.excilys.ebi.bank.web.interceptor.AnnotatedMethodHandlerInterceptor;
 
-public class AccountHandlerInterceptor extends HandlerInterceptorAdapter {
+public class AccountModelAttributeHandlerInterceptor extends AnnotatedMethodHandlerInterceptor<AccountModelAttribute> {
 
 	@Autowired
 	protected BankService bankService;
 
-	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+	public AccountModelAttributeHandlerInterceptor() {
+		super(AccountModelAttribute.class);
+	}
 
-		if (handler instanceof HandlerMethod && HandlerMethod.class.cast(handler).getBean() instanceof AccountController && !(modelAndView.getView() instanceof RedirectView)) {
+	@Override
+	protected void postHandleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, ModelAndView modelAndView) throws Exception {
+		if (!(modelAndView.getView() instanceof RedirectView)) {
 			exportAccount(modelAndView.getModelMap());
 		}
 	}

@@ -1,6 +1,6 @@
 package com.excilys.ebi.bank.web.interceptor.page;
 
-public enum Page {
+public enum WebPage {
 
 	ROOT(null, null),
 
@@ -26,11 +26,11 @@ public enum Page {
 
 	public static final String PAGE_MODEL = "page";
 
-	private final Page parent;
+	private final WebPage parent;
 
 	private final String titleKey;
 
-	private Page(Page parent, String titleKey) {
+	private WebPage(WebPage parent, String titleKey) {
 		this.parent = parent;
 		this.titleKey = titleKey;
 	}
@@ -39,7 +39,7 @@ public enum Page {
 		return titleKey != null;
 	}
 
-	public boolean hasAncestor(Page page) {
+	public boolean hasAncestor(WebPage page) {
 
 		if (this == page) {
 			return true;

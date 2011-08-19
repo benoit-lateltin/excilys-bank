@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-public class CalendarCommand implements Serializable {
+public class Calendar implements Serializable {
 
 	private static final long serialVersionUID = 1870354008317144931L;
 

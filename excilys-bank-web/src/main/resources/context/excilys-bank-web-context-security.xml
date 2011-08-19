@@ -19,8 +19,9 @@
 		<intercept-url pattern="/private/admin/**" access="ROLE_ADMIN" />
 		<intercept-url pattern="/private/**" access="ROLE_USER" />
 		<intercept-url pattern="/**" access="ROLE_DEFAULT" />
-		<form-login login-page="/public/login.html" authentication-success-handler-ref="loginSuccessHandler" authentication-failure-url="/public/loginFailure.html" />
-		<logout logout-success-url="/public/login.html" />
+		<form-login login-page="/public/login.html" authentication-success-handler-ref="loginSuccessHandler" authentication-failure-url="/public/loginFailure.html" login-processing-url="/login"
+			username-parameter="username" password-parameter="password" />
+		<logout logout-url="/logout" logout-success-url="/public/login.html" />
 	</http>
 
 	<authentication-manager>

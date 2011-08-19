@@ -4,31 +4,35 @@ import java.math.BigDecimal;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.excilys.ebi.bank.model.entity.Operation;
 import com.excilys.ebi.bank.model.entity.ref.OperationSign;
 import com.excilys.ebi.bank.service.BankService;
-import com.excilys.ebi.bank.web.interceptor.account.AccountController;
-import com.excilys.ebi.bank.web.interceptor.calendar.CalendarController;
-import com.excilys.ebi.bank.web.interceptor.page.Page;
-import com.excilys.ebi.bank.web.interceptor.page.PageController;
+import com.excilys.ebi.bank.web.interceptor.account.AccountModelAttribute;
+import com.excilys.ebi.bank.web.interceptor.calendar.CalendarModelAttribute;
+import com.excilys.ebi.bank.web.interceptor.page.WebPage;
+import com.excilys.ebi.bank.web.interceptor.page.WebPageModelAttribute;
 
 @Controller
-public class AccountOperationsController implements AccountController, PageController, CalendarController {
+@RequestMapping({ "/private/bank/account/{accountNumber}/year/{year}/month/{month}" })
+@WebPageModelAttribute(WebPage.ACCOUNT_OPERATIONS)
+public class AccountOperationsController {
 
 	@Autowired
 	private BankService bankService;
 
-	@Override
-	public Page getPage() {
-		return Page.ACCOUNT_OPERATIONS;
-	}
+	@Autowired
+	private OperationsTableConverter converter;
 
-	@RequestMapping({ "/private/bank/account/{accountNumber}/year/{year}/month/{month}/operations.html" })
+	@RequestMapping({ "/operations.html" })
+	@AccountModelAttribute
+	@CalendarModelAttribute
 	public String displayOperations(@PathVariable String accountNumber, @PathVariable int year, @PathVariable int month, ModelMap model) {
 
 		Collection<Operation> cardSums = bankService.sumCardOperationsByAccountNumberAndMonth(accountNumber, year, month);
@@ -40,5 +44,14 @@ public class AccountOperationsController implements AccountController, PageContr
 		model.put("debitSum", debitSum);
 
 		return "private/bank/account/operations";
+	}
+
+	@RequestMapping("/page/{page}/operations.json")
+	public @ResponseBody
+	OperationsTable paginateOperations(@PathVariable String accountNumber, @PathVariable int year, @PathVariable int month, @PathVariable int page) {
+
+		Page<Operation> operationPage = bankService.findNonCardOperationsByAccountNumberAndMonth(accountNumber, year, month, page);
+
+		return converter.convert(operationPage);
 	}
 }

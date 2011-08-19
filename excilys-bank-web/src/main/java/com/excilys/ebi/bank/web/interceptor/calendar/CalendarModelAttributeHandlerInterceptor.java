@@ -8,24 +8,31 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public class CalendarHandlerInterceptor extends HandlerInterceptorAdapter {
+import com.excilys.ebi.bank.service.BankService;
+import com.excilys.ebi.bank.web.interceptor.AnnotatedMethodHandlerInterceptor;
+
+public class CalendarModelAttributeHandlerInterceptor extends AnnotatedMethodHandlerInterceptor<CalendarModelAttribute> {
+
+	@Autowired
+	protected BankService bankService;
+
+	public CalendarModelAttributeHandlerInterceptor() {
+		super(CalendarModelAttribute.class);
+	}
 
 	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
-		if (handler instanceof HandlerMethod && HandlerMethod.class.cast(handler).getBean() instanceof CalendarController) {
-			exportCalendar(modelAndView.getModelMap());
-		}
+	protected void postHandleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, ModelAndView modelAndView) throws Exception {
+		exportCalendar(modelAndView.getModelMap());
 	}
 
 	private void exportCalendar(ModelMap model) {
-		CalendarCommand calendar = new CalendarCommand();
+		Calendar calendar = new Calendar();
 
 		// build months
 		List<DateTime> months = calendar.getMonths();

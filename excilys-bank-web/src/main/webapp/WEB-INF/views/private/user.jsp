@@ -1,8 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="bk" uri="http://www.excilys.com/jsp/jstl/bank"%>
 <div class="login">
-	<a href="<c:url value="/j_spring_security_logout"/>">Déconnexion</a>
+	<a href="${bk:ctx()}/logout" class="blue_button"><spring:message code="common.logout" /></a>
 </div>
 <div class="login">
-	${userName}
+	<security:authentication property="principal.user.firstName" />
+	<security:authentication property="principal.user.lastName" />
 </div>

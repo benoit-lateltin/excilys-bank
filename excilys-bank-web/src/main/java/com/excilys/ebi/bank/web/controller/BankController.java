@@ -13,22 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.excilys.ebi.bank.model.entity.Account;
 import com.excilys.ebi.bank.model.entity.ref.AccountCategory;
 import com.excilys.ebi.bank.service.BankService;
-import com.excilys.ebi.bank.web.interceptor.page.Page;
-import com.excilys.ebi.bank.web.interceptor.page.PageController;
+import com.excilys.ebi.bank.web.interceptor.page.WebPage;
+import com.excilys.ebi.bank.web.interceptor.page.WebPageModelAttribute;
 import com.excilys.ebi.bank.web.security.SecurityUtils;
 import com.google.common.base.Predicate;
 
 @Controller
 @RequestMapping("/private/bank")
-public class BankController implements PageController {
+@WebPageModelAttribute(WebPage.ACCOUNTS)
+public class BankController {
 
 	@Autowired
 	private BankService bankService;
-
-	@Override
-	public Page getPage() {
-		return Page.ACCOUNTS;
-	}
 
 	@RequestMapping("/accounts.html")
 	public void home(ModelMap model) {

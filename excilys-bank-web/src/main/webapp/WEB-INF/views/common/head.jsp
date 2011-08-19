@@ -5,4 +5,4 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="${bk:ctx()}/img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 <jawr:style src="/bundles/all.css" />
-<title><spring:message code="site.title" /></title>
+<title><spring:message code="common.title" /></title>

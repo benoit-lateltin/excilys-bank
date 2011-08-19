@@ -264,7 +264,7 @@ div.menu a.selected {
 	Buttons
 
 *******************************************/
-input.blue_button {
+.blue_button {
 	color: white;
 	background-color: #5b9fdc;
 	padding: 5px 10px;

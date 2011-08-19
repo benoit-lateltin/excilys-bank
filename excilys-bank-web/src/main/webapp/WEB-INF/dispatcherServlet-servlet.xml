@@ -15,9 +15,9 @@
 	<mvc:annotation-driven />
 
 	<mvc:interceptors>
-		<bean class="com.excilys.ebi.bank.web.interceptor.page.PageHandlerInterceptor" />
-		<bean class="com.excilys.ebi.bank.web.interceptor.calendar.CalendarHandlerInterceptor" />
-		<bean class="com.excilys.ebi.bank.web.interceptor.account.AccountHandlerInterceptor" />
+		<bean class="com.excilys.ebi.bank.web.interceptor.page.WebPageModelAttributeHandlerInterceptor" />
+		<bean class="com.excilys.ebi.bank.web.interceptor.calendar.CalendarModelAttributeHandlerInterceptor" />
+		<bean class="com.excilys.ebi.bank.web.interceptor.account.AccountModelAttributeHandlerInterceptor" />
 	</mvc:interceptors>
 
 	<mvc:view-controller path="404.html" view-name="404" />

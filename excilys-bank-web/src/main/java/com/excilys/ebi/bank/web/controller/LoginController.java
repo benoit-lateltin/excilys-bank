@@ -3,6 +3,7 @@ package com.excilys.ebi.bank.web.controller;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.web.WebAttributes;
@@ -40,12 +41,18 @@ public class LoginController {
 
 		Exception loginException = Exception.class.cast(session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION));
 
-		messages.add(format(loginException));
+		handleException(loginException);
 
 		return "redirect:/public/login.html";
 	}
 
-	private String format(Exception loginException) {
-		return loginException instanceof BadCredentialsException ? "login.error.badCredentials" : "login.error.default";
+	private void handleException(Exception loginException) {
+
+		if (messages instanceof BadCredentialsException) {
+			messages.add("message.error.login.badCredentials");
+
+		} else {
+			messages.add("message.error.login", ExceptionUtils.getRootCause(loginException).getMessage());
+		}
 	}
 }
