@@ -9,6 +9,11 @@
 		<param-value>classpath*:context/applicationContext-*.xml</param-value>
 	</context-param>
 
+	<context-param>
+		<param-name>spring.dbunit.dataSets</param-name>
+		<param-value>classpath:data/dataSet-ref.xml,classpath:data/dataSet-data.xml</param-value>
+	</context-param>
+
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
