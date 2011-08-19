@@ -9,16 +9,6 @@ body {
 	background: #2369aa url('../img/background.png') repeat-x left top;
 }
 
-a:LINK,a:VISITED {
-	text-decoration: none;
-	font-weight: bold;
-	color: #509ee3;
-}
-
-a:HOVER {
-	color: #6fb0e9;
-}
-
 #container {
 	width: 800px;
 	margin-left: auto;
@@ -257,22 +247,6 @@ div.menu a:HOVER {
 div.menu a.selected {
 	background: transparent url('../img/menu_selected.png') no-repeat center
 		top;
-}
-
-/*******************************************
-
-	Buttons
-
-*******************************************/
-.blue_button {
-	color: white;
-	background-color: #5b9fdc;
-	padding: 5px 10px;
-	border: 1px solid #e5ebf0;
-}
-
-input.blue_button:HOVER {
-	background-color: #358cd4;
 }
 
 /*******************************************

@@ -18,7 +18,7 @@
 						<input type="password" id="password" name="password" class="text"/>
 					</li>
 					<li class="center">
-						<input type="submit" value="<spring:message code="login.submit" />" class="submit"/>
+						<input type="submit" value="<spring:message code="login.submit" />" class="button blue"/>
 					</li>
 				</ol>
 			</fieldset>
