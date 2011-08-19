@@ -14,6 +14,7 @@ function changePage(page) {
 	paginate("${urlStart}" + page + "${urlEnd}");
 }
 changePage(0);
+
 </script>
 <script id="tbodyTemplate" type="text/x-jquery-tmpl">
 {{each lines}}
@@ -64,18 +65,17 @@ changePage(0);
 	</div>
 	<div class="cb"></div>
 </script>
-<c:if test="${cards.size() > 1}">
+<c:if test="${account.cards.size() > 1}">
 <c:set var="urlStart" value="${bk:ctx()}/private/bank/account/${account.number}/cards/" />
 <c:choose>
 	<c:when test="${not empty calendar.selectedMonth}">
-		<c:set var="urlEnd" value="/year/${calendar.selectedMonth.year().get()}/month/${calendar.selectedMonth.monthOfYear().get()}/operations.json" />
+		<c:set var="urlEnd" value="/year/${calendar.selectedMonth.year().get()}/month/${calendar.selectedMonth.monthOfYear().get()}/operations.html" />
 	</c:when>
 	<c:otherwise>
-		<c:set var="urlEnd" value="/pending/operations.json" />
+		<c:set var="urlEnd" value="/pending/operations.html" />
 	</c:otherwise>
 </c:choose>
-<c:set var="urlEnd" value="" />
-<script type="text/javascript">
+<script>
 $(function(){
 	$('#selectedCard').bind('change', function () {
 		var url = '${urlStart}' + this.value +'${urlEnd}';

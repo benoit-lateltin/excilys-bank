@@ -14,7 +14,7 @@
 	<c:choose>
 		<c:when test="${account.cards.size() == 1}">
 			<li>
-				<c:out value="${account.cards[0].type.id}"/> - <c:out value="${account.cards[0].type.number}"/>
+				<c:out value="${account.cards[0].type.id}"/> - <c:out value="${account.cards[0].number}"/>
 			</li>
 		</c:when>
 		<c:otherwise>

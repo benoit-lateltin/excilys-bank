@@ -27,11 +27,6 @@
 		<level value="DEBUG" />
 	</logger>
 
-	<logger name="org.hibernate.validator">
-		<level value="TRACE" />
-	</logger>
-
-
 	<logger name="com.excilys.ebi.bank">
 		<level value="DEBUG" />
 	</logger>

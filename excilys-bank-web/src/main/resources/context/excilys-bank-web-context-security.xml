@@ -15,7 +15,7 @@
 	<http pattern="/**/*.png" security="none" />
 
 	<http>
-		<access-denied-handler error-page="/public/denied.html" />
+		<access-denied-handler error-page="/public/403.html" />
 		<intercept-url pattern="/private/admin/**" access="ROLE_ADMIN" />
 		<intercept-url pattern="/private/**" access="ROLE_USER" />
 		<intercept-url pattern="/**" access="ROLE_DEFAULT" />
