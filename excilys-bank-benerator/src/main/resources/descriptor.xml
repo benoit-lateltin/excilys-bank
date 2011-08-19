@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<setup xmlns="http://databene.org/benerator/0.6.5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://databene.org/benerator/0.6.5 http://databene.org/benerator-0.6.5.xsd">
+
+	<import defaults="true" />
+	
+	<import class="com.excilys.ebi.bank.benerator.Config" />
+	<import class="org.databene.benerator.util.RandomUtil"/>
+	<import class="org.databene.benerator.primitive.IncrementalIdGenerator"/>
+
+	<bean id="dbunit" class="org.databene.platform.dbunit.DbUnitEntityExporter" />
+
+	<generate type="USER" consumer="dbunit" count="1000">
+		<id name="ID" type="long" unique="true" />
+		<attribute name="FIRSTNAME" type="string" pattern="[A-Z][a-z]{5,12}" />
+		<attribute name="LASTNAME" type="string" pattern="[A-Z][a-z]{8,12}" />
+		<attribute name="LOGIN" type="string" script="{'user' + USER.ID}" />
+		<attribute name="PASSWORD" type="string" script="{'password' + USER.ID}" />
+		<attribute name="EMAIL" type="string" pattern="[a-z][a-z0-9_\.]{5,12}@[a-z]{7,12}\.com" />
+
+		<generate type="USER_ROLE" minCount="1" maxCount="2" consumer="dbunit">
+			<attribute name="USER_ID" type="long" script="{USER.ID}" />
+			<attribute name="ROLE_ID" type="string" values="'ROLE_ADMIN','ROLE_USER'" unique="true" />
+		</generate>
+
+		<generate type="ACCOUNT" count="4" consumer="dbunit">
+			<variable name="account_type" source="ref_account_types.ent.csv" distribution="random" />
+
+			<id name="ID" type="long" generator="new IncrementalIdGenerator()" unique="true"/>
+			<attribute name="NUMBER" type="string" pattern="[0-9]{10}[A-Z]{4}" />
+			<attribute name="TYPE" type="string" script="{account_type.id}" />
+			<attribute name="BALANCE" type="big_decimal" min="-10000" max="100000" />
+			<attribute name="BALANCE_DATE" type="date" min="{Config.accountMinDate}" max="{Config.accountMaxDate}" />
+
+			<generate type="USER_ACCOUNT" count="1" consumer="dbunit">
+				<attribute name="USER_ID" type="long" script="{USER.ID}" />
+				<attribute name="ACCOUNT_ID" type="long" script="{ACCOUNT.ID}" />
+			</generate>
+
+			<generate type="CARD" minCount="1" maxCount="2" consumer="dbunit">
+				<variable name="card_type" source="ref_card_types.ent.csv" distribution="random" />
+				<variable name="ispending" script="{(RandomUtil.randomInt(1,100) &lt; Config.pendingWeight) &amp;&amp; card_type.id == 'CREDIT' }" />
+
+				<id name="ID" type="long" generator="new IncrementalIdGenerator()" unique="true"/>
+				<attribute name="NUMBER" type="string" pattern="XXX[0-9]{3}" />
+				<attribute name="ACCOUNT" type="long" script="{ACCOUNT.ID}" />
+				<attribute name="TYPE" type="string" script="{card_type.id}" />
+				<attribute name="PENDING" type="big_decimal" min="-1000" max="2000" condition="ispending"/>
+				<attribute name="PENDING_DATE" type="date" min="{Config.cardPendingMinDate}" max="{Config.accountMinDate}" condition="ispending"/><!-- dateMax marche mal -->
+
+				<generate type="OPERATION" minCount="50" maxCount="100" consumer="dbunit">
+					<variable name="operation_status" source="ref_operation_statuses.ent.csv" distribution="random" />
+					<variable name="operation_type" source="ref_operation_types.ent.csv" distribution="random" />
+					<variable name="iscard" script="{(RandomUtil.randomInt(1, 100) &lt; Config.cardOperationWeight) &amp;&amp; operation_type.id == 'CARD'}" />
+					<variable name="op_name" script="{operation_type.id=='TRANSFER'?'transfer':(operation_type.id=='MISC'?'cash':'card')}" />
+
+					<id name="ID" type="long" generator="new IncrementalIdGenerator()" unique="true"/>
+					<attribute name="ACCOUNT" type="long" script="{ACCOUNT.ID}" />
+					<attribute name="AMOUNT" type="big_decimal" min="-1000" max="2000" nullable="false" />
+					<attribute name="DATE" type="date" min="{Config.minDate}" max="{Config.accountMinDate}" /><!-- maxDate marche mal -->
+					<attribute name="NAME" type="string" script="{op_name + ' ' + (OPERATION.AMOUNT > 0 ? '+':'') + OPERATION.AMOUNT}" />
+					<attribute name="CARD" type="long" script="{iscard?CARD.ID:null}" />
+					<attribute name="STATUS" type="string" script="{operation_status.id}" />
+					<attribute name="TYPE" type="string" script="{operation_type.id}" />
+				</generate>
+			</generate>
+		</generate>
+	</generate>
+
+</setup>

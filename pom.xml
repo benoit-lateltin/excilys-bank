@@ -12,6 +12,7 @@
 		<module>excilys-bank-service-api</module>
 		<module>excilys-bank-service-impl</module>
 		<module>excilys-bank-web</module>
+		<module>excilys-bank-benerator</module>
 	</modules>
 
 	<repositories>
@@ -93,6 +94,7 @@
 		<dbunit.version>2.4.8</dbunit.version>
 		<validation-api.version>1.0.0.GA</validation-api.version>
 		<hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
+		<benerator.version>0.6.6</benerator.version>
 	</properties>
 
 	<dependencyManagement>
@@ -511,6 +513,11 @@
 				<groupId>com.excilys.ebi.utils</groupId>
 				<artifactId>flash-scope</artifactId>
 				<version>${flash-scope.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.databene</groupId>
+				<artifactId>databene-benerator</artifactId>
+				<version>${benerator.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
