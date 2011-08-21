@@ -11,5 +11,4 @@ excilys-bank-dao-impl/target
 excilys-bank-web/.*
 excilys-bank-web/target
 .settings/org.eclipse.m2e.core.prefs
-
-.project
+.*
