@@ -53,7 +53,7 @@
 		<tomcat-jdbc.version>7.0.20</tomcat-jdbc.version>
 		<tomcat-slf4j.version>1.0.0</tomcat-slf4j.version>
 		<hsqldb.version>2.2.5</hsqldb.version>
-		<spring-dbunit.version>1.0.3-SNAPSHOT</spring-dbunit.version>
+		<spring-dbunit.version>1.0.3</spring-dbunit.version>
 
 		<!-- cache -->
 		<ehcache.version>2.4.4</ehcache.version>
@@ -95,6 +95,8 @@
 		<validation-api.version>1.0.0.GA</validation-api.version>
 		<hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
 		<benerator.version>0.6.6</benerator.version>
+		<contiperf.version>1.07</contiperf.version>
+		<xerces.version>2.11.0</xerces.version>
 	</properties>
 
 	<dependencyManagement>
@@ -466,6 +468,8 @@
 				<version>${urlrewritefilter.version}</version>
 			</dependency>
 
+
+
 			<!-- misc -->
 			<dependency>
 				<groupId>joda-time</groupId>
@@ -518,6 +522,16 @@
 				<groupId>org.databene</groupId>
 				<artifactId>databene-benerator</artifactId>
 				<version>${benerator.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.databene</groupId>
+				<artifactId>contiperf</artifactId>
+				<version>${contiperf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>xerces</groupId>
+				<artifactId>xercesImpl</artifactId>
+				<version>${xerces.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

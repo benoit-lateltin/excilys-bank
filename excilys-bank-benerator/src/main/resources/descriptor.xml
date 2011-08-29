@@ -2,7 +2,7 @@
 <setup xmlns="http://databene.org/benerator/0.6.5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://databene.org/benerator/0.6.5 http://databene.org/benerator-0.6.5.xsd">
 
 	<import defaults="true" />
-	
+
 	<import class="com.excilys.ebi.bank.benerator.Config" />
 	<import class="org.databene.benerator.util.RandomUtil"/>
 	<import class="org.databene.benerator.primitive.IncrementalIdGenerator"/>
@@ -26,7 +26,7 @@
 			<variable name="account_type" source="ref_account_types.ent.csv" distribution="random" />
 
 			<id name="ID" type="long" generator="new IncrementalIdGenerator()" unique="true"/>
-			<attribute name="NUMBER" type="string" pattern="[0-9]{10}[A-Z]{4}" unique="true" />
+			<attribute name="NUMBER" type="string" script="{'ACC' + ACCOUNT.ID}" unique="true" />
 			<attribute name="TYPE" type="string" script="{account_type.id}" />
 			<attribute name="BALANCE" type="big_decimal" min="-10000" max="100000" />
 			<attribute name="BALANCE_DATE" type="date" min="{Config.accountMinDate}" max="{Config.accountMaxDate}" />
@@ -41,7 +41,7 @@
 				<variable name="ispending" script="{(RandomUtil.randomInt(1,100) &lt; Config.pendingWeight) &amp;&amp; card_type.id == 'CREDIT' }" />
 
 				<id name="ID" type="long" generator="new IncrementalIdGenerator()" unique="true"/>
-				<attribute name="NUMBER" type="string" pattern="XXX[0-9]{3}" unique="true" />
+				<attribute name="NUMBER" type="string" script="{'CARD' + CARD.ID}" />
 				<attribute name="ACCOUNT" type="long" script="{ACCOUNT.ID}" />
 				<attribute name="TYPE" type="string" script="{card_type.id}" />
 				<attribute name="PENDING" type="big_decimal" min="-1000" max="2000" condition="ispending"/>
@@ -50,7 +50,7 @@
 				<generate type="OPERATION" minCount="50" maxCount="100" consumer="dbunit">
 					<variable name="operation_status" source="ref_operation_statuses.ent.csv" distribution="random" />
 					<variable name="operation_type" source="ref_operation_types.ent.csv" distribution="random" />
-					<variable name="iscard" script="{(RandomUtil.randomInt(1, 100) &lt; Config.cardOperationWeight) &amp;&amp; operation_type.id == 'CARD'}" />
+					<variable name="iscard" script="{operation_type.id == 'CARD'}" />
 					<variable name="op_name" script="{operation_type.id=='TRANSFER'?'transfer':(operation_type.id=='MISC'?'cash':'card')}" />
 
 					<id name="ID" type="long" generator="new IncrementalIdGenerator()" unique="true"/>

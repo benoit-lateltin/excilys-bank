@@ -139,7 +139,7 @@ public class Operation implements Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CARD", updatable = false)
+	@JoinColumn(name = "CARD", nullable = true, updatable = false)
 	public Card getCard() {
 		return card;
 	}
