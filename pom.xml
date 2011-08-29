@@ -53,7 +53,7 @@
 		<tomcat-jdbc.version>7.0.20</tomcat-jdbc.version>
 		<tomcat-slf4j.version>1.0.0</tomcat-slf4j.version>
 		<hsqldb.version>2.2.5</hsqldb.version>
-		<spring-dbunit.version>1.0.2</spring-dbunit.version>
+		<spring-dbunit.version>1.0.3-SNAPSHOT</spring-dbunit.version>
 
 		<!-- cache -->
 		<ehcache.version>2.4.4</ehcache.version>

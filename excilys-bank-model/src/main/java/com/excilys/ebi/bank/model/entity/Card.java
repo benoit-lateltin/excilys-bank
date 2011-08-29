@@ -41,7 +41,7 @@ public class Card {
 		return id;
 	}
 
-	@Column(name = "NUMBER", nullable = false)
+	@Column(name = "NUMBER", nullable = false, unique = true)
 	public String getNumber() {
 		return number;
 	}
