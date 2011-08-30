@@ -1,6 +1,7 @@
 package com.excilys.ebi.bank.dao;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,8 @@ public interface OperationDaoCustom {
 	Page<Operation> findNonCardByAccountNumberAndDateRange(String accountNumber, Range<DateTime> range, Pageable pageable);
 
 	BigDecimal sumResolvedAmountByCardAndDateRange(Card card, Range<DateTime> range);
+
+	List<Operation> sumResolvedAmountByAccountNumberAndDateRangeGroupByCard(String accountNumber, Range<DateTime> range);
 
 	BigDecimal sumResolvedAmountByAccountNumberAndDateRangeAndSign(String accountNumber, Range<DateTime> range, OperationSign sign);
 

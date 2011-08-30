@@ -1,8 +1,5 @@
 package com.excilys.ebi.bank.service.impl;
 
-import static com.google.common.collect.Collections2.transform;
-import static com.google.common.collect.Lists.newArrayList;
-
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
@@ -36,7 +33,6 @@ import com.excilys.ebi.bank.model.entity.ref.OperationType;
 import com.excilys.ebi.bank.model.entity.ref.OperationTypeRef;
 import com.excilys.ebi.bank.service.BankService;
 import com.excilys.ebi.bank.service.UnsufficientBalanceException;
-import com.google.common.base.Function;
 
 @Service
 @Transactional(readOnly = true)
@@ -103,19 +99,7 @@ public class BankServiceImpl implements BankService {
 	public Collection<Operation> sumCardOperationsByAccountNumberAndMonth(String accountNumber, int year, int monthOfYear) {
 
 		final Range<DateTime> range = buildDateRange(year, monthOfYear);
-
-		// warn : instanciate a new collection, otherwise dao operation will be
-		// lazily called
-		return newArrayList(transform(findCardsByAccountNumber(accountNumber), new Function<Card, Operation>() {
-			@Override
-			public Operation apply(Card input) {
-				BigDecimal sum = operationDao.sumResolvedAmountByCardAndDateRange(input, range);
-				Operation sumOperation = new Operation();
-				sumOperation.setAmount(sum);
-				sumOperation.setCard(input);
-				return sumOperation;
-			}
-		}));
+		return operationDao.sumResolvedAmountByAccountNumberAndDateRangeGroupByCard(accountNumber, range);
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.excilys.ebi.bank.dao.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,6 +26,7 @@ import com.excilys.ebi.bank.model.entity.ref.OperationStatus;
 import com.excilys.ebi.bank.model.entity.ref.OperationType;
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.types.Predicate;
+import com.mysema.query.types.QBean;
 import com.mysema.query.types.expr.BooleanExpression;
 
 @Repository
@@ -52,6 +54,19 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 		JPQLQuery query = applyPagination(from(operation).innerJoin(operation.account, account).where(predicate).orderBy(operation.date.desc()), pageable);
 
 		return buildPage(countQuery, query, pageable);
+	}
+
+	@Override
+	public List<Operation> sumResolvedAmountByAccountNumberAndDateRangeGroupByCard(String accountNumber, Range<DateTime> range) {
+
+		QOperation operation = QOperation.operation;
+		QAccount account = QAccount.account;
+
+		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.status.id.eq(OperationStatus.RESOLVED)).and(account.number.eq(accountNumber));
+		predicate = addOperationDateRangeExpression(predicate, operation, range);
+
+		return from(operation).innerJoin(operation.account, account).where(predicate).groupBy(operation.card)
+				.list(new QBean<Operation>(Operation.class, operation.amount.sum().as(operation.amount), operation.card));
 	}
 
 	@Override
