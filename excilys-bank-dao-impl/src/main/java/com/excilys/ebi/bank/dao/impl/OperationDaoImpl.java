@@ -1,6 +1,7 @@
 package com.excilys.ebi.bank.dao.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -50,7 +51,7 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 		JPQLQuery countQuery = from(operation).innerJoin(operation.account, account).where(predicate);
 		JPQLQuery query = applyPagination(from(operation).innerJoin(operation.account, account).where(predicate).orderBy(operation.date.desc()), pageable);
 
-		return new PageImpl<Operation>(query.list(operation), pageable, countQuery.count());
+		return buildPage(countQuery, query, pageable);
 	}
 
 	@Override
@@ -93,7 +94,7 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 		JPQLQuery countQuery = from(operation).innerJoin(operation.account, account).where(predicate);
 		JPQLQuery query = applyPagination(from(operation).innerJoin(operation.account, account).where(predicate).orderBy(operation.date.desc()), pageable);
 
-		return new PageImpl<Operation>(query.list(operation), pageable, countQuery.count());
+		return buildPage(countQuery, query, pageable);
 	}
 
 	@Override
@@ -121,7 +122,7 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 		JPQLQuery countQuery = from(operation).innerJoin(operation.card, card).where(predicate);
 		JPQLQuery query = applyPagination(from(operation).innerJoin(operation.card, card).where(predicate).orderBy(operation.date.desc()), pageable);
 
-		return new PageImpl<Operation>(query.list(operation), pageable, countQuery.count());
+		return buildPage(countQuery, query, pageable);
 	}
 
 	@Override
@@ -148,10 +149,15 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 		JPQLQuery countQuery = from(operation).innerJoin(operation.account, account).where(predicate);
 		JPQLQuery query = applyPagination(from(operation).innerJoin(operation.account, account).where(predicate).orderBy(operation.date.desc()), pageable);
 
-		return new PageImpl<Operation>(query.list(operation), pageable, countQuery.count());
+		return buildPage(countQuery, query, pageable);
 	}
 
 	private BooleanExpression addOperationDateRangeExpression(BooleanExpression predicate, QOperation operation, Range<DateTime> range) {
 		return range != null ? predicate.and(operation.date.between(range.getFrom(), range.getTo())) : predicate;
+	}
+
+	private Page<Operation> buildPage(JPQLQuery countQuery, JPQLQuery query, Pageable pageable) {
+		long count = countQuery.count();
+		return count > 0 ? new PageImpl<Operation>(query.list(QOperation.operation), pageable, count) : new PageImpl<Operation>(new ArrayList<Operation>(), pageable, 0);
 	}
 }

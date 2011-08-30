@@ -13,7 +13,10 @@
 		<param-name>spring.dbunit.dataSets</param-name>
 		<param-value>classpath*:data/dataSet-*.xml</param-value>
 	</context-param>
-
+	<context-param>
+		<param-name>spring.dbunit.dbType</param-name>
+		<param-value>H2</param-value>
+	</context-param>
 	<context-param>
 		<param-name>spring.dbunit.dtd</param-name>
 		<param-value>classpath:data/excilys-bank-dbunit.dtd</param-value>

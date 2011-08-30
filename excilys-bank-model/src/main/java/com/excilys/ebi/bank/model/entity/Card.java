@@ -36,12 +36,12 @@ public class Card {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
+	@Column(name = "ID", length = 20)
 	public Integer getId() {
 		return id;
 	}
 
-	@Column(name = "NUMBER", nullable = false, unique = true)
+	@Column(name = "NUMBER", nullable = false, unique = true, length = 20)
 	public String getNumber() {
 		return number;
 	}

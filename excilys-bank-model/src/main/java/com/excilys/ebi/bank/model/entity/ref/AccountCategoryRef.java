@@ -22,7 +22,7 @@ public class AccountCategoryRef extends Ref {
 	private AccountCategory id;
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 20)
 	@Enumerated(EnumType.STRING)
 	public AccountCategory getId() {
 		return id;

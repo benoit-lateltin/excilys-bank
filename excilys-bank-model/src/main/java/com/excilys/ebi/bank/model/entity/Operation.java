@@ -112,7 +112,7 @@ public class Operation implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
+	@Column(name = "ID", length = 20)
 	public Integer getId() {
 		return id;
 	}
@@ -122,7 +122,7 @@ public class Operation implements Serializable {
 		return amount;
 	}
 
-	@Column(name = "NAME", nullable = false)
+	@Column(name = "NAME", nullable = false, length = 20)
 	public String getName() {
 		return name;
 	}

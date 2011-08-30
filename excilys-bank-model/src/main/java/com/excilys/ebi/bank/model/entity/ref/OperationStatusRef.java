@@ -22,7 +22,7 @@ public class OperationStatusRef extends Ref {
 	private OperationStatus id;
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 20)
 	@Enumerated(EnumType.STRING)
 	public OperationStatus getId() {
 		return id;

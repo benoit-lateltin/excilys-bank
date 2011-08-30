@@ -23,7 +23,7 @@
 		<level value="TRACE" />
 	</logger>
 
-	<logger name="org.hibernate.tool.hbm2ddl.SchemaUpdate">
+	<logger name="org.hibernate.tool.hbm2ddl.SchemaExport">
 		<level value="DEBUG" />
 	</logger>
 

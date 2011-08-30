@@ -51,7 +51,6 @@ public class AccountOperationsController {
 	OperationsTable paginateOperations(@PathVariable String accountNumber, @PathVariable int year, @PathVariable int month, @PathVariable int page) {
 
 		Page<Operation> operationPage = bankService.findNonCardOperationsByAccountNumberAndMonth(accountNumber, year, month, page);
-
 		return converter.convert(operationPage);
 	}
 }

@@ -20,7 +20,7 @@ public class RoleRef extends Ref {
 	private Role id;
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 20)
 	@Enumerated(EnumType.STRING)
 	public Role getId() {
 		return id;

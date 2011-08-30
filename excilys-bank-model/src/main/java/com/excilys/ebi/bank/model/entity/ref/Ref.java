@@ -12,7 +12,7 @@ public abstract class Ref implements Serializable {
 
 	private String name;
 
-	@Column(name = "NAME")
+	@Column(name = "NAME", length = 20)
 	public String getName() {
 		return name;
 	}

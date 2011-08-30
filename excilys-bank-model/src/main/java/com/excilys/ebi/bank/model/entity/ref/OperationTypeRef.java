@@ -22,7 +22,7 @@ public class OperationTypeRef extends Ref {
 	private OperationType id;
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID", length = 20)
 	@Enumerated(EnumType.STRING)
 	public OperationType getId() {
 		return id;
