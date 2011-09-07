@@ -6,12 +6,15 @@ import java.io.IOException;
 import java.sql.BatchUpdateException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.test.jdbc.SimpleJdbcTestUtils;
+import org.springframework.util.StopWatch;
 
 import com.excilys.ebi.spring.dbunit.DefaultDataLoader;
 import com.excilys.ebi.spring.dbunit.config.DataSetConfiguration;
@@ -19,6 +22,7 @@ import com.excilys.ebi.spring.dbunit.config.Phase;
 
 public class Loader {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(Loader.class);
 	private final ApplicationContext context;
 	private final SimpleJdbcTemplate jdbcTemplate;
 	private final DataSetConfiguration dataSetConfiguration;
@@ -52,14 +56,26 @@ public class Loader {
 	}
 
 	private void run() throws Exception {
+		StopWatch sw = new StopWatch("Loader.run");
+
+		sw.start("executeBeforeLoadScripts");
 		executeBeforeLoadScripts();
+		sw.stop();
+
 		try {
+			sw.start("loadData");
 			loadData();
+			sw.stop();
 		} catch (BatchUpdateException e) {
 			e.printStackTrace();
 			throw e.getNextException();
 		}
+
+		sw.start("executeAfterLoadScripts");
 		executeAfterLoadScripts();
+		sw.stop();
+
+		LOGGER.info(sw.prettyPrint());
 	}
 
 	private void executeBeforeLoadScripts() {
