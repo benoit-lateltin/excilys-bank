@@ -13,10 +13,6 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	<listener>
-		<listener-class>com.excilys.ebi.spring.dbunit.servlet.DataLoaderListener</listener-class>
-	</listener>
-
 	<filter>
 		<filter-name>gzipFilter</filter-name>
 		<filter-class>com.excilys.ebi.bank.web.web.zip.PatchedGzipFilter</filter-class>

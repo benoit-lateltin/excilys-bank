@@ -491,8 +491,6 @@
 				<version>${urlrewritefilter.version}</version>
 			</dependency>
 
-
-
 			<!-- misc -->
 			<dependency>
 				<groupId>joda-time</groupId>
