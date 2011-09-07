@@ -6,7 +6,6 @@
 	<import class="com.excilys.ebi.bank.data.generator.Config" />
 	<import class="org.databene.benerator.util.RandomUtil" />
 	<import class="org.databene.benerator.primitive.IncrementalIdGenerator" />
-	<import class="java.text.SimpleDateFormat" />
 
 	<bean id="dbunit" class="org.databene.platform.dbunit.DbUnitEntityExporter">
 		<property name="uri" value="src/main/generated-sources/data/dataSet-03-data-databene.xml" />
@@ -49,7 +48,6 @@
 				<attribute name="ACCOUNT" type="long" script="{ACCOUNT.ID}" />
 				<attribute name="AMOUNT" type="big_decimal" min="-1000" max="2000" nullable="false" />
 				<attribute name="DATE" type="date" min="{Config.MIN_OPERATION_DATE}" max="{Config.MAX_OPERATION_DATE}" />
-				<attribute name="YEARMONTH" type="string" script="{new SimpleDateFormat('yyyyMM').format(OPERATION.DATE)}" />
 				<attribute name="NAME" type="string" script="{op_name + ' ' + (OPERATION.AMOUNT > 0 ? '+':'') + OPERATION.AMOUNT}" />
 				<attribute name="STATUS" type="string" constant="RESOLVED" />
 				<attribute name="TYPE" type="string" script="{operation_type.id}" />
@@ -75,7 +73,6 @@
 					<attribute name="ACCOUNT" type="long" script="{ACCOUNT.ID}" />
 					<attribute name="AMOUNT" type="big_decimal" min="-1000" max="2000" nullable="false" />
 					<attribute name="DATE" type="date" min="{Config.MIN_OPERATION_DATE}" max="{Config.MAX_OPERATION_DATE}" />
-					<attribute name="YEARMONTH" type="string" script="{new SimpleDateFormat('yyyyMM').format(OPERATION.DATE)}" />
 					<attribute name="NAME" type="string" script="{'card' + (OPERATION.AMOUNT > 0 ? ' +':' ') + OPERATION.AMOUNT}" />
 					<attribute name="CARD" type="long" script="{CARD.ID}" />
 					<attribute name="STATUS" type="string" script="{CARD.TYPE=='CREDIT'?operation_status.id:'RESOLVED'}" />

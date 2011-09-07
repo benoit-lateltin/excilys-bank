@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport
 import org.springframework.stereotype.Repository;
 
 import com.excilys.ebi.bank.dao.OperationDaoCustom;
+import com.excilys.ebi.bank.model.Range;
 import com.excilys.ebi.bank.model.YearMonth;
 import com.excilys.ebi.bank.model.entity.Card;
 import com.excilys.ebi.bank.model.entity.Operation;
@@ -168,7 +170,8 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 	}
 
 	private BooleanExpression addOperationYearMonthExpression(BooleanExpression predicate, QOperation operation, YearMonth yearMonth) {
-		return yearMonth != null ? predicate.and(operation.yearMonth.eq(yearMonth.getValue())) : predicate;
+		Range<DateTime> range = yearMonth.getRange();
+		return yearMonth != null ? predicate.and(operation.date.between(range.getFrom(), range.getTo())) : predicate;
 	}
 
 	private Page<Operation> buildPage(JPQLQuery countQuery, JPQLQuery query, Pageable pageable) {

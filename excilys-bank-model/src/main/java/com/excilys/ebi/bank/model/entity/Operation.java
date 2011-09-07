@@ -38,10 +38,6 @@ public class Operation implements Serializable {
 	private BigDecimal amount;
 	private String name;
 	private DateTime date;
-	/**
-	 * yyyyMM denormalization of date field
-	 */
-	private int yearMonth;
 	private Account account;
 	private Card card;
 	private OperationStatusRef status;
@@ -72,7 +68,6 @@ public class Operation implements Serializable {
 
 		public Builder withDate(DateTime date) {
 			operation.date = date;
-			operation.yearMonth = Integer.valueOf(YEARMONTH_FORMAT.format(date));
 			return this;
 		}
 
@@ -126,11 +121,6 @@ public class Operation implements Serializable {
 	@Column(name = "DATE", nullable = false, updatable = false)
 	public DateTime getDate() {
 		return date;
-	}
-
-	@Column(name = "YEARMONTH", nullable = false, updatable = false)
-	public int getYearMonth() {
-		return yearMonth;
 	}
 
 	@ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -187,10 +177,6 @@ public class Operation implements Serializable {
 
 	public void setType(OperationTypeRef type) {
 		this.type = type;
-	}
-
-	public void setYearMonth(int yearMonth) {
-		this.yearMonth = yearMonth;
 	}
 
 	@Override

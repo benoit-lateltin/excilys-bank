@@ -1,5 +1,8 @@
 package com.excilys.ebi.bank.model;
 
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+
 public class YearMonth {
 
 	private final int year;
@@ -21,5 +24,11 @@ public class YearMonth {
 
 	public int getValue() {
 		return year * 100 + monthOfYear;
+	}
+
+	public Range<DateTime> getRange() {
+		DateMidnight start = new DateMidnight().withYear(year).withMonthOfYear(monthOfYear);
+		DateMidnight end = start.plusMonths(1);
+		return new Range<DateTime>(start.toDateTime(), end.toDateTime());
 	}
 }

@@ -28,8 +28,6 @@
 						<entry key-ref="DEFAULT_BATCH_FETCH_SIZE" value="20" />
 						<entry key-ref="STATEMENT_BATCH_SIZE" value="20" />
 						<entry key-ref="STATEMENT_FETCH_SIZE" value="20" />
-						<entry key-ref="HBM2DDL_AUTO" value="${emf.hbm2ddlAudo}" />
-						<entry key-ref="HBM2DDL_IMPORT_FILES" value="${emf.hbm2ddlImportFiles}" />
 					</map>
 				</property>
 			</bean>

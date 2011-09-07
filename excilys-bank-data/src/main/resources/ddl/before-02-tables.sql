@@ -162,7 +162,6 @@ CREATE TABLE operation
 	amount numeric(19,2) NOT NULL,
 	date timestamp without time zone NOT NULL,
 	"name" character varying(20) NOT NULL,
-	yearmonth integer NOT NULL,
 	account integer NOT NULL,
 	card integer,
 	status character varying(20) NOT NULL,
