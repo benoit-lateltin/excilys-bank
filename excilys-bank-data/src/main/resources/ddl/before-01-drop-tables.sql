@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS operation;
+DROP TABLE IF EXISTS card;
+DROP TABLE IF EXISTS usr_account;
+DROP TABLE IF EXISTS account;
+DROP TABLE IF EXISTS usr_role;
+DROP TABLE IF EXISTS usr;
+DROP TABLE IF EXISTS ref_operation_type;
+DROP TABLE IF EXISTS ref_operation_status;
+DROP TABLE IF EXISTS ref_card_type;
+DROP TABLE IF EXISTS ref_account_type;
+DROP TABLE IF EXISTS ref_account_category;
+DROP TABLE IF EXISTS ref_role;

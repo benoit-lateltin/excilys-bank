@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.excilys.ebi.bank.model.YearMonth;
 import com.excilys.ebi.bank.model.entity.Operation;
 import com.excilys.ebi.bank.model.entity.ref.OperationSign;
 import com.excilys.ebi.bank.service.BankService;
@@ -35,9 +36,11 @@ public class AccountOperationsController {
 	@CalendarModelAttribute
 	public String displayOperations(@PathVariable String accountNumber, @PathVariable int year, @PathVariable int month, ModelMap model) {
 
-		Collection<Operation> cardSums = bankService.sumCardOperationsByAccountNumberAndMonth(accountNumber, year, month);
-		BigDecimal creditSum = bankService.sumResolvedAmountByAccountNumberAndMonthAndSign(accountNumber, year, month, OperationSign.CREDIT);
-		BigDecimal debitSum = bankService.sumResolvedAmountByAccountNumberAndMonthAndSign(accountNumber, year, month, OperationSign.DEBIT);
+		Integer accountId = bankService.findAccountIdByNumber(accountNumber);
+
+		Collection<Operation> cardSums = bankService.sumCardOperationsByAccountIdAndYearMonth(accountId, new YearMonth(year, month));
+		BigDecimal creditSum = bankService.sumResolvedAmountByAccountIdAndYearMonthAndSign(accountId, new YearMonth(year, month), OperationSign.CREDIT);
+		BigDecimal debitSum = bankService.sumResolvedAmountByAccountIdAndYearMonthAndSign(accountId, new YearMonth(year, month), OperationSign.DEBIT);
 
 		model.put("cardSums", cardSums);
 		model.put("creditSum", creditSum);
@@ -50,7 +53,9 @@ public class AccountOperationsController {
 	public @ResponseBody
 	OperationsTable paginateOperations(@PathVariable String accountNumber, @PathVariable int year, @PathVariable int month, @PathVariable int page) {
 
-		Page<Operation> operationPage = bankService.findNonCardOperationsByAccountNumberAndMonth(accountNumber, year, month, page);
+		Integer accountId = bankService.findAccountIdByNumber(accountNumber);
+
+		Page<Operation> operationPage = bankService.findNonCardOperationsByAccountIdAndYearMonth(accountId, new YearMonth(year, month), page);
 		return converter.convert(operationPage);
 	}
 }

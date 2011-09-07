@@ -21,15 +21,15 @@
 				<property name="jpaPropertyMap">
 					<map>
 						<entry key-ref="DIALECT" value="${emf.dialect}" />
-						<entry key-ref="HBM2DDL_AUTO" value="create" />
 						<entry key-ref="FORMAT_SQL" value="true" />
 						<entry key-ref="USE_SQL_COMMENTS" value="false" />
 						<entry key-ref="CACHE_REGION_FACTORY" value="net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory" />
 						<entry key-ref="USE_SECOND_LEVEL_CACHE" value="true" />
-						<entry key-ref="DEFAULT_BATCH_FETCH_SIZE" value="8" />
-						<entry key-ref="STATEMENT_BATCH_SIZE" value="0" />
+						<entry key-ref="DEFAULT_BATCH_FETCH_SIZE" value="20" />
+						<entry key-ref="STATEMENT_BATCH_SIZE" value="20" />
 						<entry key-ref="STATEMENT_FETCH_SIZE" value="20" />
-						<entry key-ref="HBM2DDL_IMPORT_FILES" value="/ddl/import.sql" />
+						<entry key-ref="HBM2DDL_AUTO" value="${emf.hbm2ddlAudo}" />
+						<entry key-ref="HBM2DDL_IMPORT_FILES" value="${emf.hbm2ddlImportFiles}" />
 					</map>
 				</property>
 			</bean>

@@ -1,5 +1,7 @@
 package com.excilys.ebi.bank.dao.impl;
 
+import static com.google.common.collect.Lists.transform;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -15,18 +16,18 @@ import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport
 import org.springframework.stereotype.Repository;
 
 import com.excilys.ebi.bank.dao.OperationDaoCustom;
-import com.excilys.ebi.bank.model.Range;
+import com.excilys.ebi.bank.model.YearMonth;
 import com.excilys.ebi.bank.model.entity.Card;
 import com.excilys.ebi.bank.model.entity.Operation;
-import com.excilys.ebi.bank.model.entity.QAccount;
-import com.excilys.ebi.bank.model.entity.QCard;
 import com.excilys.ebi.bank.model.entity.QOperation;
 import com.excilys.ebi.bank.model.entity.ref.OperationSign;
 import com.excilys.ebi.bank.model.entity.ref.OperationStatus;
 import com.excilys.ebi.bank.model.entity.ref.OperationType;
+import com.google.common.base.Function;
+import com.mysema.query.Tuple;
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.types.Predicate;
-import com.mysema.query.types.QBean;
+import com.mysema.query.types.QTuple;
 import com.mysema.query.types.expr.BooleanExpression;
 
 @Repository
@@ -42,40 +43,45 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 	}
 
 	@Override
-	public Page<Operation> findNonCardByAccountNumberAndDateRange(String accountNumber, Range<DateTime> range, Pageable pageable) {
+	public Page<Operation> findNonCardByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth, Pageable pageable) {
 
 		QOperation operation = QOperation.operation;
-		QAccount account = QAccount.account;
 
-		BooleanExpression predicate = operation.type.id.ne(OperationType.CARD).and(account.number.eq(accountNumber));
-		predicate = addOperationDateRangeExpression(predicate, operation, range);
+		BooleanExpression predicate = operation.type.id.ne(OperationType.CARD).and(operation.account.id.eq(accountId));
+		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
 
-		JPQLQuery countQuery = from(operation).innerJoin(operation.account, account).where(predicate);
-		JPQLQuery query = applyPagination(from(operation).innerJoin(operation.account, account).where(predicate).orderBy(operation.date.desc()), pageable);
+		JPQLQuery countQuery = from(operation).where(predicate);
+		JPQLQuery query = applyPagination(from(operation).where(predicate).orderBy(operation.date.desc()), pageable);
 
 		return buildPage(countQuery, query, pageable);
 	}
 
 	@Override
-	public List<Operation> sumResolvedAmountByAccountNumberAndDateRangeGroupByCard(String accountNumber, Range<DateTime> range) {
+	public List<Operation> sumResolvedAmountByAccountIdAndYearMonthGroupByCard(Integer accountId, YearMonth yearMonth) {
 
-		QOperation operation = QOperation.operation;
-		QAccount account = QAccount.account;
+		final QOperation operation = QOperation.operation;
 
-		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.status.id.eq(OperationStatus.RESOLVED)).and(account.number.eq(accountNumber));
-		predicate = addOperationDateRangeExpression(predicate, operation, range);
+		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.status.id.eq(OperationStatus.RESOLVED)).and(operation.account.id.eq(accountId));
+		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
 
-		return from(operation).innerJoin(operation.account, account).where(predicate).groupBy(operation.card)
-				.list(new QBean<Operation>(Operation.class, operation.amount.sum().as(operation.amount), operation.card));
+		List<Tuple> tuples = from(operation).where(predicate).groupBy(operation.card.id).list(new QTuple(operation.amount.sum(), operation.card.id));
+
+		return transform(tuples, new Function<Tuple, Operation>() {
+			@Override
+			public Operation apply(Tuple input) {
+				return Operation.newOperationBuilder().withAmount(input.get(operation.amount.sum())).withCard(Card.newCardBuilder().withId(input.get(operation.card.id)).build())
+						.build();
+			}
+		});
 	}
 
 	@Override
-	public BigDecimal sumResolvedAmountByCardAndDateRange(Card card, Range<DateTime> range) {
+	public BigDecimal sumResolvedAmountByCardAndYearMonth(Card card, YearMonth yearMonth) {
 
 		QOperation operation = QOperation.operation;
 
 		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.status.id.eq(OperationStatus.RESOLVED)).and(operation.card.eq(card));
-		predicate = addOperationDateRangeExpression(predicate, operation, range);
+		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
 
 		return from(operation).where(predicate).uniqueResult(operation.amount.sum());
 	}
@@ -86,92 +92,87 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 	}
 
 	@Override
-	public BigDecimal sumResolvedAmountByAccountNumberAndDateRangeAndSign(String accountNumber, Range<DateTime> range, OperationSign sign) {
+	public BigDecimal sumResolvedAmountByAccountIdAndYearMonthAndSign(Integer accountId, YearMonth yearMonth, OperationSign sign) {
 
 		QOperation operation = QOperation.operation;
-		QAccount account = QAccount.account;
 
-		BooleanExpression predicate = account.number.eq(accountNumber).and(buildOperationSignPredicate(sign)).and(operation.status.id.eq(OperationStatus.RESOLVED));
-		predicate = addOperationDateRangeExpression(predicate, operation, range);
+		BooleanExpression predicate = operation.account.id.eq(accountId).and(buildOperationSignPredicate(sign)).and(operation.status.id.eq(OperationStatus.RESOLVED));
+		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
 
-		return from(operation).innerJoin(operation.account, account).where(predicate).uniqueResult(operation.amount.sum());
+		return from(operation).where(predicate).uniqueResult(operation.amount.sum());
 	}
 
 	@Override
-	public Page<Operation> findCardOperationsByAccountNumberAndDateRangeAndStatus(String accountNumber, Range<DateTime> range, OperationStatus status, Pageable pageable) {
+	public Page<Operation> findCardOperationsByAccountIdAndYearMonthAndStatus(Integer accountId, YearMonth yearMonth, OperationStatus status, Pageable pageable) {
 
 		QOperation operation = QOperation.operation;
-		QAccount account = QAccount.account;
 
-		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(account.number.eq(accountNumber)).and(operation.status.id.eq(status));
-		predicate = addOperationDateRangeExpression(predicate, operation, range);
+		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.account.id.eq(accountId)).and(operation.status.id.eq(status));
+		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
 
-		JPQLQuery countQuery = from(operation).innerJoin(operation.account, account).where(predicate);
-		JPQLQuery query = applyPagination(from(operation).innerJoin(operation.account, account).where(predicate).orderBy(operation.date.desc()), pageable);
+		JPQLQuery countQuery = from(operation).where(predicate);
+		JPQLQuery query = applyPagination(from(operation).where(predicate).orderBy(operation.date.desc()), pageable);
 
 		return buildPage(countQuery, query, pageable);
 	}
 
 	@Override
-	public BigDecimal sumCardAmountByAccountNumberAndDateRangeAndSignAndStatus(String accountNumber, Range<DateTime> range, OperationSign sign, OperationStatus status) {
+	public BigDecimal sumCardAmountByAccountIdAndYearMonthAndSignAndStatus(Integer accountId, YearMonth yearMonth, OperationSign sign, OperationStatus status) {
 
 		QOperation operation = QOperation.operation;
-		QAccount account = QAccount.account;
 
-		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(account.number.eq(accountNumber)).and(buildOperationSignPredicate(sign))
+		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.account.id.eq(accountId)).and(buildOperationSignPredicate(sign))
 				.and(operation.status.id.eq(status));
-		predicate = addOperationDateRangeExpression(predicate, operation, range);
+		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
 
-		return from(operation).innerJoin(operation.account, account).where(predicate).uniqueResult(operation.amount.sum());
+		return from(operation).where(predicate).uniqueResult(operation.amount.sum());
 	}
 
 	@Override
-	public Page<Operation> findCardOperationsByCardNumberAndDateRangeAndStatus(String cardNumber, Range<DateTime> range, OperationStatus status, Pageable pageable) {
+	public Page<Operation> findCardOperationsByCardIdAndYearMonthAndStatus(Integer cardId, YearMonth yearMonth, OperationStatus status, Pageable pageable) {
 
 		QOperation operation = QOperation.operation;
-		QCard card = QCard.card;
 
-		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(card.number.eq(cardNumber)).and(operation.status.id.eq(status));
-		predicate = addOperationDateRangeExpression(predicate, operation, range);
+		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.card.id.eq(cardId)).and(operation.status.id.eq(status));
+		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
 
-		JPQLQuery countQuery = from(operation).innerJoin(operation.card, card).where(predicate);
-		JPQLQuery query = applyPagination(from(operation).innerJoin(operation.card, card).where(predicate).orderBy(operation.date.desc()), pageable);
+		JPQLQuery countQuery = from(operation).where(predicate);
+		JPQLQuery query = applyPagination(from(operation).where(predicate).orderBy(operation.date.desc()), pageable);
 
 		return buildPage(countQuery, query, pageable);
 	}
 
 	@Override
-	public BigDecimal sumCardAmountByCardNumberAndDateRangeAndSignAndStatus(String cardNumber, Range<DateTime> range, OperationSign sign, OperationStatus status) {
+	public BigDecimal sumCardAmountByCardIdAndYearMonthAndSignAndStatus(Integer cardId, YearMonth yearMonth, OperationSign sign, OperationStatus status) {
 
 		QOperation operation = QOperation.operation;
-		QCard card = QCard.card;
 
-		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(card.number.eq(cardNumber)).and(buildOperationSignPredicate(sign))
+		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.card.id.eq(cardId)).and(buildOperationSignPredicate(sign))
 				.and(operation.status.id.eq(status));
-		predicate = addOperationDateRangeExpression(predicate, operation, range);
+		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
 
-		return from(operation).innerJoin(operation.card, card).where(predicate).uniqueResult(operation.amount.sum());
+		return from(operation).where(predicate).uniqueResult(operation.amount.sum());
 	}
 
 	@Override
-	public Page<Operation> findTransferByAccountNumber(String accountNumber, Pageable pageable) {
+	public Page<Operation> findTransferByAccountId(Integer accountId, Pageable pageable) {
 
 		QOperation operation = QOperation.operation;
-		QAccount account = QAccount.account;
 
-		BooleanExpression predicate = operation.type.id.eq(OperationType.TRANSFER).and(account.number.eq(accountNumber));
+		BooleanExpression predicate = operation.type.id.eq(OperationType.TRANSFER).and(operation.account.id.eq(accountId));
 
-		JPQLQuery countQuery = from(operation).innerJoin(operation.account, account).where(predicate);
-		JPQLQuery query = applyPagination(from(operation).innerJoin(operation.account, account).where(predicate).orderBy(operation.date.desc()), pageable);
+		JPQLQuery countQuery = from(operation).where(predicate);
+		JPQLQuery query = applyPagination(from(operation).where(predicate).orderBy(operation.date.desc()), pageable);
 
 		return buildPage(countQuery, query, pageable);
 	}
 
-	private BooleanExpression addOperationDateRangeExpression(BooleanExpression predicate, QOperation operation, Range<DateTime> range) {
-		return range != null ? predicate.and(operation.date.between(range.getFrom(), range.getTo())) : predicate;
+	private BooleanExpression addOperationYearMonthExpression(BooleanExpression predicate, QOperation operation, YearMonth yearMonth) {
+		return yearMonth != null ? predicate.and(operation.yearMonth.eq(yearMonth.getValue())) : predicate;
 	}
 
 	private Page<Operation> buildPage(JPQLQuery countQuery, JPQLQuery query, Pageable pageable) {
+
 		long count = countQuery.count();
 		return count > 0 ? new PageImpl<Operation>(query.list(QOperation.operation), pageable, count) : new PageImpl<Operation>(new ArrayList<Operation>(), pageable, 0);
 	}

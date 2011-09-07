@@ -1,24 +1,41 @@
-#menu {
-	width: 435px;
-	margin: auto;
+div.menu {
+	background-color: #6ebbff;
 }
 
-#menu.nocards {
-	width: 295px;
+div.menu .title {
+	margin: 0 5px;
+	text-align: left;
 }
 
-#menu .block {
-	width: 130px;
-	margin: 0 0 10px 10px;
+div.menu .tab {
+	height: 32px;
+	width: 123px;
+	margin: 0 0 0 2px;
+	line-height: 32px;
+	text-align: center;
+	color: #3c7ab0;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-image: url('../img/menu_base.png'); /** sprite-ref: sprite; sprite-alignment: center top */
 }
 
-.title {
-	padding: 5px;
-	border-radius: 4px;
-	border: 1px solid #DFDFDF;
+div.menu .tab.active,div.menu .tab:hover {
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-image: url('../img/menu_selected.png'); /** sprite-ref: sprite; sprite-alignment: center top */
 }
 
-.title:hover,.title.active {
-	background-color: #CCC;
-	border-color: #CCC;
+div.menu .iconLabel {
+	margin-top: 3px;
+	margin-left: 3px;
+}
+
+div.menu .after {
+	height: 32px;
+	width: 44px;
+	background-position: right top;
+	background-repeat: no-repeat;
+	background-image: url('../img/menu_after.png'); /** sprite-ref: sprite; sprite-alignment: right top */
 }

@@ -37,7 +37,8 @@ public class TransferOperationsController {
 	public @ResponseBody
 	OperationsTable resolvedOperations(@PathVariable String accountNumber, @PathVariable int page) {
 
-		Page<Operation> operations = bankService.findTransferOperationsByAccountNumber(accountNumber, page);
+		Integer accountId = bankService.findAccountIdByNumber(accountNumber);
+		Page<Operation> operations = bankService.findTransferOperationsByAccountId(accountId, page);
 
 		return converter.convert(operations);
 	}

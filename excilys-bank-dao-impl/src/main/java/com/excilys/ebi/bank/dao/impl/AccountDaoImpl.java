@@ -26,16 +26,14 @@ public class AccountDaoImpl extends QueryDslRepositorySupport implements Account
 	public List<Account> findByUserFetchCards(User user) {
 
 		QAccount account = QAccount.account;
-		// FIXME find a better way to load everything at once without resorting
-		// to "distinct"
 		return from(account).where(account.users.contains(user)).leftJoin(account.cards).fetch().listDistinct(account);
 	}
 
 	@Override
-	public Account findByNumberFetchCards(String number) {
+	public Account findByNumberFetchCards(String accountNumber) {
 
 		QAccount account = QAccount.account;
-		return from(account).where(account.number.eq(number)).leftJoin(account.cards).fetch().uniqueResult(account);
+		return from(account).where(account.number.eq(accountNumber)).leftJoin(account.cards).fetch().uniqueResult(account);
 	}
 
 	@Override

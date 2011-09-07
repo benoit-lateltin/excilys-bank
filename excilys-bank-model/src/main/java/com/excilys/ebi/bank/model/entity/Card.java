@@ -31,8 +31,55 @@ public class Card {
 	private BigDecimal pending;
 	private DateTime pendingDate;
 	private Account account;
-
 	private List<Operation> operations = newArrayList();
+
+	public static Builder newCardBuilder() {
+		return new Builder();
+	}
+
+	public static class Builder {
+
+		private Card card = new Card();
+
+		public Builder withId(Integer id) {
+			card.id = id;
+			return this;
+		}
+
+		public Builder withNumber(String number) {
+			card.number = number;
+			return this;
+		}
+
+		public Builder withType(CardTypeRef type) {
+			card.type = type;
+			return this;
+		}
+
+		public Builder withPending(BigDecimal pending) {
+			card.pending = pending;
+			return this;
+		}
+
+		public Builder withPendingDate(DateTime pendingDate) {
+			card.pendingDate = pendingDate;
+			return this;
+		}
+
+		public Builder withAccount(Account account) {
+			card.account = account;
+			return this;
+		}
+
+		public Builder withOperations(List<Operation> operations) {
+			card.operations = operations;
+			return this;
+		}
+
+		public Card build() {
+			return card;
+		}
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

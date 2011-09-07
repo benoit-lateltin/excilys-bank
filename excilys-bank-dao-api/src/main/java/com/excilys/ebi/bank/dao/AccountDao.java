@@ -9,5 +9,7 @@ import com.excilys.ebi.bank.model.entity.User;
 
 public interface AccountDao extends JpaRepository<Account, Integer>, AccountDaoCustom {
 
+	Account findByNumber(String number);
+
 	List<Account> findByUsers(User user);
 }

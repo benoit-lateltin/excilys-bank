@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,9 +19,9 @@ import com.excilys.ebi.bank.dao.CardDao;
 import com.excilys.ebi.bank.dao.OperationDao;
 import com.excilys.ebi.bank.dao.OperationStatusRefDao;
 import com.excilys.ebi.bank.dao.OperationTypeRefDao;
-import com.excilys.ebi.bank.model.Range;
+import com.excilys.ebi.bank.model.IConstants;
+import com.excilys.ebi.bank.model.YearMonth;
 import com.excilys.ebi.bank.model.entity.Account;
-import com.excilys.ebi.bank.model.entity.Card;
 import com.excilys.ebi.bank.model.entity.Operation;
 import com.excilys.ebi.bank.model.entity.User;
 import com.excilys.ebi.bank.model.entity.ref.OperationSign;
@@ -33,6 +31,7 @@ import com.excilys.ebi.bank.model.entity.ref.OperationType;
 import com.excilys.ebi.bank.model.entity.ref.OperationTypeRef;
 import com.excilys.ebi.bank.service.BankService;
 import com.excilys.ebi.bank.service.UnsufficientBalanceException;
+import com.googlecode.ehcache.annotations.Cacheable;
 
 @Service
 @Transactional(readOnly = true)
@@ -56,6 +55,20 @@ public class BankServiceImpl implements BankService {
 	private OperationTypeRefDao operationTypeDao;
 
 	@Override
+	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE)
+	public Integer findAccountIdByNumber(String accountNumber) {
+
+		return accountDao.findByNumber(accountNumber).getId();
+	}
+
+	@Override
+	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE)
+	public Integer findCardIdByNumber(String cardNumber) {
+
+		return cardDao.findByNumber(cardNumber).getId();
+	}
+
+	@Override
 	public List<Account> findAccountsByUser(User user) {
 		return accountDao.findByUsers(user);
 	}
@@ -67,102 +80,80 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	@PostAuthorize("hasPermission(returnObject, 'read')")
-	public Account findAccountByNumberFetchCards(String number) {
-		return accountDao.findByNumberFetchCards(number);
-	}
-
-	private Range<DateTime> buildDateRange(int year, int monthOfYear) {
-
-		// first midnight in this month
-		DateMidnight from = new DateMidnight().withDayOfMonth(1).withYear(year).withMonthOfYear(monthOfYear);
-
-		// last midnight in this month
-		DateMidnight to = from.plusMonths(1).minusDays(1);
-
-		return new Range<DateTime>(from.toDateTime(), to.toDateTime());
+	public Account findAccountByNumberFetchCards(String accountNumber) {
+		return accountDao.findByNumberFetchCards(accountNumber);
 	}
 
 	@Override
-	public Page<Operation> findNonCardOperationsByAccountNumberAndMonth(String accountNumber, int year, int monthOfYear, int page) {
+	public Page<Operation> findNonCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth, int page) {
 
 		Pageable pageable = new PageRequest(page, PAGE_SIZE);
-		Range<DateTime> range = buildDateRange(year, monthOfYear);
-		return operationDao.findNonCardByAccountNumberAndDateRange(accountNumber, range, pageable);
+		return operationDao.findNonCardByAccountIdAndYearMonth(accountId, yearMonth, pageable);
 	}
 
 	@Override
-	public List<Card> findCardsByAccountNumber(String accountNumber) {
-		return cardDao.findByAccountNumber(accountNumber);
+	public Collection<Operation> sumCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth) {
+		Collection<Operation> sums = operationDao.sumResolvedAmountByAccountIdAndYearMonthGroupByCard(accountId, yearMonth);
+		for (Operation sum : sums) {
+			sum.setCard(cardDao.findOne(sum.getCard().getId()));
+		}
+		return sums;
 	}
 
 	@Override
-	public Collection<Operation> sumCardOperationsByAccountNumberAndMonth(String accountNumber, int year, int monthOfYear) {
+	public BigDecimal sumResolvedAmountByAccountIdAndYearMonthAndSign(Integer accountId, YearMonth yearMonth, OperationSign sign) {
 
-		final Range<DateTime> range = buildDateRange(year, monthOfYear);
-		return operationDao.sumResolvedAmountByAccountNumberAndDateRangeGroupByCard(accountNumber, range);
+		return operationDao.sumResolvedAmountByAccountIdAndYearMonthAndSign(accountId, yearMonth, sign);
 	}
 
 	@Override
-	public BigDecimal sumResolvedAmountByAccountNumberAndMonthAndSign(String accountNumber, int year, int monthOfYear, OperationSign sign) {
-
-		Range<DateTime> range = buildDateRange(year, monthOfYear);
-		return operationDao.sumResolvedAmountByAccountNumberAndDateRangeAndSign(accountNumber, range, sign);
-	}
-
-	@Override
-	public Page<Operation> findResolvedCardOperationsByAccountNumberAndMonth(String accountNumber, int year, int monthOfYear, int page) {
+	public Page<Operation> findResolvedCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth, int page) {
 
 		Pageable pageable = new PageRequest(page, PAGE_SIZE);
-		Range<DateTime> range = buildDateRange(year, monthOfYear);
-		return operationDao.findCardOperationsByAccountNumberAndDateRangeAndStatus(accountNumber, range, OperationStatus.RESOLVED, pageable);
+		return operationDao.findCardOperationsByAccountIdAndYearMonthAndStatus(accountId, yearMonth, OperationStatus.RESOLVED, pageable);
 	}
 
 	@Override
-	public BigDecimal sumResolvedCardAmountByAccountNumberAndMonthAndSign(String accountNumber, int year, int monthOfYear, OperationSign sign) {
-
-		Range<DateTime> range = buildDateRange(year, monthOfYear);
-		return operationDao.sumCardAmountByAccountNumberAndDateRangeAndSignAndStatus(accountNumber, range, sign, OperationStatus.RESOLVED);
+	public BigDecimal sumResolvedCardAmountByAccountIdAndYearMonthAndSign(Integer accountId, YearMonth yearMonth, OperationSign sign) {
+		return operationDao.sumCardAmountByAccountIdAndYearMonthAndSignAndStatus(accountId, yearMonth, sign, OperationStatus.RESOLVED);
 	}
 
 	@Override
-	public Page<Operation> findResolvedCardOperationsByCardNumberAndMonth(String cardNumber, int year, int monthOfYear, int page) {
+	public Page<Operation> findResolvedCardOperationsByCardIdAndYearMonth(Integer cardId, YearMonth yearMonth, int page) {
 
 		Pageable pageable = new PageRequest(page, PAGE_SIZE);
-		Range<DateTime> range = buildDateRange(year, monthOfYear);
-		return operationDao.findCardOperationsByCardNumberAndDateRangeAndStatus(cardNumber, range, OperationStatus.RESOLVED, pageable);
+		return operationDao.findCardOperationsByCardIdAndYearMonthAndStatus(cardId, yearMonth, OperationStatus.RESOLVED, pageable);
 	}
 
 	@Override
-	public BigDecimal sumResolvedCardAmountByCardNumberAndMonthAndSign(String cardNumber, int year, int monthOfYear, OperationSign sign) {
-
-		Range<DateTime> range = buildDateRange(year, monthOfYear);
-		return operationDao.sumCardAmountByCardNumberAndDateRangeAndSignAndStatus(cardNumber, range, sign, OperationStatus.RESOLVED);
+	public BigDecimal sumResolvedCardAmountByCardIdAndYearMonthAndSign(Integer cardId, YearMonth yearMonth, OperationSign sign) {
+		return operationDao.sumCardAmountByCardIdAndYearMonthAndSignAndStatus(cardId, yearMonth, sign, OperationStatus.RESOLVED);
 	}
 
 	@Override
-	public Page<Operation> findPendingCardOperationsByAccountNumber(String accountNumber, int page) {
+	public Page<Operation> findPendingCardOperationsByAccountId(Integer accountId, int page) {
 
 		Pageable pageable = new PageRequest(page, PAGE_SIZE);
-		return operationDao.findCardOperationsByAccountNumberAndDateRangeAndStatus(accountNumber, null, OperationStatus.PENDING, pageable);
+		return operationDao.findCardOperationsByAccountIdAndYearMonthAndStatus(accountId, null, OperationStatus.PENDING, pageable);
 	}
 
 	@Override
-	public BigDecimal sumPendingCardAmountByAccountNumberAndSign(String accountNumber, OperationSign sign) {
+	public BigDecimal sumPendingCardAmountByAccountIdAndSign(Integer accountId, OperationSign sign) {
 
-		return operationDao.sumCardAmountByAccountNumberAndDateRangeAndSignAndStatus(accountNumber, null, sign, OperationStatus.PENDING);
+		return operationDao.sumCardAmountByAccountIdAndYearMonthAndSignAndStatus(accountId, null, sign, OperationStatus.PENDING);
 	}
 
 	@Override
-	public Page<Operation> findPendingCardOperationsByCardNumber(String cardNumber, int page) {
+	public Page<Operation> findPendingCardOperationsByCardId(Integer cardId, int page) {
 
 		Pageable pageable = new PageRequest(page, PAGE_SIZE);
-		return operationDao.findCardOperationsByCardNumberAndDateRangeAndStatus(cardNumber, null, OperationStatus.PENDING, pageable);
+		return operationDao.findCardOperationsByCardIdAndYearMonthAndStatus(cardId, null, OperationStatus.PENDING, pageable);
 	}
 
 	@Override
-	public BigDecimal sumPendingCardAmountByCardNumberAndSign(String cardNumber, OperationSign sign) {
+	public BigDecimal sumPendingCardAmountByCardIdAndSign(Integer cardId, OperationSign sign) {
 
-		return operationDao.sumCardAmountByCardNumberAndDateRangeAndSignAndStatus(cardNumber, null, sign, OperationStatus.PENDING);
+		return operationDao.sumCardAmountByCardIdAndYearMonthAndSignAndStatus(cardId, null, sign, OperationStatus.PENDING);
 	}
 
 	@Override
@@ -174,30 +165,30 @@ public class BankServiceImpl implements BankService {
 	}
 
 	@Override
-	public Page<Operation> findTransferOperationsByAccountNumber(String accountNumber, int page) {
+	public Page<Operation> findTransferOperationsByAccountId(Integer accountId, int page) {
 
 		Pageable pageable = new PageRequest(page, PAGE_SIZE);
-		return operationDao.findTransferByAccountNumber(accountNumber, pageable);
+		return operationDao.findTransferByAccountId(accountId, pageable);
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	public void performTransfer(String debitedAccountNumber, String creditedAccountNumber, BigDecimal amount) throws UnsufficientBalanceException {
+	public void performTransfer(Integer debitedAccountId, Integer creditedAccountId, BigDecimal amount) throws UnsufficientBalanceException {
 
-		Assert.hasLength(debitedAccountNumber);
-		Assert.hasLength(creditedAccountNumber);
+		Assert.notNull(debitedAccountId);
+		Assert.notNull(creditedAccountId);
 		Assert.notNull(amount);
 		Assert.isTrue(amount.compareTo(BigDecimal.valueOf(10L)) > 0);
-		Assert.isTrue(!StringUtils.equals(debitedAccountNumber, creditedAccountNumber));
+		Assert.isTrue(!debitedAccountId.equals(creditedAccountId));
 
-		Account debitedAccount = accountDao.findByNumberFetchCards(debitedAccountNumber);
+		Account debitedAccount = accountDao.findOne(debitedAccountId);
 		Assert.notNull(debitedAccount, "unknown account");
 
 		if (debitedAccount.getBalance().compareTo(amount) < 0) {
 			throw new UnsufficientBalanceException();
 		}
 
-		Account creditedAccount = accountDao.findByNumberFetchCards(creditedAccountNumber);
+		Account creditedAccount = accountDao.findOne(creditedAccountId);
 		Assert.notNull(creditedAccount, "unknown account");
 
 		debitedAccount.setBalance(debitedAccount.getBalance().subtract(amount));

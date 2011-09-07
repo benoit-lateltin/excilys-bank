@@ -9,7 +9,7 @@ public interface AccountDaoCustom {
 
 	List<Account> findByUserFetchCards(User user);
 
-	Account findByNumberFetchCards(String number);
+	Account findByNumberFetchCards(String accountNumber);
 
 	long countAccountsByIdAndUserLogin(Integer id, String login);
 }

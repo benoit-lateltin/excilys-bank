@@ -70,4 +70,8 @@
 		<put-attribute name="account.body" value="/WEB-INF/views/private/bank/account/transfers/perform/form.jsp" cascade="true" />
 		<put-attribute name="common.scripts-specific" value="/WEB-INF/views/private/bank/account/transfers/perform/scripts.jsp" />
 	</definition>
+
+	<definition name="private/admin/admin" extends="template.private">
+		<put-attribute name="private.body" value="/WEB-INF/views/private/admin/admin.jsp" cascade="true" />
+	</definition>
 </tiles-definitions>

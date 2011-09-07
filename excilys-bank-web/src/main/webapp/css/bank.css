@@ -63,8 +63,10 @@ div.sw div.sw_icon {
 
 div.sw div.sw_header {
 	height: 29px;
-	background: transparent url('../img/small_window_top.png') no-repeat
-		center top;
+	background-color: transparent;
+	background-position: center top;
+	background-repeat: no-repeat;
+	background-image: url('../img/small_window_top.png'); /** sprite-ref: sprite; sprite-alignment: center top */
 	color: #59a0d9;
 	overflow: hidden;
 	padding-top: 20px;
@@ -73,15 +75,16 @@ div.sw div.sw_header {
 }
 
 div.sw div.sw_content {
-	background: transparent url('../img/small_window_content.png') repeat-y
-		center top;
+	background: transparent url('../img/small_window_content.png') repeat-y center top;
 	padding: 10px 40px;
 }
 
 div.sw div.sw_footer {
 	height: 41px;
-	background: transparent url('../img/small_window_bottom.png') no-repeat
-		center top;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-image: url('../img/small_window_bottom.png'); /** sprite-ref: sprite; sprite-alignment: center top */
 }
 
 div.sw div.message {
@@ -109,8 +112,10 @@ div.bw div.bw_icon {
 div.bw div.bw_header {
 	height: 41px;
 	font-size: 12px;
-	background: transparent url('../img/big_window_top.png') no-repeat
-		center top;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-image: url('../img/big_window_top.png'); /** sprite-ref: sprite; sprite-alignment: center top */
 	overflow: hidden;
 	padding: 12px 30px 0 23px;
 }
@@ -129,15 +134,16 @@ div.bw div.bw_error {
 }
 
 div.bw div.bw_content {
-	background: transparent url('../img/big_window_content.png') repeat-y
-		center top;
+	background: transparent url('../img/big_window_content.png') repeat-y center top;
 	padding: 10px 40px;
 }
 
 div.bw div.bw_footer {
 	height: 41px;
-	background: transparent url('../img/big_window_bottom.png') no-repeat
-		center top;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-image: url('../img/big_window_bottom.png'); /** sprite-ref: sprite; sprite-alignment: center top */
 }
 
 div.bw div.message {
@@ -219,45 +225,10 @@ div.error {
 
 /*******************************************
 
-	Menus
-
-*******************************************/
-div.menu {
-	background: #6ebbff url('../img/menu_after.png') no-repeat right top;
-	padding-right: 44px;
-}
-
-div.menu a:LINK,div.menu a:VISITED {
-	background: transparent url('../img/menu_base.png') no-repeat center top;
-	height: 32px;
-	line-height: 32px;
-	width: 123px;
-	display: block;
-	float: left;
-	text-align: center;
-	color: #3c7ab0;
-	margin-right: 2px;
-}
-
-div.menu a:HOVER {
-	background: transparent url('../img/menu_selected.png') no-repeat center
-		top;
-}
-
-div.menu a.selected {
-	background: transparent url('../img/menu_selected.png') no-repeat center
-		top;
-}
-
-/*******************************************
-
 	Tables
 
 *******************************************/
-table.table { /*	border-top: 1px solid #7badd9;*/
-	/*	border-left: 1px solid #7badd9;*/
-	/*	border-right: 1px solid #5186b5;*/
-	/*	border-bottom: 1px solid #5186b5;*/
+table.table {
 	border: 1px solid white;
 	text-align: left;
 	padding: 0;

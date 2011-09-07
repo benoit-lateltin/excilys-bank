@@ -1,9 +1,11 @@
 package com.excilys.ebi.bank.web.security;
 
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.excilys.ebi.bank.model.entity.User;
 import com.excilys.ebi.bank.model.entity.ref.Role;
+import com.excilys.ebi.bank.model.entity.ref.RoleRef;
 
 public class SecurityUtils {
 
@@ -19,12 +21,22 @@ public class SecurityUtils {
 	}
 
 	public static boolean isAuthenticated() {
-		return SecurityContextHolder.getContext() != null //
-				&& SecurityContextHolder.getContext().getAuthentication() != null //
-				&& SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+		SecurityContext ctx = SecurityContextHolder.getContext();
+		return ctx != null //
+				&& ctx.getAuthentication() != null //
+				&& ctx.getAuthentication().isAuthenticated();
 	}
 
 	public static boolean isWithRole(Role role) {
-		return isAuthenticated() && getCurrentUser().getRoles().contains(role);
+
+		if (isAuthenticated()) {
+			for (RoleRef roleRef : getCurrentUser().getRoles()) {
+				if (roleRef.getId() == role) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

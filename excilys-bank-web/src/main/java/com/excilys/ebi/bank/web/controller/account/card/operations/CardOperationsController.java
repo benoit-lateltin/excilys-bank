@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.excilys.ebi.bank.model.YearMonth;
 import com.excilys.ebi.bank.model.entity.Operation;
 import com.excilys.ebi.bank.model.entity.ref.OperationSign;
 import com.excilys.ebi.bank.service.BankService;
@@ -48,13 +49,16 @@ public class CardOperationsController {
 		BigDecimal creditSum, debitSum = null;
 
 		if (!cardNumber.equals(ALL_CARDS)) {
-			creditSum = bankService.sumResolvedCardAmountByCardNumberAndMonthAndSign(cardNumber, year, month, OperationSign.CREDIT);
-			debitSum = bankService.sumResolvedCardAmountByCardNumberAndMonthAndSign(cardNumber, year, month, OperationSign.DEBIT);
+			Integer cardId = bankService.findCardIdByNumber(cardNumber);
+			creditSum = bankService.sumResolvedCardAmountByCardIdAndYearMonthAndSign(cardId, new YearMonth(year, month), OperationSign.CREDIT);
+			debitSum = bankService.sumResolvedCardAmountByCardIdAndYearMonthAndSign(cardId, new YearMonth(year, month), OperationSign.DEBIT);
 
 		} else {
 			Assert.notNull(accountNumber, "if no cardNumber, accountNumber is required");
-			creditSum = bankService.sumResolvedCardAmountByAccountNumberAndMonthAndSign(accountNumber, year, month, OperationSign.CREDIT);
-			debitSum = bankService.sumResolvedCardAmountByAccountNumberAndMonthAndSign(accountNumber, year, month, OperationSign.DEBIT);
+
+			Integer accountId = bankService.findAccountIdByNumber(accountNumber);
+			creditSum = bankService.sumResolvedCardAmountByAccountIdAndYearMonthAndSign(accountId, new YearMonth(year, month), OperationSign.CREDIT);
+			debitSum = bankService.sumResolvedCardAmountByAccountIdAndYearMonthAndSign(accountId, new YearMonth(year, month), OperationSign.DEBIT);
 		}
 
 		model.put("creditSum", creditSum);
@@ -71,13 +75,16 @@ public class CardOperationsController {
 		BigDecimal creditSum, debitSum = null;
 
 		if (!cardNumber.equals(ALL_CARDS)) {
-			creditSum = bankService.sumPendingCardAmountByCardNumberAndSign(cardNumber, OperationSign.CREDIT);
-			debitSum = bankService.sumPendingCardAmountByCardNumberAndSign(cardNumber, OperationSign.DEBIT);
+			Integer cardId = bankService.findCardIdByNumber(cardNumber);
+			creditSum = bankService.sumPendingCardAmountByCardIdAndSign(cardId, OperationSign.CREDIT);
+			debitSum = bankService.sumPendingCardAmountByCardIdAndSign(cardId, OperationSign.DEBIT);
 
 		} else {
 			Assert.notNull(accountNumber, "if no cardNumber, accountNumber is required");
-			creditSum = bankService.sumPendingCardAmountByAccountNumberAndSign(accountNumber, OperationSign.CREDIT);
-			debitSum = bankService.sumPendingCardAmountByAccountNumberAndSign(accountNumber, OperationSign.DEBIT);
+
+			Integer accountId = bankService.findAccountIdByNumber(accountNumber);
+			creditSum = bankService.sumPendingCardAmountByAccountIdAndSign(accountId, OperationSign.CREDIT);
+			debitSum = bankService.sumPendingCardAmountByAccountIdAndSign(accountId, OperationSign.DEBIT);
 		}
 
 		model.put("creditSum", creditSum);
@@ -94,11 +101,14 @@ public class CardOperationsController {
 		Page<Operation> operations = null;
 
 		if (!cardNumber.equals(CardOperationsController.ALL_CARDS)) {
-			operations = bankService.findResolvedCardOperationsByCardNumberAndMonth(cardNumber, year, month, page);
+			Integer cardId = bankService.findCardIdByNumber(cardNumber);
+			operations = bankService.findResolvedCardOperationsByCardIdAndYearMonth(cardId, new YearMonth(year, month), page);
 
 		} else {
 			Assert.notNull(accountNumber, "if no cardNumber, accountNumber is required");
-			operations = bankService.findResolvedCardOperationsByAccountNumberAndMonth(accountNumber, year, month, page);
+
+			Integer accountId = bankService.findAccountIdByNumber(accountNumber);
+			operations = bankService.findResolvedCardOperationsByAccountIdAndYearMonth(accountId, new YearMonth(year, month), page);
 		}
 
 		return converter.convert(operations);
@@ -111,11 +121,14 @@ public class CardOperationsController {
 		Page<Operation> operations = null;
 
 		if (!cardNumber.equals(CardOperationsController.ALL_CARDS)) {
-			operations = bankService.findPendingCardOperationsByCardNumber(cardNumber, page);
+			Integer cardId = bankService.findCardIdByNumber(cardNumber);
+			operations = bankService.findPendingCardOperationsByCardId(cardId, page);
 
 		} else {
 			Assert.notNull(accountNumber, "if no cardNumber, accountNumber is required");
-			operations = bankService.findPendingCardOperationsByAccountNumber(accountNumber, page);
+
+			Integer accountId = bankService.findAccountIdByNumber(accountNumber);
+			operations = bankService.findPendingCardOperationsByAccountId(accountId, page);
 		}
 
 		return converter.convert(operations);

@@ -2,6 +2,7 @@ package com.excilys.ebi.bank.model.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.Format;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.time.FastDateFormat;
 import org.joda.time.DateTime;
 
 import com.excilys.ebi.bank.model.entity.ref.OperationSign;
@@ -25,6 +27,8 @@ import com.excilys.ebi.bank.model.entity.ref.OperationTypeRef;
 @Table(name = "OPERATION")
 public class Operation implements Serializable {
 
+	private static final Format YEARMONTH_FORMAT = FastDateFormat.getInstance("yyyyMM");
+
 	/**
 	 * serialVersionUID
 	 */
@@ -34,73 +38,65 @@ public class Operation implements Serializable {
 	private BigDecimal amount;
 	private String name;
 	private DateTime date;
+	/**
+	 * yyyyMM denormalization of date field
+	 */
+	private int yearMonth;
 	private Account account;
 	private Card card;
 	private OperationStatusRef status;
 	private OperationTypeRef type;
 
+	public static Builder newOperationBuilder() {
+		return new Builder();
+	}
+
 	public static class Builder {
 
-		private Integer id;
-		private BigDecimal amount;
-		private String name;
-		private DateTime date;
-		private Account account;
-		private Card card;
-		private OperationStatusRef status;
-		private OperationTypeRef type;
+		private Operation operation = new Operation();
 
 		public Builder withId(Integer id) {
-			this.id = id;
+			operation.id = id;
 			return this;
 		}
 
 		public Builder withAmount(BigDecimal amount) {
-			this.amount = amount;
+			operation.amount = amount;
 			return this;
 		}
 
 		public Builder withName(String name) {
-			this.name = name;
+			operation.name = name;
 			return this;
 		}
 
 		public Builder withDate(DateTime date) {
-			this.date = date;
+			operation.date = date;
+			operation.yearMonth = Integer.valueOf(YEARMONTH_FORMAT.format(date));
 			return this;
 		}
 
 		public Builder withAccount(Account account) {
-			this.account = account;
+			operation.account = account;
 			return this;
 		}
 
 		public Builder withCard(Card card) {
-			this.card = card;
+			operation.card = card;
 			return this;
 		}
 
 		public Builder withStatus(OperationStatusRef status) {
-			this.status = status;
+			operation.status = status;
 			return this;
 		}
 
 		public Builder withType(OperationTypeRef type) {
-			this.type = type;
+			operation.type = type;
 			return this;
 		}
 
 		public Operation build() {
-			Operation operation = new Operation();
-			operation.id = id;
-			operation.amount = amount;
-			operation.name = name;
-			operation.date = date;
-			operation.account = account;
-			operation.card = card;
-			operation.status = status;
-			operation.type = type;
-
 			return operation;
 		}
 	}
@@ -130,6 +126,11 @@ public class Operation implements Serializable {
 	@Column(name = "DATE", nullable = false, updatable = false)
 	public DateTime getDate() {
 		return date;
+	}
+
+	@Column(name = "YEARMONTH", nullable = false, updatable = false)
+	public int getYearMonth() {
+		return yearMonth;
 	}
 
 	@ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -186,6 +187,10 @@ public class Operation implements Serializable {
 
 	public void setType(OperationTypeRef type) {
 		this.type = type;
+	}
+
+	public void setYearMonth(int yearMonth) {
+		this.yearMonth = yearMonth;
 	}
 
 	@Override

@@ -83,7 +83,9 @@ public class TransferPerformController {
 
 		if (!result.hasErrors()) {
 			try {
-				bankService.performTransfer(command.getDebitedAccountNumber(), command.getCreditedAccountNumber(), command.getAmount());
+				Integer debitedAccountId = bankService.findAccountIdByNumber(command.getDebitedAccountNumber());
+				Integer creditedAccountId = bankService.findAccountIdByNumber(command.getCreditedAccountNumber());
+				bankService.performTransfer(debitedAccountId, creditedAccountId, command.getAmount());
 
 				messages.add("message.info.transfer.success");
 

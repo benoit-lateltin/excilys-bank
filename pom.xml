@@ -12,7 +12,7 @@
 		<module>excilys-bank-service-api</module>
 		<module>excilys-bank-service-impl</module>
 		<module>excilys-bank-web</module>
-		<module>excilys-bank-benerator</module>
+		<module>excilys-bank-data</module>
 	</modules>
 
 	<repositories>
@@ -30,6 +30,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.6</java.version>
 		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+		<build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
 
 		<!-- hibernate -->
 		<hibernate.version>3.6.7.Final</hibernate.version>
@@ -50,10 +51,12 @@
 		<aspectj.version>1.6.11</aspectj.version>
 
 		<!-- database -->
-		<tomcat-jdbc.version>7.0.20</tomcat-jdbc.version>
+		<tomcat-jdbc.version>7.0.21</tomcat-jdbc.version>
 		<tomcat-slf4j.version>1.0.0</tomcat-slf4j.version>
+		<hsqldb.version>2.2.5</hsqldb.version>
 		<h2.version>1.3.159</h2.version>
-		<spring-dbunit.version>1.0.3</spring-dbunit.version>
+		<postgresql.version>9.0-801.jdbc4</postgresql.version>
+		<spring-dbunit.version>1.1.0</spring-dbunit.version>
 
 		<!-- cache -->
 		<ehcache.version>2.4.4</ehcache.version>
@@ -201,6 +204,21 @@
 				<version>${h2.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>${hsqldb.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.excilys.ebi.spring-dbunit</groupId>
+				<artifactId>spring-dbunit-core</artifactId>
+				<version>${spring-dbunit.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>com.excilys.ebi.spring-dbunit</groupId>
 				<artifactId>spring-dbunit-servlet</artifactId>
 				<version>${spring-dbunit.version}</version>
@@ -274,6 +292,11 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
@@ -599,6 +622,11 @@
 							</configuration>
 						</execution>
 					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>${build-helper-maven-plugin}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

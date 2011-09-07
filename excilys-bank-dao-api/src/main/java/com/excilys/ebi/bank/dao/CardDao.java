@@ -1,10 +1,10 @@
 package com.excilys.ebi.bank.dao;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.excilys.ebi.bank.model.entity.Card;
 
-public interface CardDao {
+public interface CardDao extends JpaRepository<Card, Integer> {
 
-	List<Card> findByAccountNumber(String accountNumber);
+	Card findByNumber(String number);
 }

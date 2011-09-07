@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<setup xmlns="http://databene.org/benerator/0.6.5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://databene.org/benerator/0.6.5 http://databene.org/benerator-0.6.5.xsd">
+
+	<import defaults="true" />
+
+	<import class="com.excilys.ebi.bank.data.generator.Config" />
+	<import class="org.databene.benerator.util.RandomUtil" />
+	<import class="org.databene.benerator.primitive.IncrementalIdGenerator" />
+	<import class="java.text.SimpleDateFormat" />
+
+	<bean id="dbunit" class="org.databene.platform.dbunit.DbUnitEntityExporter">
+		<property name="uri" value="src/main/generated-sources/data/dataSet-03-data-databene.xml" />
+	</bean>
+
+	<generate type="USR" consumer="dbunit" count="3000">
+		<id name="ID" type="long" unique="true" />
+		<attribute name="FIRSTNAME" type="string" pattern="[A-Z][a-z]{5,12}" />
+		<attribute name="LASTNAME" type="string" pattern="[A-Z][a-z]{8,12}" />
+		<attribute name="LOGIN" type="string" script="{'user' + USR.ID}" />
+		<attribute name="PASSWORD" type="string" script="{'password' + USR.ID}" />
+		<attribute name="EMAIL" type="string" pattern="[a-z][a-z0-9_\.]{5,12}@[a-z]{7,12}\.com" />
+
+		<generate type="USR_ROLE" minCount="1" maxCount="2" consumer="dbunit">
+			<attribute name="USR_ID" type="long" script="{USR.ID}" />
+			<attribute name="ROLE_ID" type="string" values="'ROLE_ADMIN','ROLE_USER'" unique="true" />
+		</generate>
+
+		<generate type="ACCOUNT" count="4" consumer="dbunit">
+			<variable name="account_type" source="ref_account_types.ent.csv" distribution="random" />
+
+			<id name="ID" type="long" generator="IncrementalIdGenerator" unique="true" />
+			<attribute name="NUMBER" type="string" script="{'ACC' + ACCOUNT.ID}" />
+			<attribute name="TYPE" type="string" script="{account_type.id}" />
+			<attribute name="BALANCE" type="big_decimal" min="-10000" max="100000" />
+			<attribute name="BALANCE_DATE" type="date" min="{Config.MIN_ACCOUNT_BALANCE_DATE}" max="{Config.MAX_ACCOUNT_BALANCE_DATE}" />
+
+			<generate type="USR_ACCOUNT" count="1" consumer="dbunit">
+				<attribute name="USR_ID" type="long" script="{USR.ID}" />
+				<attribute name="ACCOUNT_ID" type="long" script="{ACCOUNT.ID}" />
+			</generate>
+
+			<!-- non card operations -->
+			<generate type="OPERATION" minCount="50" maxCount="100" consumer="dbunit">
+				<variable name="operation_status" source="ref_operation_statuses.ent.csv" distribution="random" />
+				<variable name="operation_type" source="ref_operation_types.ent.csv" distribution="random" />
+				<variable name="op_name" script="{operation_type.id=='TRANSFER'?'transfer':'cash'}" />
+
+				<id name="ID" type="long" generator="IncrementalIdGenerator" unique="true" />
+				<attribute name="ACCOUNT" type="long" script="{ACCOUNT.ID}" />
+				<attribute name="AMOUNT" type="big_decimal" min="-1000" max="2000" nullable="false" />
+				<attribute name="DATE" type="date" min="{Config.MIN_OPERATION_DATE}" max="{Config.MAX_OPERATION_DATE}" />
+				<attribute name="YEARMONTH" type="string" script="{new SimpleDateFormat('yyyyMM').format(OPERATION.DATE)}" />
+				<attribute name="NAME" type="string" script="{op_name + ' ' + (OPERATION.AMOUNT > 0 ? '+':'') + OPERATION.AMOUNT}" />
+				<attribute name="STATUS" type="string" constant="RESOLVED" />
+				<attribute name="TYPE" type="string" script="{operation_type.id}" />
+			</generate>
+
+			<!-- cards, only for checking accounts -->
+			<generate type="CARD" minCount="0" maxCount="{account_type.category=='CHECKING'?2:0}" consumer="dbunit">
+				<variable name="card_type" source="ref_card_types.ent.csv" distribution="random" />
+				<variable name="ispending" script="{(RandomUtil.randomInt(1,100) &lt; Config.PENDING_WEIGHT) &amp;&amp; card_type.id == 'CREDIT' }" />
+
+				<id name="ID" type="long" generator="IncrementalIdGenerator" unique="true" />
+				<attribute name="NUMBER" type="string" script="{'CARD' + CARD.ID}" />
+				<attribute name="ACCOUNT" type="long" script="{ACCOUNT.ID}" />
+				<attribute name="TYPE" type="string" script="{card_type.id}" />
+				<attribute name="PENDING" type="big_decimal" min="-1000" max="2000" condition="ispending" />
+				<attribute name="PENDING_DATE" type="date" min="{Config.MIN_CARD_PENDING_DATE}" max="{Config.MAX_CARD_PENDING_DATE}" condition="ispending" />
+
+				<!-- card operations -->
+				<generate type="OPERATION" minCount="50" maxCount="100" consumer="dbunit">
+					<variable name="operation_status" source="ref_operation_statuses.ent.csv" distribution="random" />
+
+					<id name="ID" type="long" generator="new IncrementalIdGenerator(Config.MIN_CARD_OPERATION_ID)" unique="true" />
+					<attribute name="ACCOUNT" type="long" script="{ACCOUNT.ID}" />
+					<attribute name="AMOUNT" type="big_decimal" min="-1000" max="2000" nullable="false" />
+					<attribute name="DATE" type="date" min="{Config.MIN_OPERATION_DATE}" max="{Config.MAX_OPERATION_DATE}" />
+					<attribute name="YEARMONTH" type="string" script="{new SimpleDateFormat('yyyyMM').format(OPERATION.DATE)}" />
+					<attribute name="NAME" type="string" script="{'card' + (OPERATION.AMOUNT > 0 ? ' +':' ') + OPERATION.AMOUNT}" />
+					<attribute name="CARD" type="long" script="{CARD.ID}" />
+					<attribute name="STATUS" type="string" script="{CARD.TYPE=='CREDIT'?operation_status.id:'RESOLVED'}" />
+					<attribute name="TYPE" type="string" constant="CARD" />
+				</generate>
+			</generate>
+		</generate>
+	</generate>
+
+</setup>

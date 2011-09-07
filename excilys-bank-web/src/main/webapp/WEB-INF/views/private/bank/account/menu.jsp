@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="bk" uri="http://www.excilys.com/jsp/jstl/bank"%>
-<div id="menu" class="${bk:if(empty account.cards, 'nocards', '')}">
+<div class="submenu ${bk:if(empty account.cards, 'nocards', '')}">
 	<div class="block left">
 		<div class="body">
 			<div class="title ${bk:if(page.hasAncestor('ACCOUNT_OPERATIONS'), 'active', '')}">

@@ -16,6 +16,7 @@ import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Sid;
 
 import com.excilys.ebi.bank.model.IConstants;
+import com.excilys.ebi.bank.model.entity.ref.Role;
 import com.excilys.ebi.bank.service.BankService;
 import com.googlecode.ehcache.annotations.Cacheable;
 
@@ -45,7 +46,7 @@ public class BankAclService implements AclService {
 		LOGGER.info("type={} id={}", object.getType(), object.getIdentifier());
 
 		for (Sid sid : sids) {
-			if (sid instanceof GrantedAuthoritySid && GrantedAuthoritySid.class.cast(sid).getGrantedAuthority().equals("ROLE_ADMIN")) {
+			if (sid instanceof GrantedAuthoritySid && GrantedAuthoritySid.class.cast(sid).getGrantedAuthority().equals(Role.ROLE_ADMIN.name())) {
 				acl.getEntries().add(new SimpleAccessControlEntryImpl(acl, sid, BasePermission.READ, true));
 				acl.getEntries().add(new SimpleAccessControlEntryImpl(acl, sid, BasePermission.WRITE, true));
 				acl.getEntries().add(new SimpleAccessControlEntryImpl(acl, sid, BasePermission.ADMINISTRATION, true));

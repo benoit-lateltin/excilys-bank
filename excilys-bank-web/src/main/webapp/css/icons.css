@@ -24,6 +24,13 @@ a.icon,span.icon {
 	background-repeat: no-repeat;
 }
 
+.admin {
+	height: 32px;
+	width: 32px;
+	background-image: url('../img/gear.png'); /** sprite-ref: sprite; */
+	background-repeat: no-repeat;
+}
+
 .checking {
 	height: 32px;
 	width: 32px;
