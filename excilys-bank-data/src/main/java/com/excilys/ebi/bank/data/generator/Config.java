@@ -19,12 +19,12 @@ public class Config {
 
 	static {
 		try {
-			MIN_OPERATION_DATE = FORMATTER.parse("2011-02-01");
-			MAX_OPERATION_DATE = FORMATTER.parse("2011-09-02");
+			MIN_OPERATION_DATE = FORMATTER.parse("2011-03-01");
+			MAX_OPERATION_DATE = FORMATTER.parse("2011-09-07");
 			MIN_ACCOUNT_BALANCE_DATE = FORMATTER.parse("2011-09-01");
-			MAX_ACCOUNT_BALANCE_DATE = FORMATTER.parse("2011-09-02");
+			MAX_ACCOUNT_BALANCE_DATE = FORMATTER.parse("2011-09-07");
 			MIN_CARD_PENDING_DATE = FORMATTER.parse("2011-09-01");
-			MAX_CARD_PENDING_DATE = FORMATTER.parse("2011-09-02");
+			MAX_CARD_PENDING_DATE = FORMATTER.parse("2011-09-07");
 		} catch (ParseException e) {
 			throw new ExceptionInInitializerError(e);
 		}

@@ -40,7 +40,7 @@
 			</generate>
 
 			<!-- non card operations -->
-			<generate type="OPERATION" minCount="50" maxCount="100" consumer="dbunit">
+			<generate type="OPERATION" minCount="100" maxCount="200" consumer="dbunit">
 				<variable name="operation_status" source="ref_operation_statuses.ent.csv" distribution="random" />
 				<variable name="operation_type" source="ref_operation_types.ent.csv" distribution="random" />
 				<variable name="op_name" script="{operation_type.id=='TRANSFER'?'transfer':'cash'}" />
