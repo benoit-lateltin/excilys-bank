@@ -67,4 +67,64 @@
 			${bk:if(boolean, 'then', 'else')}
 		</example>
 	</function>
+
+	<function>
+		<description>
+			Has a page this ancestor (deprecated, should use EL 2.2)
+		</description>
+		<name>hasAncestor</name>
+		<function-class>com.excilys.ebi.bank.web.tld.Functions</function-class>
+		<function-signature>boolean hasAncestor(com.excilys.ebi.bank.web.interceptor.page.WebPage, com.excilys.ebi.bank.web.interceptor.page.WebPage)</function-signature>
+		<example>
+			${bk:hasAncestor(page, 'ADMIN')}
+		</example>
+	</function>
+
+	<function>
+		<description>
+			(deprecated, should use EL 2.2)
+		</description>
+		<name>monthOfYear</name>
+		<function-class>com.excilys.ebi.bank.web.tld.Functions</function-class>
+		<function-signature>int monthOfYear(org.joda.time.DateTime)</function-signature>
+		<example>
+			${bk:monthOfYear(date)}
+		</example>
+	</function>
+
+	<function>
+		<description>
+			(deprecated, should use EL 2.2)
+		</description>
+		<name>year</name>
+		<function-class>com.excilys.ebi.bank.web.tld.Functions</function-class>
+		<function-signature>int year(org.joda.time.DateTime)</function-signature>
+		<example>
+			${bk:year(date)}
+		</example>
+	</function>
+
+	<function>
+		<description>
+			(deprecated, should use EL 2.2)
+		</description>
+		<name>monthOfYearAsText</name>
+		<function-class>com.excilys.ebi.bank.web.tld.Functions</function-class>
+		<function-signature>java.lang.String monthOfYearAsText(org.joda.time.DateTime)</function-signature>
+		<example>
+			${bk:monthOfYearAsText(date)}
+		</example>
+	</function>
+
+	<function>
+		<description>
+			(deprecated, should use EL 2.2)
+		</description>
+		<name>size</name>
+		<function-class>com.excilys.ebi.bank.web.tld.Functions</function-class>
+		<function-signature>int size(java.lang.Object)</function-signature>
+		<example>
+			${size(collection)}
+		</example>
+	</function>
 </taglib>

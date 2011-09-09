@@ -4,9 +4,13 @@ import java.math.BigDecimal;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.joda.time.DateTime;
 import org.springframework.security.web.util.UrlUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.excilys.ebi.bank.web.interceptor.page.WebPage;
 
 public class Functions {
 
@@ -37,5 +41,25 @@ public class Functions {
 
 	public static String ifThenElse(boolean when, String then, String otherwise) {
 		return when ? then : otherwise;
+	}
+
+	public static boolean hasAncestor(WebPage page, WebPage ancestor) {
+		return page.hasAncestor(ancestor);
+	}
+
+	public static int year(DateTime dateTime) {
+		return dateTime.year().get();
+	}
+
+	public static int monthOfYear(DateTime dateTime) {
+		return dateTime.monthOfYear().get();
+	}
+
+	public static String monthOfYearAsText(DateTime dateTime) {
+		return dateTime.monthOfYear().getAsText();
+	}
+
+	public static int size(Object object) {
+		return CollectionUtils.size(object);
 	}
 }

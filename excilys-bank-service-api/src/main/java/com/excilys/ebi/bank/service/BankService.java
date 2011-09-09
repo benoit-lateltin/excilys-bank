@@ -51,4 +51,10 @@ public interface BankService {
 	Page<Operation> findTransferOperationsByAccountId(Integer accountId, int page);
 
 	void performTransfer(Integer debitedAccountId, Integer creditedAccountId, BigDecimal amount) throws UnsufficientBalanceException;
+
+	long countUsers();
+
+	long countAccounts();
+
+	long countOperations();
 }

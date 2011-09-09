@@ -3,16 +3,20 @@
 <ul class="tabs">
 	<c:forEach items="${calendar.months}" var="month">
 		<li class="${bk:if(month eq calendar.selectedMonth, 'active', '')}">
-			<a href="${bk:ctx()}/private/bank/account/${account.number}/cards/${selectedCardNumber}/year/${month.year().get()}/month/${month.monthOfYear().get()}/operations.html">
-				${month.monthOfYear().getAsText()}
+			<a href="${bk:ctx()}/private/bank/account/${account.number}/cards/${selectedCardNumber}/year/${bk:year(month)}/month/${bk:monthOfYear(month)}/operations.html">
+				${bk:monthOfYearAsText(month)}
 			</a>
+<%-- 			<a href="${bk:ctx()}/private/bank/account/${account.number}/cards/${selectedCardNumber}/year/${month.year().get()}/month/${month.monthOfYear().get()}/operations.html"> --%>
+<%-- 				${month.monthOfYear().getAsText()} --%>
+<!-- 			</a> -->
 		</li>
 	</c:forEach>
 	<li class="right ${bk:if(empty calendar.selectedMonth, 'active', '')}">
 		<a href="${bk:ctx()}/private/bank/account/${account.number}/cards/${selectedCardNumber}/pending/operations.html">Pending</a>
 	</li>
 	<c:choose>
-		<c:when test="${account.cards.size() == 1}">
+<%-- 		<c:when test="${account.cards.size() == 1}"> --%>
+			<c:when test="${bk:size(account.cards) == 1}">
 			<li>
 				<c:out value="${account.cards[0].type.id}"/> - <c:out value="${account.cards[0].number}"/>
 			</li>

@@ -48,11 +48,12 @@ public class LoginController {
 
 	private void handleException(Exception loginException) {
 
-		if (messages instanceof BadCredentialsException) {
+		if (loginException instanceof BadCredentialsException) {
 			messages.add("message.error.login.badCredentials");
 
 		} else {
-			messages.add("message.error.login", ExceptionUtils.getRootCause(loginException).getMessage());
+			Throwable cause = ExceptionUtils.getRootCause(loginException);
+			messages.add("message.error.login", cause != null ? cause.getMessage() : loginException.getMessage());
 		}
 	}
 }

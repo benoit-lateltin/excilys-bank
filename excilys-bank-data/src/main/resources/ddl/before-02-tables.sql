@@ -7,7 +7,6 @@ CREATE TABLE ref_account_category
 WITH (
 	OIDS=FALSE
 );
-ALTER TABLE ref_account_category OWNER TO gatling;
 
 CREATE TABLE ref_account_type
 (
@@ -22,7 +21,6 @@ CREATE TABLE ref_account_type
 WITH (
 	OIDS=FALSE
 );
-ALTER TABLE ref_account_type OWNER TO gatling;
 
 CREATE TABLE ref_card_type
 (
@@ -33,7 +31,6 @@ CREATE TABLE ref_card_type
 WITH (
 	OIDS=FALSE
 );
-ALTER TABLE ref_card_type OWNER TO gatling;
 
 CREATE TABLE ref_operation_status
 (
@@ -44,7 +41,6 @@ CREATE TABLE ref_operation_status
 WITH (
 	OIDS=FALSE
 );
-ALTER TABLE ref_operation_status OWNER TO gatling;
 
 CREATE TABLE ref_operation_type
 (
@@ -55,7 +51,6 @@ CREATE TABLE ref_operation_type
 WITH (
 	OIDS=FALSE
 );
-ALTER TABLE ref_operation_type OWNER TO gatling;
 
 CREATE TABLE usr
 (
@@ -71,7 +66,6 @@ CREATE TABLE usr
 WITH (
 	OIDS=FALSE
 );
-ALTER TABLE usr OWNER TO gatling;
 
 CREATE TABLE ref_role
 (
@@ -82,7 +76,6 @@ CREATE TABLE ref_role
 WITH (
 	OIDS=FALSE
 );
-ALTER TABLE ref_role OWNER TO gatling;
 
 CREATE TABLE usr_role
 (
@@ -98,7 +91,6 @@ CREATE TABLE usr_role
 WITH (
 	OIDS=FALSE
 );
-ALTER TABLE usr_role OWNER TO gatling;
 
 CREATE TABLE account
 (
@@ -116,7 +108,6 @@ CREATE TABLE account
 WITH (
 	OIDS=FALSE
 );
-ALTER TABLE account OWNER TO gatling;
 
 CREATE TABLE usr_account
 (
@@ -132,7 +123,6 @@ CREATE TABLE usr_account
 WITH (
 	OIDS=FALSE
 );
-ALTER TABLE usr_account OWNER TO gatling;
 
 CREATE TABLE card
 (
@@ -154,7 +144,6 @@ CREATE TABLE card
 WITH (
 	OIDS=FALSE
 );
-ALTER TABLE card OWNER TO gatling;
 
 CREATE TABLE operation
 (
@@ -183,4 +172,3 @@ CREATE TABLE operation
 WITH (
 	OIDS=FALSE
 );
-ALTER TABLE operation OWNER TO gatling;

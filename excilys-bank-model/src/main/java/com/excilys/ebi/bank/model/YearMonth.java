@@ -9,9 +9,15 @@ public class YearMonth {
 
 	private final int monthOfYear;
 
+	private final Range<DateTime> range;
+
 	public YearMonth(int year, int monthOfYear) {
 		this.year = year;
 		this.monthOfYear = monthOfYear;
+
+		DateMidnight start = new DateMidnight().withYear(year).withMonthOfYear(monthOfYear);
+		DateMidnight end = start.plusMonths(1);
+		range = new Range<DateTime>(start.toDateTime(), end.toDateTime());
 	}
 
 	public int getYear() {
@@ -22,13 +28,7 @@ public class YearMonth {
 		return monthOfYear;
 	}
 
-	public int getValue() {
-		return year * 100 + monthOfYear;
-	}
-
 	public Range<DateTime> getRange() {
-		DateMidnight start = new DateMidnight().withYear(year).withMonthOfYear(monthOfYear);
-		DateMidnight end = start.plusMonths(1);
-		return new Range<DateTime>(start.toDateTime(), end.toDateTime());
+		return range;
 	}
 }

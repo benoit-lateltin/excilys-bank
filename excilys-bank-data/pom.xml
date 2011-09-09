@@ -6,6 +6,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>excilys-bank-data</artifactId>
+	<packaging>war</packaging>
 
 	<properties>
 		<antlr-runtime.version>3.4</antlr-runtime.version>
@@ -53,12 +54,12 @@
 			<artifactId>spring-jdbc</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.excilys.ebi.spring-dbunit</groupId>
 			<artifactId>spring-dbunit-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.cloudfoundry</groupId>
+			<artifactId>cloudfoundry-runtime</artifactId>
 		</dependency>
 
 		<!-- runtime -->
@@ -82,6 +83,10 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -89,7 +94,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.7</version>
 				<executions>
 					<execution>
 						<id>add-source</id>

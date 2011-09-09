@@ -6,12 +6,12 @@ import javax.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
-import com.excilys.ebi.bank.dao.UserDao;
+import com.excilys.ebi.bank.dao.UserDaoCustom;
 import com.excilys.ebi.bank.model.entity.QUser;
 import com.excilys.ebi.bank.model.entity.User;
 
 @Repository
-public class UserDaoImpl extends QueryDslRepositorySupport implements UserDao {
+public class UserDaoImpl extends QueryDslRepositorySupport implements UserDaoCustom {
 
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {

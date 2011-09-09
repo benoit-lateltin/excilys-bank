@@ -19,6 +19,7 @@ import com.excilys.ebi.bank.dao.CardDao;
 import com.excilys.ebi.bank.dao.OperationDao;
 import com.excilys.ebi.bank.dao.OperationStatusRefDao;
 import com.excilys.ebi.bank.dao.OperationTypeRefDao;
+import com.excilys.ebi.bank.dao.UserDao;
 import com.excilys.ebi.bank.model.IConstants;
 import com.excilys.ebi.bank.model.YearMonth;
 import com.excilys.ebi.bank.model.entity.Account;
@@ -38,6 +39,9 @@ import com.googlecode.ehcache.annotations.Cacheable;
 public class BankServiceImpl implements BankService {
 
 	private static final int PAGE_SIZE = 20;
+
+	@Autowired
+	private UserDao userDao;
 
 	@Autowired
 	private AccountDao accountDao;
@@ -175,11 +179,11 @@ public class BankServiceImpl implements BankService {
 	@Transactional(readOnly = false)
 	public void performTransfer(Integer debitedAccountId, Integer creditedAccountId, BigDecimal amount) throws UnsufficientBalanceException {
 
-		Assert.notNull(debitedAccountId);
-		Assert.notNull(creditedAccountId);
-		Assert.notNull(amount);
-		Assert.isTrue(amount.compareTo(BigDecimal.valueOf(10L)) > 0);
-		Assert.isTrue(!debitedAccountId.equals(creditedAccountId));
+		Assert.notNull(debitedAccountId, "debitedAccountId is required");
+		Assert.notNull(creditedAccountId, "creditedAccountId is required");
+		Assert.notNull(amount, "amount is required");
+		Assert.isTrue(amount.compareTo(BigDecimal.valueOf(10L)) >= 0, "amount must be >= 10");
+		Assert.isTrue(!debitedAccountId.equals(creditedAccountId), "accounts must be different");
 
 		Account debitedAccount = accountDao.findOne(debitedAccountId);
 		Assert.notNull(debitedAccount, "unknown account");
@@ -205,5 +209,20 @@ public class BankServiceImpl implements BankService {
 
 		operationDao.save(debitOperation);
 		operationDao.save(creditOperation);
+	}
+
+	@Override
+	public long countUsers() {
+		return userDao.count();
+	}
+
+	@Override
+	public long countAccounts() {
+		return accountDao.count();
+	}
+
+	@Override
+	public long countOperations() {
+		return operationDao.count();
 	}
 }

@@ -1,10 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <div class="block">
 	<div class="body">
 		<form:form commandName="transferCommand" action="perform.html">
 			<fieldset>
-				<legend>Perform a new transfer</legend>
+				<legend><spring:message code="transfers.form.title" /></legend>
 				<ol>
 					<li>
 						<label for="debitedAccountNumber">Debited account</label>

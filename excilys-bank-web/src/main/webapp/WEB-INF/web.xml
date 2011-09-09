@@ -5,6 +5,11 @@
 	<display-name>Excilys Bank</display-name>
 
 	<context-param>
+		<param-name>contextInitializerClasses</param-name>
+		<param-value>com.excilys.ebi.bank.web.context.CloudApplicationContextInitializer</param-value>
+	</context-param>
+
+	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:context/applicationContext-*.xml</param-value>
 	</context-param>

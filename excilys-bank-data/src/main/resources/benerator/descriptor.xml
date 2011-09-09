@@ -11,7 +11,7 @@
 		<property name="uri" value="src/main/generated-sources/data/dataSet-03-data-databene.xml" />
 	</bean>
 
-	<generate type="USR" consumer="dbunit" count="3000">
+	<generate type="USR" consumer="dbunit" count="500">
 		<id name="ID" type="long" unique="true" />
 		<attribute name="FIRSTNAME" type="string" pattern="[A-Z][a-z]{5,12}" />
 		<attribute name="LASTNAME" type="string" pattern="[A-Z][a-z]{8,12}" />

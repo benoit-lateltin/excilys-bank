@@ -2,7 +2,8 @@
 <%@ taglib prefix="bk" uri="http://www.excilys.com/jsp/jstl/bank"%>
 <c:choose>
 	<c:when test="${not empty calendar.selectedMonth}">
-		<c:set var="urlStart" value="${bk:ctx()}/private/bank/account/${account.number}/cards/${selectedCardNumber}/year/${calendar.selectedMonth.year().get()}/month/${calendar.selectedMonth.monthOfYear().get()}/page/" />
+<%-- 		<c:set var="urlStart" value="${bk:ctx()}/private/bank/account/${account.number}/cards/${selectedCardNumber}/year/${calendar.selectedMonth.year().get()}/month/${calendar.selectedMonth.monthOfYear().get()}/page/" /> --%>
+		<c:set var="urlStart" value="${bk:ctx()}/private/bank/account/${account.number}/cards/${selectedCardNumber}/year/${bk:year(calendar.selectedMonth)}/month/${bk:monthOfYear(calendar.selectedMonth)}/page/" />
 	</c:when>
 	<c:otherwise>
 		<c:set var="urlStart" value="${bk:ctx()}/private/bank/account/${account.number}/cards/${selectedCardNumber}/pending/page/" />
@@ -14,7 +15,6 @@ function changePage(page) {
 	paginate("${urlStart}" + page + "${urlEnd}");
 }
 changePage(0);
-
 </script>
 <script id="tbodyTemplate" type="text/x-jquery-tmpl">
 {{each lines}}
@@ -65,16 +65,18 @@ changePage(0);
 	</div>
 	<div class="cb"></div>
 </script>
-<c:if test="${account.cards.size() > 1}">
-<c:set var="urlStart" value="${bk:ctx()}/private/bank/account/${account.number}/cards/" />
-<c:choose>
-	<c:when test="${not empty calendar.selectedMonth}">
-		<c:set var="urlEnd" value="/year/${calendar.selectedMonth.year().get()}/month/${calendar.selectedMonth.monthOfYear().get()}/operations.html" />
-	</c:when>
-	<c:otherwise>
-		<c:set var="urlEnd" value="/pending/operations.html" />
-	</c:otherwise>
-</c:choose>
+<%-- <c:if test="${account.cards.size() > 1}"> --%>
+<c:if test="${bk:size(account.cards) > 1}">
+	<c:set var="urlStart" value="${bk:ctx()}/private/bank/account/${account.number}/cards/" />
+	<c:choose>
+		<c:when test="${not empty calendar.selectedMonth}">
+	<%-- 		<c:set var="urlEnd" value="/year/${calendar.selectedMonth.year().get()}/month/${calendar.selectedMonth.monthOfYear().get()}/operations.html" /> --%>
+			<c:set var="urlEnd" value="/year/${bk:year(calendar.selectedMonth)}/month/${bk:monthOfYear(calendar.selectedMonth)}/operations.html" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="urlEnd" value="/pending/operations.html" />
+		</c:otherwise>
+	</c:choose>
 <script>
 $(function(){
 	$('#selectedCard').bind('change', function () {

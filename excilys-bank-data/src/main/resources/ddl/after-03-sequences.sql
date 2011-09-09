@@ -1,0 +1,1 @@
+ALTER SEQUENCE operation_id_seq RESTART WITH 9500000;

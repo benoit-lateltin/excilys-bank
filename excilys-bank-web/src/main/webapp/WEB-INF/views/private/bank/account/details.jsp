@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="bk" uri="http://www.excilys.com/jsp/jstl/bank"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags"%>
 <div class="block">
 	<div class="body">
 		<div class="left">
@@ -17,16 +19,19 @@
 			<table class="accountDetails">
 				<tbody>
 					<tr>
-						<td>Solde au ${account.balanceDate.toString("dd/MM/yyyy")}</td>
+						<td>
+							<spring:message code="accounts.details.balance" />
+							<joda:format value="${account.balanceDate}" pattern="MM/dd/yyyy"/>
+						</td>
 						<td class="amount">${bk:amount(account.balance)} &euro;</td>
 					</tr>
 					<tr>
-						<td>Total Pending</td>
-						<td class="amount">${bk:amount(account.getTotalPending())} &euro;</td>
+						<td><spring:message code="accounts.details.pending" /></td>
+						<td class="amount">${bk:amount(account.totalPending)} &euro;</td>
 					</tr>
 					<tr>
-						<td>Estimated balance</td>
-						<td class="amount">${bk:amount(account.getEstimatedBalance())} &euro;</td>
+						<td><spring:message code="accounts.details.estimatedBalance" /></td>
+						<td class="amount">${bk:amount(account.estimatedBalance)} &euro;</td>
 					</tr>
 				</tbody>
 			</table>

@@ -1,7 +1,8 @@
 <%@ taglib prefix="bk" uri="http://www.excilys.com/jsp/jstl/bank"%>
 <script>
 function changePage(page) {
-	paginate("${bk:ctx()}/private/bank/account/${account.number}/year/${calendar.selectedMonth.year().get()}/month/${calendar.selectedMonth.monthOfYear().get()}/page/" + page +"/operations.json");
+<%-- 	paginate("${bk:ctx()}/private/bank/account/${account.number}/year/${calendar.selectedMonth.year().get()}/month/${calendar.selectedMonth.monthOfYear().get()}/page/" + page +"/operations.json");--%>
+	paginate("${bk:ctx()}/private/bank/account/${account.number}/year/${bk:year(calendar.selectedMonth)}/month/${bk:monthOfYear(calendar.selectedMonth)}/page/" + page +"/operations.json");
 }
 changePage(0);
 </script>

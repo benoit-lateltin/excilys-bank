@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="dataSetConfiguration" class="com.excilys.ebi.spring.dbunit.config.DataSetConfiguration">
+		<property name="setUpOperation" value="INSERT" />
+		<property name="dbType" value="${spring-dbunit.dbType}" />
+		<property name="dataSetResourceLocations">
+			<array>
+				<value>classpath:data/dataSet-01-ref.xml</value>
+				<value>classpath:data/dataSet-02-data-manual.xml</value>
+				<value>classpath:data/dataSet-03-data-databene.xml</value>
+			</array>
+		</property>
+		<property name="format" value="FLYWEIGHT_FLAT" />
+		<property name="formatOptions">
+			<bean class="com.excilys.ebi.spring.dbunit.config.DataSetFormatOptions">
+				<property name="dtdLocation" value="${spring-dbunit.dtdLocation}" />
+			</bean>
+		</property>
+		<property name="batchedStatements" value="${spring-dbunit.batchedStatements}" />
+	</bean>
+
+	<bean class="org.springframework.jdbc.datasource.init.DataSourceInitializer" lazy-init="false">
+		<property name="dataSource" ref="ds" />
+		<property name="databasePopulator">
+			<bean class="org.springframework.jdbc.datasource.init.CompositeDatabasePopulator">
+				<property name="populators">
+					<list>
+						<!-- <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/before-01-drop-tables.sql" /> -->
+						<!-- <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/before-02-tables.sql" /> -->
+<!-- 						<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/before-03-grant.sql" /> -->
+						<!-- <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/after-01-indexes.sql" /> -->
+						<!-- <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/after-02-constraint-indexes.sql" /> -->
+						<!-- <bean class="com.excilys.ebi.spring.dbunit.DbUnitDatabasePopulator" p:dataSetConfiguration-ref="dataSetConfiguration" p:phase="SETUP" /> -->
+						<!-- <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/after-01-indexes.sql" /> -->
+						<!-- <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/after-02-constraint-indexes.sql" /> -->
+						<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/after-03-sequences.sql" />
+<!-- 						<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/after-04-analyze.sql" /> -->
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>
+
