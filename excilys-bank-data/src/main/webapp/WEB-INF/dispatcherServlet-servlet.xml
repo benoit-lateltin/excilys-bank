@@ -8,15 +8,13 @@
 
 	<import resource="classpath:context/applicationContext-spring-log.xml" />
 
-	<context:component-scan base-package="com.excilys.ebi.bank.web" />
+	<context:component-scan base-package="com.excilys.ebi.bank.data.controller" />
 	<context:annotation-config />
 
 	<!-- mvc -->
 	<mvc:annotation-driven />
 
-	<mvc:view-controller path="hello.html" view-name="hello" />
-
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>

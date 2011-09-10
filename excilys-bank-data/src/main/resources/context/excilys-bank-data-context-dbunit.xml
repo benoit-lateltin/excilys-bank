@@ -4,16 +4,9 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="dataSetConfiguration" class="com.excilys.ebi.spring.dbunit.config.DataSetConfiguration">
+	<bean id="abstractDataSetConfiguration" class="com.excilys.ebi.spring.dbunit.config.DataSetConfiguration" abstract="true">
 		<property name="setUpOperation" value="INSERT" />
 		<property name="dbType" value="${spring-dbunit.dbType}" />
-		<property name="dataSetResourceLocations">
-			<array>
-				<value>classpath:data/dataSet-01-ref.xml</value>
-				<value>classpath:data/dataSet-02-data-manual.xml</value>
-				<value>classpath:data/dataSet-03-data-databene.xml</value>
-			</array>
-		</property>
 		<property name="format" value="FLYWEIGHT_FLAT" />
 		<property name="formatOptions">
 			<bean class="com.excilys.ebi.spring.dbunit.config.DataSetFormatOptions">
@@ -23,26 +16,19 @@
 		<property name="batchedStatements" value="${spring-dbunit.batchedStatements}" />
 	</bean>
 
-	<bean class="org.springframework.jdbc.datasource.init.DataSourceInitializer" lazy-init="false">
-		<property name="dataSource" ref="ds" />
-		<property name="databasePopulator">
-			<bean class="org.springframework.jdbc.datasource.init.CompositeDatabasePopulator">
-				<property name="populators">
-					<list>
-						<!-- <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/before-01-drop-tables.sql" /> -->
-						<!-- <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/before-02-tables.sql" /> -->
-<!-- 						<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/before-03-grant.sql" /> -->
-						<!-- <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/after-01-indexes.sql" /> -->
-						<!-- <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/after-02-constraint-indexes.sql" /> -->
-						<!-- <bean class="com.excilys.ebi.spring.dbunit.DbUnitDatabasePopulator" p:dataSetConfiguration-ref="dataSetConfiguration" p:phase="SETUP" /> -->
-						<!-- <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/after-01-indexes.sql" /> -->
-						<!-- <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/after-02-constraint-indexes.sql" /> -->
-						<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/after-03-sequences.sql" />
-<!-- 						<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:ddl/after-04-analyze.sql" /> -->
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
+	<bean id="dataSetConfiguration" parent="abstractDataSetConfiguration" p:dataSetResourceLocation="classpath:data/dataSet-01-ref.xml,classpath:data/dataSet-02-data-manual.xml,classpath:data/dataSet-03-data-databene.xml" />
+
+	<bean id="resourceScript" class="com.excilys.ebi.bank.data.model.ResourceScript" abstract="true" />
+	<bean id="dbUnitScript" class="com.excilys.ebi.bank.data.model.DbUnitScript" abstract="true" />
+
+	<bean parent="resourceScript" p:name="Drop tables" p:script="classpath:ddl/before-01-drop-tables.sql" />
+	<bean parent="resourceScript" p:name="Create tables" p:script="classpath:ddl/before-02-tables.sql" />
+	<bean parent="dbUnitScript" p:name="Load data" p:script-ref="dataSetConfiguration" />
+	<bean parent="resourceScript" p:name="Grant" p:script="classpath:ddl/before-03-grant.sql" />
+	<bean parent="resourceScript" p:name="Create index" p:script="classpath:ddl/after-01-indexes.sql" />
+	<bean parent="resourceScript" p:name="Create constraint index" p:script="classpath:ddl/after-02-constraint-indexes.sql" />
+	<bean parent="resourceScript" p:name="Restart sequences" p:script="classpath:ddl/after-03-sequences.sql" />
+	<bean parent="resourceScript" p:name="Analyze" p:script="classpath:ddl/after-04-analyze.sql" />
+
 </beans>
 
