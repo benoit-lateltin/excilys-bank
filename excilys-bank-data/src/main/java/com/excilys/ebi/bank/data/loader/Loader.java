@@ -17,7 +17,7 @@ public class Loader {
 	private void run() {
 		StopWatch sw = new StopWatch("Loader.run");
 		sw.start("initDatabase");
-		new ClassPathXmlApplicationContext("applicationContext.xml");
+		new ClassPathXmlApplicationContext("context/applicationContext.xml");
 		sw.stop();
 
 		LOGGER.info(sw.prettyPrint());
