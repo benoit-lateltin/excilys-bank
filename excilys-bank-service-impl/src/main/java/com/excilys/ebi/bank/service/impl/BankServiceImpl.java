@@ -191,9 +191,7 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	public Page<Operation> findTransferOperationsByAccountId(Integer accountId, int page) {
-
-		Pageable pageable = new PageRequest(page, PAGE_SIZE);
-		return operationDao.findTransferByAccountId(accountId, pageable);
+		return operationDao.findTransferByAccountId(accountId, null);
 	}
 
 	@Override

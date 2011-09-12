@@ -35,3 +35,11 @@
 	margin: auto;
 	width: 150px;
 }
+
+.block.transfers {
+	height: 450px;
+}
+
+.block.transfers #operationsContainer {
+	overflow-y: auto;
+}

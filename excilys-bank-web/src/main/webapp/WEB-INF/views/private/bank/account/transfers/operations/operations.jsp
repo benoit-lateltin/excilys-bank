@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="bk" uri="http://www.excilys.com/jsp/jstl/bank"%>
-<div class="block">
+<div class="block transfers">
 	<div id="operationsContainer" class="body">
 		<table id="operations" class="operations striped">
 			<thead>

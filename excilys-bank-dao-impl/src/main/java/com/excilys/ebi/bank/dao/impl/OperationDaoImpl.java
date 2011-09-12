@@ -39,7 +39,7 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 	}
 
 	protected JPQLQuery applyPagination(JPQLQuery query, Pageable pageable) {
-		return query.offset(pageable.getOffset()).limit(pageable.getPageSize());
+		return pageable != null ? query.offset(pageable.getOffset()).limit(pageable.getPageSize()) : query;
 	}
 
 	@Override
