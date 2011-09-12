@@ -2,7 +2,6 @@ package com.excilys.ebi.bank.model.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.Format;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang.time.FastDateFormat;
 import org.joda.time.DateTime;
 
 import com.excilys.ebi.bank.model.entity.ref.OperationSign;
@@ -26,8 +24,6 @@ import com.excilys.ebi.bank.model.entity.ref.OperationTypeRef;
 @Entity
 @Table(name = "OPERATION")
 public class Operation implements Serializable {
-
-	private static final Format YEARMONTH_FORMAT = FastDateFormat.getInstance("yyyyMM");
 
 	/**
 	 * serialVersionUID

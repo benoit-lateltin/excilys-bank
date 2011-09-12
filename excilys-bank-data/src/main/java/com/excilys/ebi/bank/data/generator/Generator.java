@@ -13,6 +13,7 @@ public class Generator {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
+
 		Benerator.runFile("benerator/descriptor.xml", new LoggingInfoPrinter(LogCategories.CONFIG));
 	}
 }

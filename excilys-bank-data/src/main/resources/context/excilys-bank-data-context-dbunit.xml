@@ -16,15 +16,19 @@
 		<property name="batchedStatements" value="${spring-dbunit.batchedStatements}" />
 	</bean>
 
-	<bean id="dataSetConfiguration" parent="abstractDataSetConfiguration" p:dataSetResourceLocation="classpath:data/dataSet-01-ref.xml,classpath:data/dataSet-02-data-manual.xml,classpath:data/dataSet-03-data-databene.xml" />
+	<bean id="dataSetConfigurationRef" parent="abstractDataSetConfiguration" p:dataSetResourceLocation="classpath:data/dataSet-01-ref.xml" />
+	<bean id="dataSetConfigurationManual" parent="abstractDataSetConfiguration" p:dataSetResourceLocation="classpath:data/dataSet-02-data-manual.xml" />
+	<bean id="dataSetConfigurationDatabene" parent="abstractDataSetConfiguration" p:dataSetResourceLocation="classpath:data/dataSet-03-data-databene.xml" />
 
 	<bean id="resourceScript" class="com.excilys.ebi.bank.data.model.ResourceScript" abstract="true" />
 	<bean id="dbUnitScript" class="com.excilys.ebi.bank.data.model.DbUnitScript" abstract="true" />
 
 	<bean parent="resourceScript" p:name="Drop tables" p:script="classpath:ddl/before-01-drop-tables.sql" />
 	<bean parent="resourceScript" p:name="Create tables" p:script="classpath:ddl/before-02-tables.sql" />
-	<bean parent="dbUnitScript" p:name="Load data" p:script-ref="dataSetConfiguration" />
 	<bean parent="resourceScript" p:name="Grant" p:script="classpath:ddl/before-03-grant.sql" />
+	<bean parent="dbUnitScript" p:name="Load ref data" p:script-ref="dataSetConfigurationRef" />
+	<bean parent="dbUnitScript" p:name="Load manual data" p:script-ref="dataSetConfigurationManual" />
+	<bean parent="dbUnitScript" p:name="Load databene data" p:script-ref="dataSetConfigurationDatabene" />
 	<bean parent="resourceScript" p:name="Create index" p:script="classpath:ddl/after-01-indexes.sql" />
 	<bean parent="resourceScript" p:name="Create constraint index" p:script="classpath:ddl/after-02-constraint-indexes.sql" />
 	<bean parent="resourceScript" p:name="Restart sequences" p:script="classpath:ddl/after-03-sequences.sql" />
