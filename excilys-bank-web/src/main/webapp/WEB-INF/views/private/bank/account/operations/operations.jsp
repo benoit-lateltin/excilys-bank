@@ -29,7 +29,7 @@
 					<tr>
 						<td></td>
 						<td>
-							<a href="${bk:ctx()}/private/bank/account/${account.number}/cards/${cardSum.card.number}/operations.html">
+							<a href="${bk:ctx()}/private/bank/account/${account.number}/cards/${cardSum.card.number}/year/${bk:year(calendar.selectedMonth)}/month/${bk:monthOfYear(calendar.selectedMonth)}/operations.html">
 								<span class="icon card left"></span>
 								<span class="iconLabel">${cardSum.card.type.id} ${cardSum.card.number}</span>
 							</a>
