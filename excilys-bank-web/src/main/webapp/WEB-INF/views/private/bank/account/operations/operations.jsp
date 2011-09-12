@@ -35,7 +35,7 @@
 							</a>
 						</td>
 						<c:choose>
-							<c:when test="${cardSum.amount > 0}">
+							<c:when test="${cardSum.amount >= 0}">
 								<td class="amount">${bk:amount(cardSum.amount)}</td>
 								<td class="amount"></td>
 							</c:when>

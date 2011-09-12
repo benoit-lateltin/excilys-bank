@@ -88,7 +88,7 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 
 	private Predicate buildOperationSignPredicate(OperationSign sign) {
 		QOperation operation = QOperation.operation;
-		return sign == OperationSign.CREDIT ? operation.amount.gt(OperationSign.ZERO) : operation.amount.lt(OperationSign.ZERO);
+		return sign == OperationSign.CREDIT ? operation.amount.gt(BigDecimal.ZERO) : operation.amount.lt(BigDecimal.ZERO);
 	}
 
 	@Override

@@ -1,8 +1,12 @@
 package com.excilys.ebi.bank.service.impl;
 
+import static com.google.common.collect.Collections2.transform;
+import static com.google.common.collect.Maps.uniqueIndex;
+
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,7 @@ import com.excilys.ebi.bank.dao.UserDao;
 import com.excilys.ebi.bank.model.IConstants;
 import com.excilys.ebi.bank.model.YearMonth;
 import com.excilys.ebi.bank.model.entity.Account;
+import com.excilys.ebi.bank.model.entity.Card;
 import com.excilys.ebi.bank.model.entity.Operation;
 import com.excilys.ebi.bank.model.entity.User;
 import com.excilys.ebi.bank.model.entity.ref.OperationSign;
@@ -32,6 +37,7 @@ import com.excilys.ebi.bank.model.entity.ref.OperationType;
 import com.excilys.ebi.bank.model.entity.ref.OperationTypeRef;
 import com.excilys.ebi.bank.service.BankService;
 import com.excilys.ebi.bank.service.UnsufficientBalanceException;
+import com.google.common.base.Function;
 import com.googlecode.ehcache.annotations.Cacheable;
 
 @Service
@@ -97,11 +103,26 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	public Collection<Operation> sumCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth) {
-		Collection<Operation> sums = operationDao.sumResolvedAmountByAccountIdAndYearMonthGroupByCard(accountId, yearMonth);
-		for (Operation sum : sums) {
-			sum.setCard(cardDao.findOne(sum.getCard().getId()));
-		}
-		return sums;
+
+		Collection<Card> cards = cardDao.findByAccountId(accountId);
+
+		final Map<Integer, Operation> sumsIndexedByCardId = uniqueIndex(operationDao.sumResolvedAmountByAccountIdAndYearMonthGroupByCard(accountId, yearMonth),
+				new Function<Operation, Integer>() {
+					@Override
+					public Integer apply(Operation input) {
+						return input.getCard().getId();
+					}
+				});
+
+		return transform(cards, new Function<Card, Operation>() {
+
+			@Override
+			public Operation apply(Card input) {
+
+				Operation sum = sumsIndexedByCardId.get(input.getId());
+				return Operation.newOperationBuilder().withCard(input).withAmount(sum != null ? sum.getAmount() : BigDecimal.ZERO).build();
+			}
+		});
 	}
 
 	@Override
