@@ -10,7 +10,7 @@
 		<div id="container">
 			<tiles:insertAttribute name="common.body" />
 		</div>
-		<div id="icon logo"></div>
+		<div class="icon logo"></div>
 		<tiles:insertAttribute name="common.scripts"/>
 		<tiles:insertAttribute name="common.messages" />
 		<tiles:insertAttribute name="common.scripts-specific" ignore="true" />

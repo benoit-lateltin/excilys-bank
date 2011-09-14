@@ -8,8 +8,12 @@ a.icon,span.icon {
 }
 
 .logo {
+	height: 82px;
+	width: 154px;
+	margin: 0 auto;
 	background-image: url('../img/logo_excilys.png'); /** sprite-ref: sprite; */
 	background-repeat: no-repeat;
+	background-image: url('../img/logo_excilys.png');
 }
 
 .users {
