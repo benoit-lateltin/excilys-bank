@@ -26,7 +26,7 @@
 						</a>
 					</td>
 					<td class="number">${account.number}</td>
-					<td class="amount">${bk:amount(account.balance)} &euro;</td>
+					<td class="amount">${bk:amount(account.balance)}<spring:message code="common.euro" /></td>
 				</tr>
 				<c:forEach items="${account.cards}" var="card">
 					<tr>
@@ -40,7 +40,7 @@
 							</a>
 						</td>
 						<td class="number">${card.number}</td>
-						<td class="amount">${bk:amount(card.pending)} &euro;</td>
+						<td class="amount">${bk:amount(card.pending)}<spring:message code="common.euro" /></td>
 					</tr>
 				</c:forEach>
 			</c:forEach>
@@ -69,7 +69,7 @@
 							</a>
 						</td>
 						<td class="number">${account.number}</td>
-						<td class="amount">${bk:amount(account.balance)} &euro;</td>
+						<td class="amount">${bk:amount(account.balance)}<spring:message code="common.euro" /></td>
 					</tr>
 				</c:forEach>
 		</tbody>

@@ -23,15 +23,15 @@
 							<spring:message code="accounts.details.balance" />
 							<joda:format value="${account.balanceDate}" pattern="MM/dd/yyyy"/>
 						</td>
-						<td class="amount">${bk:amount(account.balance)} &euro;</td>
+						<td class="amount">${bk:amount(account.balance)} <spring:message code="common.euro" /></td>
 					</tr>
 					<tr>
 						<td><spring:message code="accounts.details.pending" /></td>
-						<td class="amount">${bk:amount(account.totalPending)} &euro;</td>
+						<td class="amount">${bk:amount(account.totalPending)} <spring:message code="common.euro" /></td>
 					</tr>
 					<tr>
 						<td><spring:message code="accounts.details.estimatedBalance" /></td>
-						<td class="amount">${bk:amount(account.estimatedBalance)} &euro;</td>
+						<td class="amount">${bk:amount(account.estimatedBalance)} <spring:message code="common.euro" /></td>
 					</tr>
 				</tbody>
 			</table>
