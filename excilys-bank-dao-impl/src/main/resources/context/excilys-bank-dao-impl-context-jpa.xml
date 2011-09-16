@@ -23,7 +23,7 @@
 						<entry key-ref="DIALECT" value="${emf.dialect}" />
 						<entry key-ref="FORMAT_SQL" value="true" />
 						<entry key-ref="USE_SQL_COMMENTS" value="false" />
-						<entry key-ref="CACHE_REGION_FACTORY" value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory" />
+						<entry key-ref="CACHE_REGION_FACTORY" value="net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory" />
 						<entry key-ref="USE_SECOND_LEVEL_CACHE" value="true" />
 						<entry key-ref="DEFAULT_BATCH_FETCH_SIZE" value="20" />
 						<entry key-ref="STATEMENT_BATCH_SIZE" value="20" />
