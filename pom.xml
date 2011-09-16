@@ -17,6 +17,16 @@
 
 	<repositories>
 		<repository>
+			<id>jboss</id>
+			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
 			<id>spring-milestone</id>
 			<url>http://maven.springframework.org/milestone</url>
 		</repository>
@@ -33,11 +43,11 @@
 		<build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
 
 		<!-- hibernate -->
-		<hibernate.version>3.6.7.Final</hibernate.version>
+		<hibernate.version>4.0.0.CR3</hibernate.version>
 		<cglib.version>2.2.2</cglib.version>
 		<javassist.version>3.15.0-GA</javassist.version>
 		<antlr.version>2.7.7</antlr.version>
-		<usertype-jodatime.version>1.9</usertype-jodatime.version>
+		<usertype-jodatime.version>2.0</usertype-jodatime.version>
 
 		<!-- querydsl -->
 		<querydsl.version>2.2.2</querydsl.version>
@@ -54,7 +64,6 @@
 		<!-- database -->
 		<tomcat-jdbc.version>7.0.21</tomcat-jdbc.version>
 		<tomcat-slf4j.version>1.0.0</tomcat-slf4j.version>
-<!-- 		<postgresql.version>9.0-801.jdbc4</postgresql.version> -->
 		<postgresql.version>9.1-901.jdbc4</postgresql.version>
 		<spring-dbunit.version>1.1.2</spring-dbunit.version>
 
@@ -135,6 +144,11 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-ehcache</artifactId>
 				<version>${hibernate.version}</version>
 			</dependency>
 			<dependency>
