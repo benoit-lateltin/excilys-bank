@@ -63,7 +63,7 @@
 
 		<!-- log -->
 		<slf4j.version>1.6.2</slf4j.version>
-		<logback.version>0.9.29</logback.version>
+		<logback.version>0.9.30</logback.version>
 		<spring-log.version>1.0.2</spring-log.version>
 
 		<!-- commons -->
