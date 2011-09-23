@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
@@ -18,11 +17,13 @@ import org.springframework.security.acls.model.Sid;
 import com.excilys.ebi.bank.model.IConstants;
 import com.excilys.ebi.bank.model.entity.ref.Role;
 import com.excilys.ebi.bank.service.BankService;
+import com.excilys.ebi.utils.spring.log.slf4j.InjectLogger;
 import com.googlecode.ehcache.annotations.Cacheable;
 
 public class BankAclService implements AclService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BankAclService.class);
+	@InjectLogger
+	private Logger logger;
 
 	@Autowired
 	private BankService bankService;
@@ -43,7 +44,7 @@ public class BankAclService implements AclService {
 
 		SimpleAclImpl acl = new SimpleAclImpl(object);
 
-		LOGGER.info("type={} id={}", object.getType(), object.getIdentifier());
+		logger.info("type={} id={}", object.getType(), object.getIdentifier());
 
 		for (Sid sid : sids) {
 			if (sid instanceof GrantedAuthoritySid && GrantedAuthoritySid.class.cast(sid).getGrantedAuthority().equals(Role.ROLE_ADMIN.name())) {
