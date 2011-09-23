@@ -7,5 +7,7 @@ public interface IConstants {
 		public static final String ENTITY_CACHE = "entity";
 
 		public static final String ACL_CACHE = "acl";
+
+		public static final String ANNOTATION_SCANNER_CACHE = "annotationScanner";
 	}
 }

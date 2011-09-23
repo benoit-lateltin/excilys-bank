@@ -19,6 +19,7 @@ import com.excilys.ebi.bank.model.entity.ref.Role;
 import com.excilys.ebi.bank.service.BankService;
 import com.excilys.ebi.utils.spring.log.slf4j.InjectLogger;
 import com.googlecode.ehcache.annotations.Cacheable;
+import com.googlecode.ehcache.annotations.KeyGenerator;
 
 public class BankAclService implements AclService {
 
@@ -39,7 +40,7 @@ public class BankAclService implements AclService {
 	}
 
 	@Override
-	@Cacheable(cacheName = IConstants.Cache.ACL_CACHE)
+	@Cacheable(cacheName = IConstants.Cache.ACL_CACHE, keyGenerator = @KeyGenerator(name = "StringCacheKeyGenerator"))
 	public Acl readAclById(ObjectIdentity object, List<Sid> sids) throws NotFoundException {
 
 		SimpleAclImpl acl = new SimpleAclImpl(object);

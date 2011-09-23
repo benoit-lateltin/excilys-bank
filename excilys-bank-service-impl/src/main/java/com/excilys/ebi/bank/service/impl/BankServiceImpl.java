@@ -39,6 +39,7 @@ import com.excilys.ebi.bank.service.BankService;
 import com.excilys.ebi.bank.service.UnsufficientBalanceException;
 import com.google.common.base.Function;
 import com.googlecode.ehcache.annotations.Cacheable;
+import com.googlecode.ehcache.annotations.KeyGenerator;
 
 @Service
 @Transactional(readOnly = true)
@@ -65,16 +66,14 @@ public class BankServiceImpl implements BankService {
 	private OperationTypeRefDao operationTypeDao;
 
 	@Override
-	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE)
+	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE, keyGenerator = @KeyGenerator(name = "StringCacheKeyGenerator"))
 	public Integer findAccountIdByNumber(String accountNumber) {
-
 		return accountDao.findByNumber(accountNumber).getId();
 	}
 
 	@Override
-	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE)
+	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE, keyGenerator = @KeyGenerator(name = "StringCacheKeyGenerator"))
 	public Integer findCardIdByNumber(String cardNumber) {
-
 		return cardDao.findByNumber(cardNumber).getId();
 	}
 
