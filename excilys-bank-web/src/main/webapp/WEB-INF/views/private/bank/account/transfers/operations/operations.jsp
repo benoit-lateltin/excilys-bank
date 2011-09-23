@@ -1,14 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="bk" uri="http://www.excilys.com/jsp/jstl/bank"%>
 <div class="block transfers">
 	<div id="operationsContainer" class="body">
 		<table id="operations" class="operations striped">
 			<thead>
 				<tr>
-					<th class="dateHeader">Date</th>
-					<th>Libellé</th>
-					<th class="amountHeader">Crédit</th>
-					<th class="amountHeader">Débit</th>
+					<th class="dateHeader"><spring:message code="operations.date" /></th>
+					<th><spring:message code="operations.name" /></th>
+					<th class="amountHeader"><spring:message code="operations.credit" /></th>
+					<th class="amountHeader"><spring:message code="operations.debit" /></th>
 					<th>Status</th>
 				</tr>
 			</thead>

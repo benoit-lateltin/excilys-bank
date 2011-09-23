@@ -11,24 +11,24 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.hibernate.SQL">
-		<level value="TRACE" />
-	</logger>
+<!-- 	<logger name="org.hibernate.SQL"> -->
+<!-- 		<level value="TRACE" /> -->
+<!-- 	</logger> -->
 
-	<logger name="org.hibernate.type.descriptor.sql.BasicBinder">
-		<level value="TRACE" />
-	</logger>
+<!-- 	<logger name="org.hibernate.type.descriptor.sql.BasicBinder"> -->
+<!-- 		<level value="TRACE" /> -->
+<!-- 	</logger> -->
 
-	<logger name="org.hibernate.tool.hbm2ddl.SchemaExport">
-		<level value="DEBUG" />
-	</logger>
+<!-- 	<logger name="org.hibernate.tool.hbm2ddl.SchemaExport"> -->
+<!-- 		<level value="DEBUG" /> -->
+<!-- 	</logger> -->
 
-	<logger name="com.excilys.ebi.bank">
-		<level value="DEBUG" />
-	</logger>
+<!-- 	<logger name="com.excilys.ebi.bank"> -->
+<!-- 		<level value="DEBUG" /> -->
+<!-- 	</logger> -->
 
 	<root>
-		<level value="WARN" />
+		<level value="ERROR" />
 		<appender-ref ref="CONSOLE" />
 	</root>
 

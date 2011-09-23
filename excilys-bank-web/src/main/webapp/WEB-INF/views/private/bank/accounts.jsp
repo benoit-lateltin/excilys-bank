@@ -11,9 +11,7 @@
 				<td class="ico">
 					<span class="icon checking"></span>
 				</td>
-				<td colspan="4">
-					Checking accounts
-				</td>
+				<td colspan="4"><spring:message code="accounts.checkings" /></td>
 			</tr>
 		</thead>
 		<tbody>
@@ -54,9 +52,7 @@
 				<td class="ico">
 					<span class="icon saving"></span>
 				</td>
-				<td colspan="3">
-					Saving accounts
-				</td>
+				<td colspan="3"><spring:message code="accounts.savings" /></td>
 			</tr>
 		</thead>
 		<tbody>

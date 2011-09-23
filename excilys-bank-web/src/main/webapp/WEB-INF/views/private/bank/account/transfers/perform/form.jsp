@@ -8,7 +8,7 @@
 				<legend><spring:message code="transfers.form.title" /></legend>
 				<ol>
 					<li>
-						<label for="debitedAccountNumber">Debited account</label>
+						<label for="debitedAccountNumber"><spring:message code="transfers.form.debited" /></label>
 						<form:select path="debitedAccountNumber">
 							<c:forEach items="${debitableAccounts}" var="account">
 								<form:option value="${account.number}">${account.type.id} ${account.number} (${account.balance})</form:option>
@@ -17,7 +17,7 @@
 						<form:errors path="debitedAccountNumber" />
 					</li>
 					<li>
-						<label for="creditedAccountNumber">Credited account</label>
+						<label for="creditedAccountNumber"><spring:message code="transfers.form.credited" /></label>
 						<form:select path="creditedAccountNumber">
 							<c:forEach items="${creditableAccounts}" var="account">
 								<form:option value="${account.number}">${account.type.id} ${account.number} (${account.balance})</form:option>
@@ -26,7 +26,7 @@
 						<form:errors path="creditedAccountNumber" />
 					</li>
 					<li>
-						<label for="amount">Amount</label>
+						<label for="amount"><spring:message code="transfers.form.amount" /></label>
 						<form:input path="amount" />
 						<form:errors path="amount" />
 					</li>
