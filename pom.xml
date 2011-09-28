@@ -40,7 +40,7 @@
 		<usertype-jodatime.version>1.9</usertype-jodatime.version>
 
 		<!-- querydsl -->
-		<querydsl.version>2.2.2</querydsl.version>
+		<querydsl.version>2.2.3</querydsl.version>
 		<querydsl-apt-plugin.version>1.0.2</querydsl-apt-plugin.version>
 
 		<!-- spring -->
