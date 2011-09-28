@@ -64,9 +64,9 @@ div.sw div.sw_icon {
 div.sw div.sw_header {
 	height: 29px;
 	background-color: transparent;
-	background-position: center top;
+	background-position: top;
 	background-repeat: no-repeat;
-	background-image: url('../img/small_window_top.png'); /** sprite-ref: sprite; sprite-alignment: center top */
+	background-image: url('../img/small_window_top.png'); /** sprite-ref: sprite; sprite-alignment: left */
 	color: #59a0d9;
 	overflow: hidden;
 	padding-top: 20px;
@@ -75,7 +75,7 @@ div.sw div.sw_header {
 }
 
 div.sw div.sw_content {
-	background: transparent url('../img/small_window_content.png') repeat-y center top;
+	background: transparent url('../img/small_window_content.png') repeat-y top;
 	padding: 10px 40px;
 }
 
@@ -83,8 +83,8 @@ div.sw div.sw_footer {
 	height: 41px;
 	background-color: transparent;
 	background-repeat: no-repeat;
-	background-position: center top;
-	background-image: url('../img/small_window_bottom.png'); /** sprite-ref: sprite; sprite-alignment: center top */
+	background-position: top;
+	background-image: url('../img/small_window_bottom.png'); /** sprite-ref: sprite; sprite-alignment: left */
 }
 
 div.sw div.message {
@@ -114,8 +114,8 @@ div.bw div.bw_header {
 	font-size: 12px;
 	background-color: transparent;
 	background-repeat: no-repeat;
-	background-position: center top;
-	background-image: url('../img/big_window_top.png'); /** sprite-ref: sprite; sprite-alignment: center top */
+	background-position: left;
+	background-image: url('../img/big_window_top.png'); /** sprite-ref: sprite; sprite-alignment: left */
 	overflow: hidden;
 	padding: 12px 30px 0 23px;
 }
@@ -134,7 +134,7 @@ div.bw div.bw_error {
 }
 
 div.bw div.bw_content {
-	background: transparent url('../img/big_window_content.png') repeat-y center top;
+	background: transparent url('../img/big_window_content.png') repeat-y top;
 	padding: 10px 40px;
 }
 
@@ -142,8 +142,8 @@ div.bw div.bw_footer {
 	height: 41px;
 	background-color: transparent;
 	background-repeat: no-repeat;
-	background-position: center top;
-	background-image: url('../img/big_window_bottom.png'); /** sprite-ref: sprite; sprite-alignment: center top */
+	background-position: left;
+	background-image: url('../img/big_window_bottom.png'); /** sprite-ref: sprite; sprite-alignment: left */
 }
 
 div.bw div.message {

@@ -16,15 +16,15 @@ div.menu .tab {
 	color: #3c7ab0;
 	background-color: transparent;
 	background-repeat: no-repeat;
-	background-position: center top;
-	background-image: url('../img/menu_base.png'); /** sprite-ref: sprite; sprite-alignment: center top */
+	background-position: left;
+	background-image: url('../img/menu_base.png'); /** sprite-ref: sprite; sprite-alignment: left */
 }
 
 div.menu .tab.active,div.menu .tab:hover {
 	background-color: transparent;
 	background-repeat: no-repeat;
-	background-position: center top;
-	background-image: url('../img/menu_selected.png'); /** sprite-ref: sprite; sprite-alignment: center top */
+	background-position: left;
+	background-image: url('../img/menu_selected.png'); /** sprite-ref: sprite; sprite-alignment: left */
 }
 
 div.menu .iconLabel {
@@ -35,7 +35,7 @@ div.menu .iconLabel {
 div.menu .after {
 	height: 32px;
 	width: 44px;
-	background-position: right top;
+	background-position: right;
 	background-repeat: no-repeat;
-	background-image: url('../img/menu_after.png'); /** sprite-ref: sprite; sprite-alignment: right top */
+	background-image: url('../img/menu_after.png'); /** sprite-ref: sprite; sprite-alignment: right */
 }
