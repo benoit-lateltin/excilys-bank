@@ -8,6 +8,8 @@
 	<artifactId>excilys-bank-web</artifactId>
 	<packaging>war</packaging>
 
+	<!-- TODO Have a look at http://blog.springsource.com/2011/09/22/rapid-cloud-foundry-deployments-with-maven -->
+
 	<dependencies>
 		<!-- compile -->
 		<dependency>
