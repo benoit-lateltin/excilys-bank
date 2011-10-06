@@ -97,7 +97,7 @@
 		<validation-api.version>1.0.0.GA</validation-api.version>
 		<hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
 		<benerator.version>0.6.6</benerator.version>
-		<contiperf.version>1.07</contiperf.version>
+		<contiperf.version>2.0.0</contiperf.version>
 		<xerces.version>2.11.0</xerces.version>
 	</properties>
 
