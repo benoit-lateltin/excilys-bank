@@ -15,7 +15,7 @@ public class YearMonth {
 		this.year = year;
 		this.monthOfYear = monthOfYear;
 
-		DateMidnight start = new DateMidnight().withYear(year).withMonthOfYear(monthOfYear);
+		DateMidnight start = new DateMidnight().withYear(year).withMonthOfYear(monthOfYear).withDayOfMonth(1);
 		DateMidnight end = start.plusMonths(1);
 		range = new Range<DateTime>(start.toDateTime(), end.toDateTime());
 	}
