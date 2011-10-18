@@ -82,7 +82,7 @@
 		<!-- FIXME http://java.net/jira/browse/JAWR-204 -->
 		<jawr.version>3.3.3</jawr.version>
 		<jstl.version>1.2</jstl.version>
-		<jackson.version>1.8.5</jackson.version>
+		<jackson.version>1.9.0</jackson.version>
 		<smartsprites.version>0.2.8</smartsprites.version>
 		<urlrewritefilter.version>3.2.0</urlrewritefilter.version>
 		<!-- FIXME https://jira.terracotta.org/jira/browse/EHCWEB-1 -->
