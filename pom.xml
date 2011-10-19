@@ -69,7 +69,7 @@
 		<!-- commons -->
 		<commons-logging.version>99.0-does-not-exist</commons-logging.version>
 		<commons-collections.version>3.2.1</commons-collections.version>
-		<commons-io.version>2.0.1</commons-io.version>
+		<commons-io.version>2.1</commons-io.version>
 		<commons-lang.version>2.6</commons-lang.version>
 		<commons-digester.version>2.1</commons-digester.version>
 		<commons-math.version>1.2</commons-math.version>
