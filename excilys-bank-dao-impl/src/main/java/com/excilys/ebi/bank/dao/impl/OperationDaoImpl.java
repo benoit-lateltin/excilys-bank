@@ -1,5 +1,6 @@
 package com.excilys.ebi.bank.dao.impl;
 
+import static com.excilys.ebi.bank.model.entity.QOperation.operation;
 import static com.google.common.collect.Lists.transform;
 
 import java.math.BigDecimal;
@@ -45,8 +46,6 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 	@Override
 	public Page<Operation> findNonCardByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth, Pageable pageable) {
 
-		QOperation operation = QOperation.operation;
-
 		BooleanExpression predicate = operation.type.id.ne(OperationType.CARD).and(operation.account.id.eq(accountId));
 		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
 
@@ -58,8 +57,6 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 
 	@Override
 	public List<Operation> sumResolvedAmountByAccountIdAndYearMonthGroupByCard(Integer accountId, YearMonth yearMonth) {
-
-		final QOperation operation = QOperation.operation;
 
 		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.status.id.eq(OperationStatus.RESOLVED)).and(operation.account.id.eq(accountId));
 		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
@@ -78,8 +75,6 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 	@Override
 	public BigDecimal sumResolvedAmountByCardAndYearMonth(Card card, YearMonth yearMonth) {
 
-		QOperation operation = QOperation.operation;
-
 		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.status.id.eq(OperationStatus.RESOLVED)).and(operation.card.eq(card));
 		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
 
@@ -87,14 +82,11 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 	}
 
 	private Predicate buildOperationSignPredicate(OperationSign sign) {
-		QOperation operation = QOperation.operation;
 		return sign == OperationSign.CREDIT ? operation.amount.gt(BigDecimal.ZERO) : operation.amount.lt(BigDecimal.ZERO);
 	}
 
 	@Override
 	public BigDecimal sumResolvedAmountByAccountIdAndYearMonthAndSign(Integer accountId, YearMonth yearMonth, OperationSign sign) {
-
-		QOperation operation = QOperation.operation;
 
 		BooleanExpression predicate = operation.account.id.eq(accountId).and(buildOperationSignPredicate(sign)).and(operation.status.id.eq(OperationStatus.RESOLVED));
 		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
@@ -104,8 +96,6 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 
 	@Override
 	public Page<Operation> findCardOperationsByAccountIdAndYearMonthAndStatus(Integer accountId, YearMonth yearMonth, OperationStatus status, Pageable pageable) {
-
-		QOperation operation = QOperation.operation;
 
 		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.account.id.eq(accountId)).and(operation.status.id.eq(status));
 		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
@@ -119,8 +109,6 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 	@Override
 	public BigDecimal sumCardAmountByAccountIdAndYearMonthAndSignAndStatus(Integer accountId, YearMonth yearMonth, OperationSign sign, OperationStatus status) {
 
-		QOperation operation = QOperation.operation;
-
 		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.account.id.eq(accountId)).and(buildOperationSignPredicate(sign))
 				.and(operation.status.id.eq(status));
 		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
@@ -130,8 +118,6 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 
 	@Override
 	public Page<Operation> findCardOperationsByCardIdAndYearMonthAndStatus(Integer cardId, YearMonth yearMonth, OperationStatus status, Pageable pageable) {
-
-		QOperation operation = QOperation.operation;
 
 		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.card.id.eq(cardId)).and(operation.status.id.eq(status));
 		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
@@ -145,8 +131,6 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 	@Override
 	public BigDecimal sumCardAmountByCardIdAndYearMonthAndSignAndStatus(Integer cardId, YearMonth yearMonth, OperationSign sign, OperationStatus status) {
 
-		QOperation operation = QOperation.operation;
-
 		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.card.id.eq(cardId)).and(buildOperationSignPredicate(sign))
 				.and(operation.status.id.eq(status));
 		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
@@ -156,8 +140,6 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 
 	@Override
 	public Page<Operation> findTransferByAccountId(Integer accountId, Pageable pageable) {
-
-		QOperation operation = QOperation.operation;
 
 		BooleanExpression predicate = operation.type.id.eq(OperationType.TRANSFER).and(operation.account.id.eq(accountId));
 
@@ -174,6 +156,6 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 	private Page<Operation> buildPage(JPQLQuery countQuery, JPQLQuery query, Pageable pageable) {
 
 		long count = countQuery.count();
-		return count > 0 ? new PageImpl<Operation>(query.list(QOperation.operation), pageable, count) : new PageImpl<Operation>(new ArrayList<Operation>(), pageable, 0);
+		return count > 0 ? new PageImpl<Operation>(query.list(operation), pageable, count) : new PageImpl<Operation>(new ArrayList<Operation>(), pageable, 0);
 	}
 }
