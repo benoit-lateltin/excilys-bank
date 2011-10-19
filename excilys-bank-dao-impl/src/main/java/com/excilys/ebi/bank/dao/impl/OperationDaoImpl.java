@@ -56,9 +56,10 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 	}
 
 	@Override
-	public List<Operation> sumResolvedAmountByAccountIdAndYearMonthGroupByCard(Integer accountId, YearMonth yearMonth) {
+	public List<Operation> sumResolvedAmountByAccountIdAndYearMonthAndSignGroupByCard(Integer accountId, YearMonth yearMonth, OperationSign sign) {
 
-		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.status.id.eq(OperationStatus.RESOLVED)).and(operation.account.id.eq(accountId));
+		BooleanExpression predicate = operation.type.id.eq(OperationType.CARD).and(operation.status.id.eq(OperationStatus.RESOLVED)).and(operation.account.id.eq(accountId))
+				.and(buildOperationSignPredicate(sign));
 		predicate = addOperationYearMonthExpression(predicate, operation, yearMonth);
 
 		List<Tuple> tuples = from(operation).where(predicate).groupBy(operation.card.id).list(new QTuple(operation.amount.sum(), operation.card.id));

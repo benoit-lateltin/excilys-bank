@@ -29,21 +29,20 @@
 					<tr>
 						<td></td>
 						<td>
-							<a href="${bk:ctx()}/private/bank/account/${account.number}/cards/${cardSum.card.number}/year/${bk:year(calendar.selectedMonth)}/month/${bk:monthOfYear(calendar.selectedMonth)}/operations.html">
+							<a href="${bk:ctx()}/private/bank/account/${account.number}/cards/${cardSum.key.number}/year/${bk:year(calendar.selectedMonth)}/month/${bk:monthOfYear(calendar.selectedMonth)}/operations.html">
 								<span class="icon card left"></span>
-								<span class="iconLabel">${cardSum.card.type.id} ${cardSum.card.number}</span>
+								<span class="iconLabel">${cardSum.key.type.id} ${cardSum.key.number}</span>
 							</a>
 						</td>
-						<c:choose>
-							<c:when test="${cardSum.amount >= 0}">
-								<td class="amount">${bk:amount(cardSum.amount)}</td>
-								<td class="amount"></td>
-							</c:when>
-							<c:otherwise>
-								<td class="amount"></td>
-								<td class="amount">${bk:amount(cardSum.amount)}</td>
-							</c:otherwise>
-						</c:choose>
+						<td class="amount">
+							<c:if test="${cardSum.value[0] > 0}">
+								${bk:amount(cardSum.value[0])}</td>
+							</c:if>
+						<td class="amount">
+							<c:if test="${cardSum.value[1] > 0}">
+								${bk:amount(cardSum.value[1])}
+							</c:if>
+						</td>
 					</tr>
 				</c:forEach>
 				<tr>

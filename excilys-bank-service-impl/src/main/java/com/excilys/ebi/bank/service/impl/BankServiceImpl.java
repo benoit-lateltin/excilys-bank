@@ -1,12 +1,14 @@
 package com.excilys.ebi.bank.service.impl;
 
-import static com.google.common.collect.Collections2.transform;
+import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Maps.uniqueIndex;
+import static java.math.BigDecimal.ZERO;
 
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,27 +103,43 @@ public class BankServiceImpl implements BankService {
 	}
 
 	@Override
-	public Collection<Operation> sumCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth) {
+	public Map<Card, BigDecimal[]> sumResolvedCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth) {
 
 		Collection<Card> cards = cardDao.findByAccountId(accountId);
 
-		final Map<Integer, Operation> sumsIndexedByCardId = uniqueIndex(operationDao.sumResolvedAmountByAccountIdAndYearMonthGroupByCard(accountId, yearMonth),
-				new Function<Operation, Integer>() {
+		Map<Card, BigDecimal[]> sums = newHashMap();
+		for (Card card : cards) {
+			sums.put(card, new BigDecimal[] { ZERO, ZERO });
+		}
+
+		Map<Integer, Operation> creditSumsIndexedByCardId = uniqueIndex(
+				operationDao.sumResolvedAmountByAccountIdAndYearMonthAndSignGroupByCard(accountId, yearMonth, OperationSign.CREDIT), new Function<Operation, Integer>() {
 					@Override
 					public Integer apply(Operation input) {
 						return input.getCard().getId();
 					}
 				});
 
-		return transform(cards, new Function<Card, Operation>() {
+		Map<Integer, Operation> debitSumsIndexedByCardId = uniqueIndex(
+				operationDao.sumResolvedAmountByAccountIdAndYearMonthAndSignGroupByCard(accountId, yearMonth, OperationSign.DEBIT), new Function<Operation, Integer>() {
+					@Override
+					public Integer apply(Operation input) {
+						return input.getCard().getId();
+					}
+				});
 
-			@Override
-			public Operation apply(Card input) {
-
-				Operation sum = sumsIndexedByCardId.get(input.getId());
-				return Operation.newOperationBuilder().withCard(input).withAmount(sum != null ? sum.getAmount() : BigDecimal.ZERO).build();
+		for (Entry<Card, BigDecimal[]> entry : sums.entrySet()) {
+			Operation creditSum = creditSumsIndexedByCardId.get(entry.getKey().getId());
+			if (creditSum != null) {
+				entry.getValue()[0] = creditSum.getAmount();
 			}
-		});
+			Operation debitSum = debitSumsIndexedByCardId.get(entry.getKey().getId());
+			if (debitSum != null) {
+				entry.getValue()[1] = debitSum.getAmount();
+			}
+		}
+
+		return sums;
 	}
 
 	@Override

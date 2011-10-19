@@ -1,13 +1,14 @@
 package com.excilys.ebi.bank.service;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
 import com.excilys.ebi.bank.model.YearMonth;
 import com.excilys.ebi.bank.model.entity.Account;
+import com.excilys.ebi.bank.model.entity.Card;
 import com.excilys.ebi.bank.model.entity.Operation;
 import com.excilys.ebi.bank.model.entity.User;
 import com.excilys.ebi.bank.model.entity.ref.OperationSign;
@@ -26,7 +27,7 @@ public interface BankService {
 
 	Page<Operation> findNonCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth, int page);
 
-	Collection<Operation> sumCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth);
+	Map<Card, BigDecimal[]> sumResolvedCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth);
 
 	BigDecimal sumResolvedAmountByAccountIdAndYearMonthAndSign(Integer accountId, YearMonth yearMonth, OperationSign sign);
 

@@ -18,7 +18,7 @@ public interface OperationDaoCustom {
 
 	BigDecimal sumResolvedAmountByCardAndYearMonth(Card card, YearMonth yearMonth);
 
-	List<Operation> sumResolvedAmountByAccountIdAndYearMonthGroupByCard(Integer accountId, YearMonth yearMonth);
+	List<Operation> sumResolvedAmountByAccountIdAndYearMonthAndSignGroupByCard(Integer accountId, YearMonth yearMonth, OperationSign sign);
 
 	BigDecimal sumResolvedAmountByAccountIdAndYearMonthAndSign(Integer accountId, YearMonth yearMonth, OperationSign sign);
 

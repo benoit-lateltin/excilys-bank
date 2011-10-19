@@ -1,7 +1,7 @@
 package com.excilys.ebi.bank.web.controller.account.operations;
 
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.excilys.ebi.bank.model.YearMonth;
+import com.excilys.ebi.bank.model.entity.Card;
 import com.excilys.ebi.bank.model.entity.Operation;
 import com.excilys.ebi.bank.model.entity.ref.OperationSign;
 import com.excilys.ebi.bank.service.BankService;
@@ -38,11 +39,11 @@ public class AccountOperationsController {
 
 		Integer accountId = bankService.findAccountIdByNumber(accountNumber);
 
-		Collection<Operation> cardSums = bankService.sumCardOperationsByAccountIdAndYearMonth(accountId, new YearMonth(year, month));
+		Map<Card, BigDecimal[]> cardSums = bankService.sumResolvedCardOperationsByAccountIdAndYearMonth(accountId, new YearMonth(year, month));
 		BigDecimal creditSum = bankService.sumResolvedAmountByAccountIdAndYearMonthAndSign(accountId, new YearMonth(year, month), OperationSign.CREDIT);
 		BigDecimal debitSum = bankService.sumResolvedAmountByAccountIdAndYearMonthAndSign(accountId, new YearMonth(year, month), OperationSign.DEBIT);
 
-		model.put("cardSums", cardSums);
+		model.put("cardSums", cardSums.entrySet());
 		model.put("creditSum", creditSum);
 		model.put("debitSum", debitSum);
 
