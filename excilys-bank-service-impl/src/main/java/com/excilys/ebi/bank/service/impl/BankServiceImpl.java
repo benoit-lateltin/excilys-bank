@@ -220,9 +220,9 @@ public class BankServiceImpl implements BankService {
 		OperationStatusRef status = operationStatusDao.findOne(OperationStatus.RESOLVED);
 		OperationTypeRef type = operationTypeDao.findOne(OperationType.TRANSFER);
 
-		Operation debitOperation = new Operation.Builder().withName("transfert -" + amount).withAccount(creditedAccount).withAmount(amount.negate()).withDate(now)
+		Operation debitOperation = new Operation.Builder().withName("transfert -" + amount).withAccount(debitedAccount).withAmount(amount.negate()).withDate(now)
 				.withStatus(status).withType(type).build();
-		Operation creditOperation = new Operation.Builder().withName("transfert +" + amount).withAccount(debitedAccount).withAmount(amount).withDate(now).withStatus(status)
+		Operation creditOperation = new Operation.Builder().withName("transfert +" + amount).withAccount(creditedAccount).withAmount(amount).withDate(now).withStatus(status)
 				.withType(type).build();
 
 		operationDao.save(debitOperation);
