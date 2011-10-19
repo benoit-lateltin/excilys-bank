@@ -1,4 +1,5 @@
 <%@ taglib prefix="bk" uri="http://www.excilys.com/jsp/jstl/bank"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script>
 function changePage(page) {
 <%-- 	paginate("${bk:ctx()}/private/bank/account/${account.number}/year/${calendar.selectedMonth.year().get()}/month/${calendar.selectedMonth.monthOfYear().get()}/page/" + page +"/operations.json");--%>
@@ -22,13 +23,13 @@ changePage(0);
 </script>
 <script id="scrollerTemplate" type="text/x-jquery-tmpl">
 	<div class="left">
-		Showing
+		<spring:message code="table.scroller.showing" />
 		<span id="startIndex">\${startIndex}</span>
-		to
+		<spring:message code="table.scroller.to" />
 		<span id="endIndex">\${endIndex}</span>
-		of
+		<spring:message code="table.scroller.of" />
 		<span id="totalElements">\${totalElements}</span>
-		entries
+		<spring:message code="table.scroller.entries" />
 	</div>
 	<div class="right">
 		<div id="back" class="left">
@@ -39,9 +40,9 @@ changePage(0);
 			{{/if}}
 		</div>
 		<div class="left">
-			Page
+			<spring:message code="table.scroller.page" />
 			<span id="pageIndex">\${pageIndex}</span>
-			of
+			<spring:message code="table.scroller.of" />
 			<span id="totalPages">\${totalPages}</span>
 		</div>
 		<div id="forward" class="left">

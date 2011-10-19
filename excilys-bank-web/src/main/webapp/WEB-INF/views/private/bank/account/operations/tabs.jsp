@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="bk" uri="http://www.excilys.com/jsp/jstl/bank"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags"%>
 <ul class="tabs">
 	<c:forEach items="${calendar.months}" var="month">
