@@ -86,7 +86,7 @@
 		<smartsprites.version>0.2.8</smartsprites.version>
 		<urlrewritefilter.version>3.2.0</urlrewritefilter.version>
 		<!-- FIXME https://jira.terracotta.org/jira/browse/EHCWEB-1 -->
-		<ehcache-web.version>2.0.3</ehcache-web.version>
+		<ehcache-web.version>2.0.4</ehcache-web.version>
 		<flash-scope.version>1.0.2</flash-scope.version>
 
 		<!-- misc -->
