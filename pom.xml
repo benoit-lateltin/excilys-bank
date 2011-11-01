@@ -33,7 +33,7 @@
 		<build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
 
 		<!-- hibernate -->
-		<hibernate.version>3.6.7.Final</hibernate.version>
+		<hibernate.version>3.6.8.Final</hibernate.version>
 		<cglib.version>2.2.2</cglib.version>
 		<javassist.version>3.15.0-GA</javassist.version>
 		<antlr.version>2.7.7</antlr.version>
