@@ -48,7 +48,7 @@
 		<spring-data-jpa.version>1.1.0.M1</spring-data-jpa.version>
 		<spring-data-commons-core.version>1.2.0.M1</spring-data-commons-core.version>
 		<spring-security.version>3.1.0.RC3</spring-security.version>
-		<aspectj.version>1.6.11</aspectj.version>
+		<aspectj.version>1.6.12</aspectj.version>
 		<cloudfoundry-runtime.version>0.7.1</cloudfoundry-runtime.version>
 
 		<!-- database -->
@@ -62,8 +62,8 @@
 		<ehcache-spring-annotations.version>1.2.0</ehcache-spring-annotations.version>
 
 		<!-- log -->
-		<slf4j.version>1.6.3</slf4j.version>
-		<logback.version>0.9.30</logback.version>
+		<slf4j.version>1.6.4</slf4j.version>
+		<logback.version>1.0.0</logback.version>
 		<spring-log.version>1.0.2</spring-log.version>
 
 		<!-- commons -->
