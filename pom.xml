@@ -78,11 +78,11 @@
 		<servlet-api.version>2.5</servlet-api.version>
 		<jsp-api.version>2.1</jsp-api.version>
 		<tiles.version>2.2.2</tiles.version>
-		<yuicompressor.version>2.4.6</yuicompressor.version>
+		<yuicompressor.version>2.4.7</yuicompressor.version>
 		<!-- FIXME http://java.net/jira/browse/JAWR-204 -->
-		<jawr.version>3.3.3</jawr.version>
+		<jawr.version>3.5.20111116</jawr.version>
 		<jstl.version>1.2</jstl.version>
-		<jackson.version>1.9.1</jackson.version>
+		<jackson.version>1.9.2</jackson.version>
 		<smartsprites.version>0.2.8</smartsprites.version>
 		<urlrewritefilter.version>3.2.0</urlrewritefilter.version>
 		<!-- FIXME https://jira.terracotta.org/jira/browse/EHCWEB-1 -->
@@ -99,6 +99,7 @@
 		<benerator.version>0.6.6</benerator.version>
 		<contiperf.version>2.0.0</contiperf.version>
 		<xerces.version>2.11.0</xerces.version>
+		<jsr305.version>1.3.9</jsr305.version>
 	</properties>
 
 	<dependencyManagement>
@@ -179,6 +180,13 @@
 				<groupId>com.mysema.querydsl</groupId>
 				<artifactId>querydsl-core</artifactId>
 				<version>${querydsl.version}</version>
+				<exclusions>
+					<exclusion>
+						<!-- relocated in com.google.code.findbugs -->
+						<groupId>net.sourceforge.findbugs</groupId>
+						<artifactId>jsr305</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>com.mysema.querydsl</groupId>
@@ -550,6 +558,11 @@
 				<groupId>xerces</groupId>
 				<artifactId>xercesImpl</artifactId>
 				<version>${xerces.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>jsr305</artifactId>
+				<version>${jsr305.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
