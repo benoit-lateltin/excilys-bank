@@ -2,6 +2,7 @@ package com.excilys.ebi.bank.model.entity;
 
 import static com.google.common.collect.Lists.newArrayList;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -23,7 +24,12 @@ import com.excilys.ebi.bank.model.entity.ref.CardTypeRef;
 
 @Entity
 @Table(name = "CARD")
-public class Card {
+public class Card implements Serializable {
+
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = -8376013466968580346L;
 
 	private Integer id;
 	private String number;
