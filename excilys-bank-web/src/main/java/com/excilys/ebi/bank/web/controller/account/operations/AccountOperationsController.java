@@ -22,7 +22,7 @@ import com.excilys.ebi.bank.web.interceptor.page.WebPage;
 import com.excilys.ebi.bank.web.interceptor.page.WebPageModelAttribute;
 
 @Controller
-@RequestMapping({ "/private/bank/account/{accountNumber}/year/{year}/month/{month}" })
+@RequestMapping("/private/bank/account/{accountNumber}/year/{year}/month/{month}")
 @WebPageModelAttribute(WebPage.ACCOUNT_OPERATIONS)
 public class AccountOperationsController {
 
@@ -32,7 +32,7 @@ public class AccountOperationsController {
 	@Autowired
 	private OperationsTableConverter converter;
 
-	@RequestMapping({ "/operations.html" })
+	@RequestMapping("/operations.html")
 	@AccountModelAttribute
 	@CalendarModelAttribute
 	public String displayOperations(@PathVariable String accountNumber, @PathVariable int year, @PathVariable int month, ModelMap model) {
